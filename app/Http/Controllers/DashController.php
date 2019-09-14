@@ -15,7 +15,16 @@ class DashController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        
-        return view('dashboard.layout');
+        switch($user->level) {
+            case 'guru':
+                return view('dashboard.dashguru');
+                break;
+            case 'admin':
+                return view('dashboard.dashadmin');
+                break;
+            case 'kepsek':
+                return view('dashboard.dashkepsek');
+                break;
+        }
     }
 }
