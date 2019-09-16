@@ -15,9 +15,20 @@ Route::get('/', function () {
     return view('umum.beranda');
 });
 Route::get('/dashboard', 'DashController@index')->middleware('auth');
-Route::get('/home', function(){
-    return view('welcome');
-});
+// Route::get('/home', function(){
+//     return view('welcome');
+// });
+
+// Route Dashboard Admin
+    // Users Route for Admin
+    Route::get('/dashboard/users', 'UserController@index')->name('indexusers');
+    Route::get('/ajax/allusers', 'UserController@allUsers')->name('getallusers');
+    Route::post('/dashboard/import-users', 'UserController@import')->name('importusers');
+    Route::get('/dashboard/unduh-users', 'UserController@export')->name('exportusers');
+    // Delete One user
+    Route::delete('/delete/user', 'UserController@deleteOne')->name('deleteoneuser');
+    Route::put('/ajax/updateuser', 'UserController@updateOne')->name('updateoneuser');
+
 
 
 Route::get('/login', function(){

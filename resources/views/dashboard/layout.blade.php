@@ -23,13 +23,18 @@
    <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
    <title>
-     Material Dashboard by Creative Tim
+     {{ config('APP_NAME') }}
    </title>
+   <meta name="csrf-token" content="{{ csrf_token() }}">
    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
    <!--     Fonts and icons     -->
-   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+   {{-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" /> --}}
+   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700" />
    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
    <!-- CSS Files -->
+   {{-- <link rel="stylesheet" "> --}}
+   {{-- Datatables --}}
+   <link rel="stylesheet" href="{{ asset('DataTables/datatables.css') }}">
    <link href="{{ asset('css/material-dashboard.css?v=2.1.1') }}" rel="stylesheet" />
    <!-- CSS Just for demo purpose, don't include it in your project -->
    <link href="{{ asset('demo/demo.css') }}" rel="stylesheet" />
@@ -195,8 +200,19 @@
    <script src="{{ asset('js/plugins/bootstrap-notify.js')}}"></script>
    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
    <script src="{{ asset('js/material-dashboard.js?v=2.1.1') }}" type="text/javascript"></script>
+
+   {{-- DataTables --}}
+   <script src="{{ asset('DataTables/datatables.js') }}"></script>
    <!-- Material Dashboard DEMO methods, don't include it in your project! -->
    <script src="{{ asset('demo/demo.js') }}"></script>
+   <script>
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    })
+   </script>
+   <script src="{{ asset('js/dash-admin.js') }}"></script>
    <script>
      $(document).ready(function() {
        $().ready(function() {
@@ -375,6 +391,7 @@
  
      });
    </script>
+
  </body>
  
  </html>

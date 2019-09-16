@@ -53,3 +53,6 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+// import material-icons
+window._ = require('material-icons');
