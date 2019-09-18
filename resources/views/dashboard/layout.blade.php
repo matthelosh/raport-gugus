@@ -203,6 +203,9 @@
 
    {{-- DataTables --}}
    <script src="{{ asset('DataTables/datatables.js') }}"></script>
+   <script>
+    $('body').bootstrapMaterialDesign({});
+   </script>
    <!-- Material Dashboard DEMO methods, don't include it in your project! -->
    <script src="{{ asset('demo/demo.js') }}"></script>
    <script>

@@ -30,6 +30,14 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::put('/ajax/updateuser', 'UserController@updateOne')->name('updateoneuser');
 
 
+    // Siswa Route for Admin
+    Route::get('/dashboard/siswas', 'SiswaController@index')->name('indexsiswas');
+    Route::get('/ajax/allsiswas', 'SiswaController@allSiswas')->name('getallsiswas');
+    Route::post('/dashboard/import-siswas', 'SiswaController@import')->name('importsiswas');
+    Route::put('/ajax/updateonesiswa', 'SiswaController@updateOne')->name('updateonesiswa');
+    Route::post('/dashboard/import-ortu', 'OrtuController@import')->name('importortu');
+
+
 
 Route::get('/login', function(){
     return redirect('/');
