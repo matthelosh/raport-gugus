@@ -33,6 +33,8 @@
    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
    <!-- CSS Files -->
    {{-- <link rel="stylesheet" "> --}}
+   {{-- Select2 --}}
+   <link rel="stylesheet" href="{{asset('css/select2.min.css') }}" type="text/css">
    {{-- Datatables --}}
    <link rel="stylesheet" href="{{ asset('DataTables/datatables.css') }}">
    <link href="{{ asset('css/material-dashboard.css?v=2.1.1') }}" rel="stylesheet" />
@@ -201,6 +203,8 @@
    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
    <script src="{{ asset('js/material-dashboard.js?v=2.1.1') }}" type="text/javascript"></script>
 
+   {{-- Select2js --}}
+   <script src="{{asset('js/select2.min.js') }}"></script>
    {{-- DataTables --}}
    <script src="{{ asset('DataTables/datatables.js') }}"></script>
    <script>

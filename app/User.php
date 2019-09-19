@@ -43,4 +43,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rombel() {
+        $this->hasOne('App\Rombel', 'id_guru', 'nip');
+    }
 }

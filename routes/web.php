@@ -36,6 +36,16 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::post('/dashboard/import-siswas', 'SiswaController@import')->name('importsiswas');
     Route::put('/ajax/updateonesiswa', 'SiswaController@updateOne')->name('updateonesiswa');
     Route::post('/dashboard/import-ortu', 'OrtuController@import')->name('importortu');
+    Route::post('/ajax/create-ortu', 'OrtuController@create')->name('createortu');
+    Route::put('/ajax/update-ortu', 'OrtuController@updateOne')->name('updateoneortu');
+
+    Route::delete('/delete/siswa', 'SiswaController@deleteOne')->name('deleteonesiswa');
+
+    // Rombel Route for admin
+    Route::get('/dashboard/rombels', 'RombelController@index')->name('indexrombel');
+    Route::post('/ajax/create-rombel', 'RombelController@create')->name('createrombel');
+    Route::get('/ajax/allrombels', 'RombelController@allRombels')->name('getallrombels');
+    Route::get('/ajax/allgurus', 'UserController@getgurus')->name('getgurus');
 
 
 
