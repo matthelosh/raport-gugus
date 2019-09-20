@@ -11,7 +11,7 @@
 
                 {{-- <i class="material-icons">info</i> --}}
 
-                <a href="/dashboard/unduh-siswas" class="btn btn-sm btn-outline">
+                <a href="/unduh/allsiswas" class="btn btn-sm btn-outline">
                     <i class="material-icons">cloud_download</i>
                     Export XLSX
                 </a>

@@ -38,7 +38,7 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::post('/dashboard/import-ortu', 'OrtuController@import')->name('importortu');
     Route::post('/ajax/create-ortu', 'OrtuController@create')->name('createortu');
     Route::put('/ajax/update-ortu', 'OrtuController@updateOne')->name('updateoneortu');
-
+    Route::get('/unduh/allsiswas', 'SiswaController@exportAll')->name('exportallsiswas');
     Route::delete('/delete/siswa', 'SiswaController@deleteOne')->name('deleteonesiswa');
 
     // Rombel Route for admin

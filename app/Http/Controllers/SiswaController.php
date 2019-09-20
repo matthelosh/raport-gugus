@@ -72,9 +72,9 @@ class SiswaController extends Controller
      * Export to Excel
      */
 
-    public function export()
+    public function exportAll()
     {
-        return Excel::download(new ExportUsers, 'DataPengguna.xlsx');
+        return Excel::download(new ExportSiswa, 'DataSemuaSiswa.xlsx');
     }
 
     public function deleteOne(Request $request)
