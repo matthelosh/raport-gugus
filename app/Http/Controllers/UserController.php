@@ -17,6 +17,25 @@ class UserController extends Controller
     function __construct(){
         $this->middleware('auth');
     }
+
+    public function search(Request $request)
+    {
+        if ($request->has('q')) {
+            $guru = DB::table('users')
+                ->where('level', 'guru')
+                ->where('fullname', 'LIKE', '%'.$request->query('q').'%')
+                ->get();
+            
+            return response()->json($guru);
+        } else {
+            $guru = DB::table('users')
+            ->where('nip', $request->query('nip'))
+            // ->where('fullname', 'LIKE', '%'.$request->query('q').'%')
+            ->first();
+        
+        return response()->json(['nip'=> $guru->nip, 'fullname' => $guru->fullname]);
+        }
+    }
     /**
      * Display a listing of the resource.
      *

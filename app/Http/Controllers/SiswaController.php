@@ -11,6 +11,7 @@ use App\Exports\ExportSiswa;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Yajra\DataTables\DataTables;
 
 class SiswaController extends Controller
@@ -75,6 +76,21 @@ class SiswaController extends Controller
     public function exportAll()
     {
         return Excel::download(new ExportSiswa, 'DataSemuaSiswa.xlsx');
+    }
+
+    // Get Non Members
+    public function getNonMembers(Request $request)
+    {
+        return DataTables::of(Siswa::where('id_rombel', '0')->get())->make(true);
+    }
+    // Get Members
+    public function getMembers(Request $request)
+    {
+        $kode_rombel = $request->query('kode');
+
+        // $members = Siswa::where('id_rombel', $kode_rombel)->get();
+
+        return DataTables::of(DB::table('siswas')->where('id_rombel', $kode_rombel)->get())->make(true);
     }
 
     public function deleteOne(Request $request)

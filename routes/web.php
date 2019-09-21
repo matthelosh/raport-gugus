@@ -41,11 +41,20 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::get('/unduh/allsiswas', 'SiswaController@exportAll')->name('exportallsiswas');
     Route::delete('/delete/siswa', 'SiswaController@deleteOne')->name('deleteonesiswa');
 
+
     // Rombel Route for admin
     Route::get('/dashboard/rombels', 'RombelController@index')->name('indexrombel');
     Route::post('/ajax/create-rombel', 'RombelController@create')->name('createrombel');
     Route::get('/ajax/allrombels', 'RombelController@allRombels')->name('getallrombels');
     Route::get('/ajax/allgurus', 'UserController@getgurus')->name('getgurus');
+    Route::delete('/ajax/del/rombel', 'RombelController@deleteOne')->name('deleteonerombel');
+    Route::put('/ajax/update/rombel', 'RombelController@updateOne')->name('updateonerombel');
+    Route::get('/ajax/selrombel', 'RombelController@selRombel')->name('select2rombel');
+    // Route dor select2 guru
+    Route::get('/ajax/gurus', 'UserController@search')->name('searchguru');
+    // get Members of rombel
+    Route::get('/ajax/getmembers', 'SiswaController@getMembers')->name('getmembers');
+    Route::get('/ajax/getnonmembers', 'SiswaController@getNonMembers')->name('getnonmembers');
 
 
 

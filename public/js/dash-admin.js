@@ -364,7 +364,7 @@ $(document).ready(function(){
             { data: 'kode_rombel', 'name': 'kode_rombel'},
             { data: 'nama_rombel', 'name': 'nama_rombel'},
             { data: 'tingkat', name: 'tingkat'},
-            { data: 'id_guru', name: 'id_guru'},
+            { data: 'nama_guru', name: 'nama_guru'},
             
             { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-primary btn-rombel"><i class="material-icons">people</i></button> <button class="btn btn-sm btn-outline-warning btn-edit-rombel"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-rombel"><i class="material-icons">delete</i></button> ', 'targets': -1, 'orderable': false},
         ],
@@ -375,72 +375,252 @@ $(document).ready(function(){
             }
         ]
     });
-    // $('.select2guru').select2({
-    //     ajax: {
-    //         url: '/ajax/gurus',
-    //         dataType: 'json',
+    $('.select2guru').select2({
+        ajax: {
+            url: '/ajax/gurus',
+            dataType: 'json',
             
-    //         processResults: function(data)  {
-    //             return {
-    //                 results: $.map(data, function(item) {
-    //                     return {
-    //                         text: item.nama_guru,
-    //                         id: item.nip
-    //                     };
-    //                 })
-    //             };
-    //         },
-    //         cache: true
-    //     },
-    //     placeholder: 'cari Guru',
-    //     minimumInputLength: 1,
-    //     theme: "material"
-    // });
+            processResults: function(data)  {
+                // console.log(data);
+                return {
+                    results: $.map(data, function(item) {
+                        return {
+                            text: item.fullname,
+                            id: item.nip
+                        };
+                        // console.log(item.fullname + '-' +item.nip);
+                    })
+                };
+                
+            },
+            cache: false
+        },
+        placeholder: 'Wali Kelas',
+        minimumInputLength: 1,
+        width: '100%'
+        // theme: "material"
+    });
+    
+    // Select 2 Rombel
+    $('.sel2Rombel').select2({
+        ajax: {
+            url: '/ajax/selrombel',
+            dataType: 'json',
+            
+            processResults: function(data)  {
+                // console.log(data);
+                return {
+                    results: $.map(data, function(item) {
+                        return {
+                            text: item.nama_rombel,
+                            id: item.kode_rombel
+                        };
+                        // console.log(item.fullname + '-' +item.nip);
+                    })
+                };
+                
+            },
+            cache: false
+        },
+        placeholder: 'Pilih Rombel',
+        minimumInputLength: 1,
+        width: '100%'
+        // theme: "material"
+    });
+
     $('#btn-modal-rombel').on('click',  function(e) {
         // e.preventDefault();
+        // selectguru();
         $('#modalRombelxxx').modal();
-        $.ajax({
-            type:'get',
-            url: '/ajax/allgurus',
-            dataType: 'json',
-            success: function(res) {
-                var opts = '<option valule="" disabled selected>Pilih Wali Kelas</option>';
-                res.forEach(function(item) {
-                    opts += '<option value="'+item.nip+'">'+item.nama_guru+'</option>';
-                });
-                $('.select2guru').prop({class: 'mdb-select md-form form-control', searchable: 'Cari Guru'}).html(opts);
-                $('#modalRombelxxx').modal();
-            }
-        });
+        
         
     });
+
+    // function selectguru(selected){
+    //    $('.select2guru').select2({
+    //         // width: '100%',
+    //         ajax: {
+    //             url: '/ajax/gurus',
+    //             dataType: 'json',
+                
+    //             processResults: function(data)  {
+    //                 return {
+    //                     results: $.map(data, function(item) {
+    //                         return {
+    //                             text: item.nama_guru,
+    //                             id: item.nip
+    //                         };
+    //                     })
+    //                 };
+    //             },
+    //             cache: true
+    //         },
+    //         placeholder: 'cari Guru',
+    //         minimumInputLength: 1,
+    //         // theme: "material"
+    //     });
+    // }
 
     $(document).on('submit', '#form_rombel', function(e) {
         e.preventDefault();
         var data = {
+            id : ($('#id').val() != 'undefined') ? $('#id').val() : '',
             kode_rombel : $('#kode_rombel').val(),
             nama_rombel: $('#nama_rombel').val(),
             tingkat     : $('#tingkat').val(),
             id_guru     : $('#id_guru').val()
         };
-
+        // console.log($(this).prop('method'));
         $.ajax({
-            type: $(this).prop('method'),
+            type: ($('#act').val() == 'update') ? 'put' : 'post',
             url: $(this).prop('action'),
+            // url: '/tes',
             data: data,
             dataType: 'json'
         })
         .done(function(res) {
+            if (res.status == 'sukses' ) {
+                swal('Berhasil', res.msg, 'info');
+                
+                trombels.draw();
+                $('.modal').modal('hide');
+            } else {
+                swal('Gagal', res.msg, 'warning');
+                return false;
+            }
+            
+        });
+        
+    });
 
-        })
-        .fail(function(res) {
+    // Tombol Hapus ROmbel
+    $(document).on('click', '.btn-delete-rombel', function() {
+        var data = trombels.row($(this).parents('tr')).data();
+        swal({
+            title: 'Yakin Hapus?',
+            text: 'Anda Akan Menghapus Rombel: '+data.nama_rombel,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yakin',
+            confirmButtonColor: 'red',
+            cancelButtonText: 'Batal',
+            showLoaderOnConfirm: true,
 
+            preConfirm: function(){
+                return new Promise(function(resolve) {
+                    $.ajax({
+                        type: 'delete',
+                        url: '/ajax/del/rombel?id='+data.id,
+                        dataType: 'json'
+                   }).done(function(res) {
+                       swal('Dihapus!', res.msg, 'info');
+                       trombels.draw();
+                   }).fail(function(res) {
+                        console.log(res.data);
+                        swal('Maaf!', res.msg, 'warning');
+                   });
+                });
+            },
+            allowOutsideClick: false
         });
     });
     
+    // Tombol Edit Rombel
+    $(document).on('click', '.btn-edit-rombel', function() {
+        // alert('halo');
+        var data = trombels.row($(this).parents('tr')).data();
+        $('#form_rombel').prop('action', '/ajax/update/rombel').prop('method', 'PUT');
+        $('#form_rombel').prepend('<input type="hidden" name="id" value="update" id="act"><input type="hidden" name="id" value="'+data.id+'" id="id">');
+        $('#form_rombel').find('.modal-title').text('Perbarui Data Rombel ' + data.nama_rombel);
+        $('#form_rombel').find('#kode_rombel').val(data.kode_rombel);
+        $('#form_rombel').find('#nama_rombel').val(data.nama_rombel);
+        $('#form_rombel').find('#tingkat').val(data.tingkat);
+        // alert(data.id_guru);
+        // selectguru(data.id_guru);
+        var guruSelect = $('.select2guru');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/gurus?nip=' + data.id_guru
+        }).then(function (data) {
+            // create the option and append to Select2
+            var option = new Option(data.fullname, data.nip, true, true);
+            guruSelect.append(option).trigger('change');
+        
+            // manually trigger the `select2:select` event
+            guruSelect.trigger({
+                type: 'select2:select',
+                params: {
+                    data: data
+                }
+            });
+        });
+        $('#form_rombel button[type="submit"]').html('<i class="material-icons">update</i>Perbarui');
+
+        $('#modalRombelxxx').modal();
+    });
+
+    $(document).on('click', '.btn-rombel', function() {
+        var data = trombels.row($(this).parents('tr')).data();
+        // Select2 Guru preselect
+
+        $('#namaRombel').text(data.nama_rombel);
+        var rombelSelect = $('.select2Rombel');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/selrombel?kode=' + data.kode_rombel
+        }).then(function (data) {
+            // create the option and append to Select2
+            var option = new Option(data.nama_rombel, data.id, true, true);
+            rombelSelect.append(option).trigger('change');
+        
+            // manually trigger the `select2:select` event
+            rombelSelect.trigger({
+                type: 'select2:select',
+                params: {
+                    data: data
+                }
+            });
+        });
+
+        // DataTable Members
+        var tmembers = $('#tmembers').DataTable({
+            dom: 'ftip',
+            processing: true,
+            serverSide: true,
+            select: true,
+            scrollY: '350px',
+            scrollCollapse: true,
+            paging: false,
+            ajax: '/ajax/getmembers?kode='+data.kode_rombel,
+            columns: [
+                {data: 'nisn', name: 'nisn'},
+                {data: 'nama_siswa', name: 'nama_siswa'}
+            ]
+        });
+
+        // DataTable Non Members
+        var tnonmembers = $('#tnonmembers').DataTable({
+            dom: 'ftip',
+            processing: true,
+            serverSide: true,
+            select: true,
+            scrollY: '350px',
+            scrollCollapse: true,
+            paging: false,
+            ajax: '/ajax/getnonmembers',
+            columns: [
+                {data: 'nisn', 'name': 'nisn'},
+                {data: 'nama_siswa', name: 'nama_siswa'}
+            ]
+        });
+
+        $('#modalManajemenRombel').modal();
+        // alert('halo');
+    });
+
     $('.modal').on('hide.bs.modal', function(e) {
         // alert('bye.');
-        $(this).closest('form').trigger('reset');
+        $(this).find('form').trigger('reset');
     });
 
 

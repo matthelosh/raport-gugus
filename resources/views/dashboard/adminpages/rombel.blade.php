@@ -102,7 +102,7 @@
                             <input type="text" class="form-control" id="tingkat" name="tingkat">
                         </div>
                         <div class="form-group">
-                            <label for="id_guru" class="bmd-label-floating">Nip Guru</label>
+                            {{-- <label for="id_guru" class="bmd-label-floating">Nip Guru</label> --}}
                             <select class="select2guru form-control" id="id_guru" name="id_guru">
                             </select>
                         </div>
@@ -122,5 +122,86 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+{{-- Modal Manajemen Rombel --}}
+<div class="modal" id="modalManajemenRombel" tabindex="-1" role="dialog">
+    <div class="modal-dialog animate-bottom modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Manajemen Rombel <span id="namaRombel"></span></h4>
+                <button class="close" data-toggle="dismiss" data-target=".modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6" id="member">
+                        <div class="container">
+                            <div class="row" id="op-member">
+                                <div class="col-sm-4">
+                                    {{-- <label for="sel2Rombel">Pindah Ke Rombel:</label> --}}
+                                    <select name="sel2Rombel" id="sel2Rombel" class="sel2Rombel">
+                                            <option value="0">Pindah Rombel</option>
+                                        </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-sm btn-warning" id="pindahkan">Pindah <span data-feather="shuffle"></span></button>
+                                    <button class="btn btn-sm btn-danger" id="keluarkan">Keluar <span data-feather="wind"></span></button>
+                                </div>
+                                <div class="col-sm-2">
+
+                                </div>
+
+                            </div>
+                            <div class="row" id="data-member">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered" width="100%" id="tmembers" >
+                                        {{-- <caption style="caption-side: top;">Anggota Rombel</caption> --}}
+                                        <thead>
+                                            <tr>
+                                                {{-- <th>No</th> --}}
+                                                {{-- <th><label for="#selectAllMembers"><input type="checkbox" id="selectAllMembers"> Semua</label></th> --}}
+                                                <th>NIS</th>
+                                                <th>Nama</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody-members">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" id="non-member">
+                        <div class="container">
+                            <div class="row" id="op-non-member">
+                                <div class="col-sm-6">
+                                    <button class="btn btn-sm btn-primary" id="masukkan">Masukkan <span data-feather="chevrons-left"></span></button>
+
+                                </div>
+                            </div>
+                            <div class="row" id="data-non-member">
+
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered" width="100%" id="tnonmembers">
+                                            <thead>
+                                                <tr>
+                                                    {{-- <th>No</th> --}}
+                                                    <th>NIS</th>
+                                                    <th>Nama</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody-nonmembers">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            {{-- </div> --}}
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
