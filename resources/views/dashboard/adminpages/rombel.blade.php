@@ -131,7 +131,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Manajemen Rombel <span id="namaRombel"></span></h4>
-                <button class="close" data-toggle="dismiss" data-target=".modal">&times;</button>
+                <button class="close" data-dismiss="modal" >&times;</button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -141,7 +141,7 @@
                                 <div class="col-sm-4">
                                     {{-- <label for="sel2Rombel">Pindah Ke Rombel:</label> --}}
                                     <select name="sel2Rombel" id="sel2Rombel" class="sel2Rombel">
-                                            <option value="0">Pindah Rombel</option>
+                                            {{-- <option value="0">Pindah Rombel</option> --}}
                                         </select>
                                 </div>
                                 <div class="col-sm-6">

@@ -77,6 +77,57 @@ class SiswaController extends Controller
     {
         return Excel::download(new ExportSiswa, 'DataSemuaSiswa.xlsx');
     }
+    // Pindah Rombel
+    public function pindahRombel(Request $request)
+    {
+        $tujuan = $request->input('tujuan');
+        $nisns = $request->input('nisns');
+
+        try {
+            foreach ($nisns as $nisn) {
+                Siswa::where('nisn', $nisn)->update(['id_rombel' => $tujuan]);
+            }
+        
+            return response()->json(['status' => 'sukses', 'msg' => 'Siswa-siswa tersebut telah dipindah ke rombel tujuan']);
+        }
+        catch(\Exception $e) {
+            return resposn()->json(['status' => 'gagal', 'msg' => $e->getMessage()]);
+        }
+    }
+
+    // Keluarkan dari Rombel
+    public function keluarkan(Request $request)
+    {
+        $nisns = $request->input('nisns');
+        try {
+            foreach($nisns as $nisn) {
+                Siswa::where('nisn', $nisn)->update(['id_rombel' => '0']);
+            }
+
+            return response()->json(['status' => 'sukses', 'msg' => 'Berhasil mengeluarkan siswa']);
+        }
+        catch(\Exception $e) {
+            return response()->json(['status' => 'gagal', 'msg' => $e->getMessage()]);
+        }
+
+    }
+
+    // Masukkan siswa ke rombel
+    public function masukkan(Request $request)
+    {
+        $tujuan = $request->input('tujuan');
+        $nisns = $request->input('nisns');
+
+        try {
+            foreach($nisns as $nisn) {
+                Siswa::where('nisn', $nisn)->update(['id_rombel' => $tujuan]);
+            }
+
+            return response()->json(['status' => 'sukses', 'msg' => 'Berhasil Memasukkan siswa']);
+        } catch(\Exception $e) {
+            return response()->json(['status' => 'gagal', 'msg' => $e->getCode()]);
+        }
+    }
 
     // Get Non Members
     public function getNonMembers(Request $request)

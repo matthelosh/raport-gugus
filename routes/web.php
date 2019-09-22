@@ -55,6 +55,9 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     // get Members of rombel
     Route::get('/ajax/getmembers', 'SiswaController@getMembers')->name('getmembers');
     Route::get('/ajax/getnonmembers', 'SiswaController@getNonMembers')->name('getnonmembers');
+    Route::put('/ajax/pindahrombel', 'SiswaController@pindahRombel')->name('pindahrombel');
+    Route::put('/ajax/keluarkansiswa', 'SiswaController@keluarkan')->name('keluarkansiswa');
+    Route::put('/ajax/masukkansiswa', 'SiswaController@masukkan')->name('masukkansiswa');
 
 
 

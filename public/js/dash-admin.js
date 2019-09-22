@@ -564,13 +564,14 @@ $(document).ready(function(){
         // Select2 Guru preselect
 
         $('#namaRombel').text(data.nama_rombel);
-        var rombelSelect = $('.select2Rombel');
+        var rombelSelect = $('#sel2Rombel');
+        // console.log(rombelSelect).val();
         $.ajax({
             type: 'GET',
             url: '/ajax/selrombel?kode=' + data.kode_rombel
         }).then(function (data) {
             // create the option and append to Select2
-            var option = new Option(data.nama_rombel, data.id, true, true);
+            var option = new Option(data.nama_rombel, data.kode_rombel, true, true);
             rombelSelect.append(option).trigger('change');
         
             // manually trigger the `select2:select` event
@@ -588,9 +589,9 @@ $(document).ready(function(){
             processing: true,
             serverSide: true,
             select: true,
-            scrollY: '350px',
-            scrollCollapse: true,
-            paging: false,
+            // scrollY: '350px',
+            // scrollCollapse: true,
+            // paging: false,
             ajax: '/ajax/getmembers?kode='+data.kode_rombel,
             columns: [
                 {data: 'nisn', name: 'nisn'},
@@ -604,9 +605,9 @@ $(document).ready(function(){
             processing: true,
             serverSide: true,
             select: true,
-            scrollY: '350px',
-            scrollCollapse: true,
-            paging: false,
+            // scrollY: '350px',
+            // scrollCollapse: true,
+            // paging: false,
             ajax: '/ajax/getnonmembers',
             columns: [
                 {data: 'nisn', 'name': 'nisn'},
@@ -614,10 +615,174 @@ $(document).ready(function(){
             ]
         });
 
+        // Pindah Rombel
+        $(document).on('click','#pindahkan', function() {
+            var newRombel = $('#sel2Rombel').val();
+            if ( newRombel == data.kode_rombel) {
+                swal('Peringatan', 'Rombel tujuan tidak boleh sama dengan rombel saat ini', 'warning');
+                $('#sel2Rombel').focus();
+            } else {
+                var rawDataSelMembers = tmembers.rows($('#tmembers tr.selected')).data().to$();
+                var selMembers = rawDataSelMembers.toArray();
+                if( selMembers.length < 1 ) {
+                    swal('Peringatan', 'Ctrl + Klik baris untuk memilih satu atau lebih siswa.', 'warning');
+                } else {
+                    var r = '';
+                    nisns = [];
+                    selMembers.forEach(function(m) {
+                        r += m.nama_siswa+',';
+                        nisns.push(m.nisn);
+                    });
+                    swal({
+                        title: 'Pindah Rombel',
+                        text: 'Anda akan memindahkan siswa: '+r,
+                        showCancelButton: true,
+                        cancelButtonText: 'Batal',
+                        cancelButtonColor: 'red',
+                        confirmButtonColor: 'green',
+                        confirmButtonText: 'Siap', 
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        preConfirm: function() {
+                            return new Promise(function(resolve) {
+                                $.ajax({
+                                    type: 'put',
+                                    url: '/ajax/pindahrombel',
+                                    data: {nisns: nisns, tujuan: newRombel},
+                                    dataType: 'json'
+                               }).done(function(res) {
+                                   swal('Berhasil!', res.msg, 'info');
+                                   tmembers.draw();
+                               }).fail(function(res) {
+                                    // console.log(res.data);
+                                    swal('Maaf!', res.msg, 'warning');
+                               });
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+
+        // Kelluarkan Siswa
+        $(document).on('click','#keluarkan', function() {
+            // var newRombel = $('#sel2Rombel').val();
+            // if ( newRombel == data.kode_rombel) {
+            //     swal('Peringatan', 'Rombel tujuan tidak boleh sama dengan rombel saat ini', 'warning');
+            //     $('#sel2Rombel').focus();
+            // } else {
+                var rawDataSelMembers = tmembers.rows($('#tmembers tr.selected')).data().to$();
+                var selMembers = rawDataSelMembers.toArray();
+                if( selMembers.length < 1 ) {
+                    swal('Peringatan', 'Ctrl + Klik baris untuk memilih satu atau lebih siswa.', 'warning');
+                } else {
+                    var r = '';
+                    nisns = [];
+                    selMembers.forEach(function(m) {
+                        r += m.nama_siswa+',';
+                        nisns.push(m.nisn);
+                    });
+                    swal({
+                        title: 'Keluarkan Siswa',
+                        text: 'Anda akan mengeluarkan siswa: '+r+' dari rombel '+data.nama_rombel,
+                        showCancelButton: true,
+                        cancelButtonText: 'Batal',
+                        cancelButtonColor: 'red',
+                        confirmButtonColor: 'green',
+                        confirmButtonText: 'Siap', 
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        preConfirm: function() {
+                            return new Promise(function(resolve) {
+                                $.ajax({
+                                    type: 'put',
+                                    url: '/ajax/keluarkansiswa',
+                                    data: {nisns: nisns},
+                                    dataType: 'json', 
+                                    success: function(res) {
+                                        if (res.status == 'sukses'){
+                                            swal('Berhasil!', res.msg, 'info');
+                                            tmembers.draw();
+                                            tnonmembers.draw();
+                                        } else {
+                                            swal('Maaf, gagal!', res.msg, 'error');
+                                        }
+                                    }
+                               });
+                            });
+                        }
+                    });
+                }
+            // }
+        });
+
+        // Masukkan siswa ke rombel
+        $(document).on('click','#masukkan', function() {
+            var newRombel = data.kode_rombel;
+            // if ( newRombel == data.kode_rombel) {
+            //     swal('Peringatan', 'Rombel tujuan tidak boleh sama dengan rombel saat ini', 'warning');
+            //     $('#sel2Rombel').focus();
+            // } else {
+                var rawDataSelNonMembers = tnonmembers.rows($('#tnonmembers tr.selected')).data().to$();
+                var selNonMembers = rawDataSelNonMembers.toArray();
+                if( selNonMembers.length < 1 ) {
+                    swal('Peringatan', 'Ctrl + Klik baris untuk memilih satu atau lebih siswa.', 'warning');
+                } else {
+                    var r = '';
+                    nisns = [];
+                    selNonMembers.forEach(function(m) {
+                        r += m.nama_siswa+',';
+                        nisns.push(m.nisn);
+                    });
+                    swal({
+                        title: 'Masukkan Siswa',
+                        text: 'Anda akan memasukkan siswa: '+r+' ke rombel '+data.nama_rombel,
+                        showCancelButton: true,
+                        cancelButtonText: 'Batal',
+                        cancelButtonColor: 'red',
+                        confirmButtonColor: 'green',
+                        confirmButtonText: 'Siap', 
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        preConfirm: function() {
+                            return new Promise(function(resolve) {
+                                $.ajax({
+                                    type: 'put',
+                                    url: '/ajax/masukkansiswa',
+                                    data: {nisns: nisns, tujuan: newRombel},
+                                    dataType: 'json', 
+                                    success: function(res) {
+                                        if (res.status == 'sukses'){
+                                            swal('Berhasil!', res.msg, 'info');
+                                            tmembers.draw();
+                                            tnonmembers.draw();
+                                        } else {
+                                            swal('Maaf, gagal!', res.msg, 'error');
+                                        }
+                                    }
+                               });
+                            });
+                        }
+                    });
+                }
+            // }
+        });
+
+
+
+
+
+
+        $('#modalManajemenRombel').on('hidden.bs.modal', function(){
+            tmembers.clear().destroy();
+            tnonmembers.clear().destroy();
+        });
         $('#modalManajemenRombel').modal();
         // alert('halo');
     });
 
+    
     $('.modal').on('hide.bs.modal', function(e) {
         // alert('bye.');
         $(this).find('form').trigger('reset');
