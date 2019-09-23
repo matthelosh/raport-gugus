@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class ExportSiswa implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Query
+    * @return \Illuminate\Support\Collection
     */
 
     use Exportable;
@@ -20,7 +20,7 @@ class ExportSiswa implements FromCollection, WithHeadings
     // {
     //     $this->id = $id;
     // }
-    public function collection()
+    public function collection() 
     {
         return Siswa::query()
                     ->leftJoin('ortus', 'siswas.id_ortu', '=', 'ortus.id')

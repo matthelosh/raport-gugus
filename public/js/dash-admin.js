@@ -11,10 +11,13 @@ $(document).ready(function(){
     var path = window.location.pathname; 
 
     // Menentukan url yang targetnya sama dengan pathname
-    var target = $('.sidebar .nav a[href="'+path+'"');
+    // var hashTarget = $('.sidebar .nav a[href="#"]');
+    var target = $('.sidebar .nav a[href="'+path+'"]');
 
     // Menambahkan class active pada li parent dari url yang sesuai dengan pathname
     target.parent('li').addClass('active');
+    // hashTarget.parent('li').addClass('active');
+
 
      /**
      * Get All Users With DataTables

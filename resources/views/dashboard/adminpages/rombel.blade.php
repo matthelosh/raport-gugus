@@ -11,7 +11,7 @@
 
                 {{-- <i class="material-icons">info</i> --}}
 
-                <a href="/dashboard/unduh-rombels" class="btn btn-sm btn-outline">
+                <a href="/dashboard/unduh/rombels" class="btn btn-sm btn-outline">
                     <i class="material-icons">cloud_download</i>
                     Unduh Excel
                 </a>

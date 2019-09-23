@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportRombel;
 use Illuminate\Http\Request;
 use App\Rombel;
 use App\User;
@@ -9,6 +10,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -98,5 +100,10 @@ class RombelController extends Controller
        catch (\Exception $e) {
             return response()->json(['status' => 'gagal', 'msg' => 'Data Rombel gagal diperbarui', 'data' => $e->getMessage()]);
        }
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ExportRombel, 'data_rombel.xlsx');
     }
 }

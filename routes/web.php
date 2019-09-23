@@ -50,6 +50,7 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::delete('/ajax/del/rombel', 'RombelController@deleteOne')->name('deleteonerombel');
     Route::put('/ajax/update/rombel', 'RombelController@updateOne')->name('updateonerombel');
     Route::get('/ajax/selrombel', 'RombelController@selRombel')->name('select2rombel');
+    Route::get('/dashboard/unduh/rombels', 'RombelController@export')->name('exportrombels');
     // Route dor select2 guru
     Route::get('/ajax/gurus', 'UserController@search')->name('searchguru');
     // get Members of rombel

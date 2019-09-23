@@ -37,16 +37,41 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/dashboard/tingkat" class="nav-link">
-                        <i class="material-icons">grade</i>
-                        <p>Kelas/Tingkat</p>
+                    <a href="#" class="nav-link submenu-toggle" data-toggle="collapse" data-target="#settings-nav">
+                      <i class="material-icons">tune</i>
+                      <p>
+                        Settings
+                        <b class="caret"></b>
+                      </p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/dashboard/settings" class="nav-link">
-                        <i class="material-icons">settings</i>
-                        <p>Pengaturan</p>
-                    </a>
+                    <div class="collapse" id="settings-nav">
+                      <ul class="nav">
+                        <li class="nav-item">
+                          <a href="#" class="nav-link">
+                            <i class="material-icons">home</i>  
+                            Data Sekolah
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="#" class="nav-link">
+                            <i class="material-icons">menu_book</i>  
+                            Mapel
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="#" class="nav-link">
+                            <i class="material-icons">chrome_reader_mode</i>  
+                            Tematik
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="#" class="nav-link">
+                            <i class="material-icons">layers</i>  
+                            Kompetensi
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                 </li>
             @elseif(Auth::user()->level == 'guru')
                 <li class="nav-item ">
