@@ -36,7 +36,7 @@
                         <p>Rombel</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item submenuToggle">
                     <a href="#" class="nav-link submenu-toggle" data-toggle="collapse" data-target="#settings-nav">
                       <i class="material-icons">tune</i>
                       <p>
@@ -47,7 +47,7 @@
                     <div class="collapse" id="settings-nav">
                       <ul class="nav">
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="/dashboard/settings/data-sekolah" class="nav-link">
                             <i class="material-icons">home</i>  
                             Data Sekolah
                           </a>
@@ -59,9 +59,9 @@
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="/dashboard/settings/tematik" class="nav-link">
                             <i class="material-icons">chrome_reader_mode</i>  
-                            Tematik
+                            Tema
                           </a>
                         </li>
                         <li class="nav-item">

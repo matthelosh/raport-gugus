@@ -11,6 +11,9 @@
 |
 */
 
+// use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('umum.beranda');
 });
@@ -59,6 +62,15 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::put('/ajax/pindahrombel', 'SiswaController@pindahRombel')->name('pindahrombel');
     Route::put('/ajax/keluarkansiswa', 'SiswaController@keluarkan')->name('keluarkansiswa');
     Route::put('/ajax/masukkansiswa', 'SiswaController@masukkan')->name('masukkansiswa');
+    // Data Sekolah 
+    Route::get('/dashboard/settings/data-sekolah', 'SekolahController@index')->name('indexSekolah');
+    Route::get('/ajax/datasekolah', 'SekolahController@getData')->name('getdatasekolah');
+    Route::put('/ajax/updatesekolah', 'SekolahController@update')->name('updatedatasekolah');
+    // Data Tematik
+    Route::get('/dashboard/settings/tematik', 'TemaController@index')->name('indextematik');
+    Route::post('/import/tema', 'TemaController@import')->name('importtema');
+    Route::get('/export/tema', 'TemaController@export')->name('exporttema');
+    Route::get('/ajax/alltemas', 'TemaController@allTemas')->name('getalltemas');
 
 
 

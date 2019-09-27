@@ -15,6 +15,11 @@
             @case('rombels')
                 @include('dashboard.adminpages.rombel')
                 @break
+            @case('sekolah')
+                @include('dashboard.adminpages.sekolah')
+                @break
+            @case('tematik')
+                @include('dashboard.adminpages.tematik')
             @default
                 
         @endswitch

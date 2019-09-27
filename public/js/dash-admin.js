@@ -14,6 +14,12 @@ $(document).ready(function(){
     // var hashTarget = $('.sidebar .nav a[href="#"]');
     var target = $('.sidebar .nav a[href="'+path+'"]');
 
+    var settingsRegX = /^settings$/i;
+    var regx = new RegExp("\/settings\/", "i");
+    console.log(regx.test(path));
+    if (regx.test(path)) {
+        target.closest('.collapse').addClass('show');
+    }
     // Menambahkan class active pada li parent dari url yang sesuai dengan pathname
     target.parent('li').addClass('active');
     // hashTarget.parent('li').addClass('active');
@@ -439,30 +445,6 @@ $(document).ready(function(){
         
     });
 
-    // function selectguru(selected){
-    //    $('.select2guru').select2({
-    //         // width: '100%',
-    //         ajax: {
-    //             url: '/ajax/gurus',
-    //             dataType: 'json',
-                
-    //             processResults: function(data)  {
-    //                 return {
-    //                     results: $.map(data, function(item) {
-    //                         return {
-    //                             text: item.nama_guru,
-    //                             id: item.nip
-    //                         };
-    //                     })
-    //                 };
-    //             },
-    //             cache: true
-    //         },
-    //         placeholder: 'cari Guru',
-    //         minimumInputLength: 1,
-    //         // theme: "material"
-    //     });
-    // }
 
     $(document).on('submit', '#form_rombel', function(e) {
         e.preventDefault();
@@ -667,14 +649,8 @@ $(document).ready(function(){
             }
         });
 
-
         // Kelluarkan Siswa
         $(document).on('click','#keluarkan', function() {
-            // var newRombel = $('#sel2Rombel').val();
-            // if ( newRombel == data.kode_rombel) {
-            //     swal('Peringatan', 'Rombel tujuan tidak boleh sama dengan rombel saat ini', 'warning');
-            //     $('#sel2Rombel').focus();
-            // } else {
                 var rawDataSelMembers = tmembers.rows($('#tmembers tr.selected')).data().to$();
                 var selMembers = rawDataSelMembers.toArray();
                 if( selMembers.length < 1 ) {
@@ -772,11 +748,6 @@ $(document).ready(function(){
             // }
         });
 
-
-
-
-
-
         $('#modalManajemenRombel').on('hidden.bs.modal', function(){
             tmembers.clear().destroy();
             tnonmembers.clear().destroy();
@@ -785,7 +756,112 @@ $(document).ready(function(){
         // alert('halo');
     });
 
-    
+    // Modal Data Sekolah
+    $('#btnModalSekolah').on('click', function(){
+        $.ajax({
+            type: 'get', 
+            url: '/ajax/datasekolah',
+            dataType: 'json',
+            success: function(res) {
+                if (res.status ==  'sukses') {
+                    var data = res.data;
+                    $('#nss').val(data.nss);
+                    $('#npsn').val(data.npsn);
+                    $('#nama_sekolah').val(data.nama_sekolah);
+                    $('#alamat_jl').val(data.alamat_jl);
+                    $('#alamat_desa').val(data.alamat_desa);
+                    $('#alamat_kec').val(data.alamat_kec);
+                    $('#alamat_kab').val(data.alamat_kab);
+                    $('#alamat_prov').val(data.alamat_prov);
+                    $('#telp').val(data.telp);
+                    $('#email').val(data.email);
+                    $('#website').val(data.website);
+                    $('#modalSekolah').modal();
+                    
+                } else {
+                    swal('Gagal', res.data, 'error');
+                }
+            }
+        })
+        
+    });
+
+    $('#formSekolah').on('submit', function(e) {
+        e.preventDefault();
+        // swal('Update', 'Update data sekolah', 'info');
+        var data = {
+                nss: $('#nss').val(),
+                npsn:  $('#npsn').val(),
+                nama_sekolah:    $('#nama_sekolah').val(),
+                alamat_jl:    $('#alamat_jl').val(),
+                alamat_desa:    $('#alamat_desa').val(),
+                alamat_kec:    $('#alamat_kec').val(),
+                alamat_kab:    $('#alamat_kab').val(),
+                alamat_prov:     $('#alamat_prov').val(),
+                telp:     $('#telp').val(),
+                email:     $('#email').val(),
+                website:     $('#website').val()
+        }
+
+        $.ajax({
+            type: 'put',
+            url: '/ajax/updatesekolah',
+            data: data,
+            dataType: 'json',
+            success: function(res) {
+                if (res.status == 'sukses') {
+                    swal('Berhasil', res.msg, 'info');
+                    window.location.reload();
+                } else {
+                    swal('Gagal', res.msg, 'error');
+                }
+            }
+        })
+    });
+
+    // Tematik
+    var ttemas = $('#dashadmin-user-tema').DataTable({
+        dom: 'Bftlip',
+        processing: true,
+        serverSide: true,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        ajax: {
+            url: 'http://localhost:8000/ajax/alltemas',
+            type: 'get'
+        },
+        "columnDefs": [ {
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+        } ],
+        'order': [[1, 'asc']],
+        columns: [
+            { data: 'DT_RowIndex', 'orderable': false},
+            { data: 'id_semester', 'name': 'id_semester'},
+            { data: 'id_tingkat', 'name': 'id_tingkat'},
+            { data: 'kode_tema', name: 'kode_tema'},
+            { data: 'teks_tema', name: 'teks_tema'},
+            
+            { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-warning btn-edit-tema" title="Edit"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-tema" title="Hapus"><i class="material-icons">delete</i></button> <button class="btn btn-sm btn-outline-primary btn-modal-subtema" title="Atur Subtema"><i class="material-icons">account_tree</i></button>', 'targets': -1, 'orderable': false},
+        ],
+        buttons: [
+            {
+                extend: 'print',
+                title: 'Data Siswa'
+            }
+        ]
+    });
+
+    // Imprt SUbtema
+    $('#btnFileSubtema').on('click', function(e) {
+        e.preventDefault();
+        $('#fileSubtema').trigger('click');
+    });
+    $('#fileSubtema').on('change', function(e){
+        var fileName = e.target.files[0].name;
+        $('#submitSubtema').html(fileName+' <i class="material-icons">send</i>').show();
+    });
+
     $('.modal').on('hide.bs.modal', function(e) {
         // alert('bye.');
         $(this).find('form').trigger('reset');
