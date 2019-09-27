@@ -1,0 +1,41 @@
+/* // MOdal from bottom */
+.animate-bottom {
+    position: relative;
+    animation: animatebottom 0.4s;
+  }
+
+  .modal-dialog {
+    max-width: 100%!important;
+  }
+  .modal-dialog.modal-full{
+    width: 100%!important;
+    max-width: 100%!important;
+    bottom: 0!important;
+    position: absolute;
+    margin: 0 auto;
+    height: auto;
+    max-height: 100vh;
+    
+  }
+  .modal-dialog .modal-content {
+    height: auto;
+    /* overflow-y: scroll; */
+  }
+  
+
+  /* Sidebar nav-link */
+  .sidebar-wrapper .nav li.nav-item a.nav-link{
+    padding: 5px 15px!important;
+  }
+
+  @keyframes animatebottom {
+    from {
+      bottom: -300px;
+      opacity: 0;
+    }
+  
+    to {
+      bottom: 0;
+      opacity: 1;
+    }
+  }

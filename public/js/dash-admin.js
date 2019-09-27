@@ -862,6 +862,46 @@ $(document).ready(function(){
         $('#submitSubtema').html(fileName+' <i class="material-icons">send</i>').show();
     });
 
+    $(document).on('click','.btn-modal-subtema', function(){
+        var data = ttemas.row($(this).parents('tr')).data();
+        console.log(data);
+        var tsubtema = $('#table-subtema').DataTable({
+            dom: 'Bftlip',
+            processing: true,
+            serverSide: true,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            ajax: {
+                url: 'http://localhost:8000/ajax/subtema?id_tema='+data.kode_tema,
+                type: 'get'
+            },
+            "columnDefs": [ {
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            } ],
+            'order': [[1, 'asc']],
+            columns: [
+                { data: 'DT_RowIndex', 'orderable': false},
+                { data: 'id_semester', 'name': 'id_semester'},
+                { data: 'id_tingkat', 'name': 'id_tingkat'},
+                { data: 'id_tema', name: 'id_tema'},
+                { data: 'kode_subtema', name: 'kode_subtema'},
+                { data: 'teks_subtema', name: 'teks_subtema'},
+                
+                { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-warning btn-edit-tema" title="Edit"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-tema" title="Hapus"><i class="material-icons">delete</i></button>', 'targets': -1, 'orderable': false},
+            ],
+            buttons: [
+                {
+                    extend: 'print',
+                    title: 'Data Siswa'
+                }
+            ]
+        });
+
+        $('#modalSubtema').modal();
+
+    });
+
     $('.modal').on('hide.bs.modal', function(e) {
         // alert('bye.');
         $(this).find('form').trigger('reset');

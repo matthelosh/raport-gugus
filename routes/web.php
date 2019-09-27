@@ -71,6 +71,8 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::post('/import/tema', 'TemaController@import')->name('importtema');
     Route::get('/export/tema', 'TemaController@export')->name('exporttema');
     Route::get('/ajax/alltemas', 'TemaController@allTemas')->name('getalltemas');
+    Route::post('/import/subtema', 'SubtemaController@import')->name('importsubtema');
+    Route::get('/ajax/subtema', 'SubtemaController@show')->name('getsubtemas');
 
 
 
