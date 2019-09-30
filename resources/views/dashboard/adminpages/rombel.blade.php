@@ -55,8 +55,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalMapel" role="dialog">
+    <div class="modal-dialog  animate-bottom modal-full" style="width:50%!important; margin: auto!important;left:28%!important;max-height:100vh!important;">
+        <div class="modal-content" style="height:100vh;overflow-y:scroll">
+            <div class="modal-header">
+                <h3 class="modal-title">Manajemen Mapel Kelas: <span id="namaKelas"></span></h3>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <h3>Mata Pelajaran</h3>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered" id="dashadmin-table-mapelrombel" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode Mapel</th>
+                                    <th>Nama mapel</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modalImportUsers"  tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width:400px!important;">
         <form action="/dashboard/import-users" method="POST" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header bg-green">
@@ -77,7 +105,7 @@
 </div>
 
 <div class="modal fade" id="modalRombelxxx" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-xl " role="document">
+    <div class="modal-dialog animate-bottom" role="document" style="width:400px!important;">
         <form class="form" id="form_rombel" action="{{ route('createrombel') }}" method="post">
             @csrf
             <div class="modal-content">
@@ -205,3 +233,4 @@
         </div>
     </div>
 </div>
+

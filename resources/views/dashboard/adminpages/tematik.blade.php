@@ -8,16 +8,18 @@
                     <i class="material-icons">attach_file</i>
                     Import Tema
                 </button>
-                <form action="/import/subtema" method="POST" enctype="multipart/form-data">
+                <button class="btn btn-outline btn-sm" id="btnFileSubtema" style="color: #efefef;">
+                    <i class="material-icons">attachment</i>
+                    Import Subtema
+                </button>
+                <button class="btn btn-success btn-sm" style="display:none;" type="submit" id="submitSubtema">
+                    <i class="material-icons">send</i>
+                </button>
+                <form action="/import/subtema" method="POST" enctype="multipart/form-data" id="formImportSubtema">
                     @csrf
                     <input type="file" name="fileSubtema" id="fileSubtema" style="display:none">
-                    <button class="btn btn-outline btn-sm" id="btnFileSubtema">
-                        <i class="material-icons">attachment</i>
-                        Import Subtema
-                    </button>
-                    <button class="btn btn-success btn-sm" style="display:none;" type="submit" id="submitSubtema">
-                        <i class="material-icons">send</i>
-                    </button>
+                    
+                    
                 </form>
 
                 {{-- <i class="material-icons">info</i> --}}

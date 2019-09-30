@@ -20,6 +20,10 @@
                 @break
             @case('tematik')
                 @include('dashboard.adminpages.tematik')
+                @break
+            @case('mapel')
+                @include('dashboard.adminpages.mapel')
+                @break
             @default
                 
         @endswitch

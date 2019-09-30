@@ -45,7 +45,7 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::delete('/delete/siswa', 'SiswaController@deleteOne')->name('deleteonesiswa');
 
 
-    // Rombel Route for admin
+// Rombel Route for admin
     Route::get('/dashboard/rombels', 'RombelController@index')->name('indexrombel');
     Route::post('/ajax/create-rombel', 'RombelController@create')->name('createrombel');
     Route::get('/ajax/allrombels', 'RombelController@allRombels')->name('getallrombels');
@@ -67,13 +67,18 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::get('/ajax/datasekolah', 'SekolahController@getData')->name('getdatasekolah');
     Route::put('/ajax/updatesekolah', 'SekolahController@update')->name('updatedatasekolah');
     // Data Tematik
-    Route::get('/dashboard/settings/tematik', 'TemaController@index')->name('indextematik');
+    Route::get('/dashboard/settings/tema', 'TemaController@index')->name('indextematik')->middleware('auth');
     Route::post('/import/tema', 'TemaController@import')->name('importtema');
     Route::get('/export/tema', 'TemaController@export')->name('exporttema');
     Route::get('/ajax/alltemas', 'TemaController@allTemas')->name('getalltemas');
     Route::post('/import/subtema', 'SubtemaController@import')->name('importsubtema');
     Route::get('/ajax/subtema', 'SubtemaController@show')->name('getsubtemas');
-
+    // Route Mapel
+    Route::get('/dashboard/settings/mapel', 'MapelController@index')->name('indexmapel');
+    Route::get('/ajax/mapels', 'MapelController@show')->name('showmapels');
+    Route::get('/ajax/mapel/rombel/{rombel}', 'MapelController@showByRombel')->name('showmapelsbyrombel');
+    Route::post('/import/mapels', 'MapelController@import')->name('importmapel');
+    Route::get('/ajax/kds', 'KdController@getByKelas')->name('getkdbykelas');
 
 
 Route::get('/login', function(){

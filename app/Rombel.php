@@ -10,8 +10,8 @@ class Rombel extends Model
     protected $fillable = [
         'kode_rombel', 'tingkat', 'nama_rombel', 'id_guru'
     ];
-
-    public function guru() {
-        $this->belongsTo('App\User', 'id_guru', 'nip');
+ 
+    public function mapels() {
+        return $this->belongsToMany('App\Mapel', 'mapel_rombel', 'rombel_id', 'mapel_id');
     }
 }

@@ -375,7 +375,7 @@ $(document).ready(function(){
             { data: 'tingkat', name: 'tingkat'},
             { data: 'nama_guru', name: 'nama_guru'},
             
-            { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-primary btn-rombel"><i class="material-icons">people</i></button> <button class="btn btn-sm btn-outline-warning btn-edit-rombel"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-rombel"><i class="material-icons">delete</i></button> ', 'targets': -1, 'orderable': false},
+            { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-primary btn-rombel"><i class="material-icons">people</i></button> <button class="btn btn-sm btn-outline-info btn-mapel" title="Mapel" data-toggle="modal" data-target="#modalMapel"><i class="material-icons">book</i></button> <button class="btn btn-sm btn-outline-warning btn-edit-rombel"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-rombel"><i class="material-icons">delete</i></button> ', 'targets': -1, 'orderable': false},
         ],
         buttons: [
             {
@@ -444,6 +444,8 @@ $(document).ready(function(){
         
         
     });
+
+    
 
 
     $(document).on('submit', '#form_rombel', function(e) {
@@ -542,6 +544,43 @@ $(document).ready(function(){
         $('#form_rombel button[type="submit"]').html('<i class="material-icons">update</i>Perbarui');
 
         $('#modalRombelxxx').modal();
+    });
+    // Mapel ke rombel
+    $(document).on('click', '.btn-mapel', function() {
+        var data = trombels.row($(this).parents('tr')).data();
+        $('#namaKelas').text(data.nama_rombel);
+        var tmapelrombel = $('#dashadmin-table-mapelrombel').DataTable({
+            processing: true,
+            serverSide: true,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            ajax: {
+                url: 'http://localhost:8000/ajax/mapel/rombel/'+data.id,
+                type: 'get'
+            },
+            "columnDefs": [ {
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            } ],
+            'order': [[1, 'asc']],
+            columns: [
+                { data: 'DT_RowIndex', 'orderable': false},
+                { data: 'kode_mapel', 'name': 'kode_mapel'},
+                { data: 'nama_mapel', 'name': 'nama_mapel'},
+                { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-danger btn-detach-mapel" title="Hapus Mapel dari Rombel"><i class="material-icons">delete</i></button> ', 'targets': -1, 'orderable': false},
+            ],
+            buttons: [
+                {
+                    extend: 'print',
+                    title: 'Data Siswa'
+                }
+            ]
+        });
+        $('#modalMapel').modal();
+
+        $('#modalMapel').on('hide.bs.modal', function(){
+            tmapelrombel.destroy();
+        });
     });
 
     $(document).on('click', '.btn-rombel', function() {
@@ -861,11 +900,11 @@ $(document).ready(function(){
         var fileName = e.target.files[0].name;
         $('#submitSubtema').html(fileName+' <i class="material-icons">send</i>').show();
     });
-
+    var tsubtema = $('#table-subtema');
     $(document).on('click','.btn-modal-subtema', function(){
         var data = ttemas.row($(this).parents('tr')).data();
         console.log(data);
-        var tsubtema = $('#table-subtema').DataTable({
+        tsubtema.DataTable({
             dom: 'Bftlip',
             processing: true,
             serverSide: true,
@@ -901,10 +940,118 @@ $(document).ready(function(){
         $('#modalSubtema').modal();
 
     });
+    $('#modalSubtema').on('hide.bs.modal', function() {
+        tsubtema.DataTable().destroy();
+    });
+
+    $(document).on('click', '#submitSubtema', function(e) {
+        e.preventDefault();
+        $('#formImportSubtema').trigger('submit');
+    });
+
+
+    // Mapels
+        // DataTables Mapel
+    var tmapel = $('#dashadmin-table-mapel').DataTable({
+        dom: 'Bftlip',
+        processing: true,
+        serverSide: true,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        ajax: {
+            url: '/ajax/mapels',
+            type: 'get'
+        },
+        "columnDefs": [ {
+            "searcable" : false,
+            "orderable" : false,
+            "targets"   : 0
+        } ],
+        'order' : [[1, 'asc']],
+        columns: [
+            { data: 'DT_RowIndex', 'orderable': false },
+            { data: 'kode_mapel', name: 'kode_mapel' },
+            { data: 'nama_mapel', name: 'nama_mapel' },
+            { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-warning btn-edit-mapel" title="Edit"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-mapel" title="Hapus"><i class="material-icons">delete</i></button> <button class="btn btn-sm btn-outline-primary btn-modal-kd" title="Kompetensi Dasar"><i class="material-icons">list</i></button>', 'targets': -1, 'orderable': false},
+        ],
+        buttons: [
+            {
+                extend : 'print',
+                title: 'Data Mapel'
+            }
+        ]
+    });
+
+    // Import Mapel
+    $('#btnFileMapel').on('click', function(){
+        $('#fileMapel').trigger('click');
+    });
+
+    $('#fileMapel').on('change', function(e) {
+        var namaFile = e.target.files[0].name;
+        $('#submitMapel').html('<i class="material-icons">send</i> '+namaFile).show();
+    });
+    $('#submitMapel').on('click', function() {
+        $('#formImportMapel').trigger('submit');
+    });
+
+    
+    // Mnjmn KD
+    var tkdmapel = $('#table-kd');
+    $(document).on('click', '.btn-modal-kd', function(){
+        var data = tmapel.row($(this).parents('tr')).data();
+        $('#teksKd').text(data.nama_mapel);
+        $('#modalKd').modal();
+
+        // function getTkdMapel(){
+
+        // }
+        $(document).on('change', '#kelas', function(){
+            // alert($(this).val());
+           
+            tkdmapel.DataTable().destroy();
+            tkdmapel.DataTable({
+                processing: true,
+                serverSide: true,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                ajax: {
+                    url: '/ajax/kds?kelas='+$('#kelas').val()+'&mapel='+data.kode_mapel,
+                    type: 'get'
+                },
+                "columnDefs": [ {
+                    "searcable" : false,
+                    "orderable" : false,
+                    "targets"   : 0
+                } ],
+                'order' : [[1, 'asc']],
+                columns: [
+                    { data: 'DT_RowIndex', 'orderable': false, "width": "25px" },
+                    { data: 'kode_kd', name: 'kode_kd', "width": "50px" },
+                    { data: 'teks_kd', name: 'teks_kd' },
+                    { "width": "75px", data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-warning btn-edit-kd" title="Edit"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-kd" title="Hapus"><i class="material-icons">delete</i></button>', 'targets': -1, 'orderable': false},
+                ],
+                buttons: [
+                    {
+                        extend : 'print',
+                        title: 'Data Mapel'
+                    }
+                ]
+            }).draw();
+        });
+
+       
+        
+    });
+    // $(document).on('hide-bs-modal','#modalKd', function(){
+    //     alert($(this).prop('id'));
+    // });
+
 
     $('.modal').on('hide.bs.modal', function(e) {
-        // alert('bye.');
+        // alert($(this).find('table').prop('id'));
+        $(this).find('table').remove('tbody');
+        $(this).find('select').val('0');
         $(this).find('form').trigger('reset');
+        // $(this).find('table').DataTable().destroy();
     });
 
 

@@ -53,21 +53,21 @@
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="/dashboard/settings/mapel" class="nav-link">
                             <i class="material-icons">menu_book</i>  
-                            Mapel
+                            Mapel & Kompetensi
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="/dashboard/settings/tema" class="nav-link">
+                            <i class="material-icons">chrome_reader_mode</i>  
+                            Tema & Subtema
                           </a>
                         </li>
                         <li class="nav-item">
                           <a href="/dashboard/settings/tematik" class="nav-link">
-                            <i class="material-icons">chrome_reader_mode</i>  
-                            Tema
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="#" class="nav-link">
                             <i class="material-icons">layers</i>  
-                            Kompetensi
+                            Pemetaan Tema & KD
                           </a>
                         </li>
                       </ul>
