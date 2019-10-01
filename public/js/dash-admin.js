@@ -997,59 +997,109 @@ $(document).ready(function(){
     
     // Mnjmn KD
     var tkdmapel = $('#table-kd');
+    
     $(document).on('click', '.btn-modal-kd', function(){
-        var data = tmapel.row($(this).parents('tr')).data();
-        $('#teksKd').text(data.nama_mapel);
-        $('#modalKd').modal();
+        var dataMapel = tmapel.row($(this).parents('tr')).data();
+        $('#teksMapel').text(dataMapel.nama_mapel);
+        $("#kodeMapel").text(dataMapel.kode_mapel);
+        
 
         // function getTkdMapel(){
 
         // }
-        $(document).on('change', '#kelas', function(){
-            // alert($(this).val());
-           
-            tkdmapel.DataTable().destroy();
-            tkdmapel.DataTable({
-                processing: true,
-                serverSide: true,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                ajax: {
-                    url: '/ajax/kds?kelas='+$('#kelas').val()+'&mapel='+data.kode_mapel,
-                    type: 'get'
-                },
-                "columnDefs": [ {
-                    "searcable" : false,
-                    "orderable" : false,
-                    "targets"   : 0
-                } ],
-                'order' : [[1, 'asc']],
-                columns: [
-                    { data: 'DT_RowIndex', 'orderable': false, "width": "25px" },
-                    { data: 'kode_kd', name: 'kode_kd', "width": "50px" },
-                    { data: 'teks_kd', name: 'teks_kd' },
-                    { "width": "75px", data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-warning btn-edit-kd" title="Edit"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-kd" title="Hapus"><i class="material-icons">delete</i></button>', 'targets': -1, 'orderable': false},
-                ],
-                buttons: [
-                    {
-                        extend : 'print',
-                        title: 'Data Mapel'
-                    }
-                ]
-            }).draw();
-        });
+        tkdmapel.DataTable().clear().destroy().draw();
+        $('#modalKd').find('select').val('0');
 
-       
+        $('#modalKd').modal();
         
     });
-    // $(document).on('hide-bs-modal','#modalKd', function(){
-    //     alert($(this).prop('id'));
-    // });
+    $(document).on('change', '#kelas', function(){
+        // alert($(this).val());
+       var kodeMapel = $('#kodeMapel').text();
+        // tkdmapel.DataTable().destroy();
+        tkdmapel.DataTable({
+            processing: true,
+            serverSide: true,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            ajax: {
+                url: '/ajax/kds?kelas='+$('#kelas').val()+'&mapel='+kodeMapel,
+                type: 'get'
+            },
+            "columnDefs": [ {
+                "searcable" : false,
+                "orderable" : false,
+                "targets"   : 0
+            } ],
+            'order' : [[1, 'asc']],
+            columns: [
+                { data: 'DT_RowIndex', 'orderable': false, "width": "25px" },
+                { data: 'kode_kd', name: 'kode_kd', "width": "50px" },
+                { data: 'teks_kd', name: 'teks_kd' },
+                { "width": "75px", data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-warning btn-edit-kd" title="Edit"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-kd" title="Hapus"><i class="material-icons">delete</i></button>', 'targets': -1, 'orderable': false},
+            ],
+            buttons: [
+                {
+                    extend : 'print',
+                    title: 'Data Mapel'
+                }
+            ]
+        });
+       
+    });
+    
+    // Pemetaan Tema
+    $('#kelasTema').on('change', function(){
+        // alert('hi');
+        var jmlCols = ($(this).val() <= 3 ) ? 35 : 39;
+        var jmlTema = ($(this).val() <= 3) ? 8 : 9;
+        var sem1 = ($(this).val() <= 3 ) ? 4 : 5;
+        var sem2 = jmlTema - sem1;
+        var jmlSubtema = jmlTema * 4;
+        var thead = '';
+        var theadr1 = '<tr><th rowspan="3">No</th><th rowspan="3">Mupel</th><th rowspan="3">Kompetensi Dasar</th><th colspan="'+(sem1*4)+'">Semester 1</th><th colspan="'+(sem2*4)+'">Semester</tr>';
+        var temaSem1 = '';
+        var temaSem2 = '';
+        
+        for(var i = 0; i < sem1; i++){
+            temaSem1 += '<th colspan="4">Tema '+(i+1)+'</th>';
+        }
+        for(var i = sem1; i < jmlTema; i++){
+            temaSem1 += '<th colspan="4">Tema '+(i+1)+'</th>';
+        }
+        var theadr2 = '<tr>'+temaSem1+temaSem2+'</tr>';
+        
+        var subtema1 = '';
+        var subtema2 = '';
+        for(var st = 0; st < jmlSubtema; st++) {
+            subtema1 += '<th>'+(st+1)+'</th>';
+        }
+
+        var theadr3 = '<tr>'+subtema1+'</tr>';
+        var colsHelper = '';
+        for (var c = 0; c < jmlCols; c++) {
+            colsHelper += '<th>'+ (c+1) +'</th>';
+        }
+
+        var theadr4 = '<tr class="cols-helper">'+colsHelper+'</tr>';
+        
+        $('#dashadmin-tematik thead').html(theadr1+theadr2+theadr3+theadr4);
+        $.ajax({
+            type: 'get', 
+            url: '/ajax/getmapelsby/'+$(this).val(),
+            dataType: 'json', 
+            success: function(res){
+                var data = res.data;
+                console.log(Object.keys(data).length);
+
+            }
+        });
+    });
 
 
     $('.modal').on('hide.bs.modal', function(e) {
         // alert($(this).find('table').prop('id'));
-        $(this).find('table').remove('tbody');
-        $(this).find('select').val('0');
+        
+        // $(this).find('select').val('0');
         $(this).find('form').trigger('reset');
         // $(this).find('table').DataTable().destroy();
     });

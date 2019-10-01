@@ -14,6 +14,9 @@ class Mapel extends Model
     public function rombels() {
         return $this->belongsToMany('App\Rombel', 'mapel_rombel', 'mapel_id', 'rombel_id');
     }
+    public function tingkats() {
+        return $this->belongsToMany('App\Tingkat', 'mapel_tingkat', 'mapel_id', 'tingkat_id');
+    }
 
     public function kds()
     {

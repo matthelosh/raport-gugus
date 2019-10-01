@@ -18,11 +18,14 @@
             @case('sekolah')
                 @include('dashboard.adminpages.sekolah')
                 @break
-            @case('tematik')
-                @include('dashboard.adminpages.tematik')
+            @case('tema')
+                @include('dashboard.adminpages.tema')
                 @break
             @case('mapel')
                 @include('dashboard.adminpages.mapel')
+                @break
+            @case('tematik')
+                @include('dashboard.adminpages.tematik')
                 @break
             @default
                 

@@ -2,22 +2,19 @@
     <div class="card-header-danger">
         <h2 class="card-title">
             <i class="material-icons">chrome_reader_mode</i>
-            Data Tematik
+            Pemetaan tema dan KD
             <div class="ml-auto" style="float:right!important; display: flex;">
-                <button class="btn btn-sm btn-outline" data-toggle="modal" data-target="#modalImportTema" style="color: #efefef;">
-                    <i class="material-icons">attach_file</i>
-                    Import Tema
-                </button>
-                <button class="btn btn-outline btn-sm" id="btnFileSubtema" style="color: #efefef;">
+                
+                <button class="btn btn-outline btn-sm" id="btnFileTematik" style="color: #efefef;">
                     <i class="material-icons">attachment</i>
-                    Import Subtema
+                    Import Pemetaan
                 </button>
-                <button class="btn btn-success btn-sm" style="display:none;" type="submit" id="submitSubtema">
+                <button class="btn btn-success btn-sm" style="display:none;" type="submit" id="submitTematik">
                     <i class="material-icons">send</i>
                 </button>
-                <form action="/import/subtema" method="POST" enctype="multipart/form-data" id="formImportSubtema">
+                <form action="/import/tematik" method="POST" enctype="multipart/form-data" id="formImportTematik">
                     @csrf
-                    <input type="file" name="fileSubtema" id="fileSubtema" style="display:none">
+                    <input type="file" name="fileTematik" id="fileTematik" style="display:none">
                     
                     
                 </form>
@@ -45,33 +42,129 @@
                 <span>{{ session('error') }}</span>
             </div>
         @endif
-        <div class="table-responsive">
-            <table class="table" id="dashadmin-user-tema" width="100%">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Semester</th>
-                        <th>Tingkat / Kelas</th>
-                        <th>Kode Tema</th>
-                        <th>Teks Tema</th>
-                        <th>Opsi</th>
-                    </tr>
-                </thead>
-                {{-- <tbody>
-                    @foreach ($data as $user)
-                        <tr>
-                            <td>{{ $loop->index +1}}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->fullname }}</td>
-                            <td>{{ $user->hp }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->level }}</td>
-                            <td>{{ $user->isActive }}</td>
-                        </tr>
-                    @endforeach
-                </tbody> --}}
-            </table>
-        </div>        
+        <div class="container-fluid">   
+            <div class="row">
+                <h4>Pemataan Tema dan KD
+                    <select name="kelasTema" id="kelasTema" class="form-control">
+                        <option value="0">Pilih Kelas / Tingkat</option>
+                        <option value="1">Kelas 1</option>
+                        <option value="2">Kelas 2</option>
+                        <option value="3">Kelas 3</option>
+                        <option value="4">Kelas 4</option>
+                        <option value="5">Kelas 5</option>
+                        <option value="6">Kelas 6</option>
+                        
+                    </select>
+                    
+                </h4>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-custom table-bordered table-sm" id="dashadmin-tematik" width="100%" border="1" style="border-collapse:collapse;">
+                        <thead>
+                            {{-- <tr>
+                                <th rowspan="3">No</th>
+                                <th rowspan="3">Mupel</th>
+                                <th rowspan="3">Kompetensi Dasar</th>
+                                <th colspan="20">Semester Ganjil</th>
+                                <th colspan="16">Semester Genap</th>
+                            </tr>
+                            <tr>
+                                <th colspan="4">Tema 1</th>
+                                <th colspan="4">Tema 2</th>
+                                <th colspan="4">Tema 3</th>
+                                <th colspan="4">Tema 4</th>
+                                <th colspan="4">Tema 5</th>
+                                <th colspan="4">Tema 6</th>
+                                <th colspan="4">Tema 7</th>
+                                <th colspan="4">Tema 8</th>
+                                <th colspan="4">Tema 9</th>
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                            </tr>
+                            <tr class="cols-helper">
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                                <th>10</th>
+                                <th>11</th>
+                                <th>12</th>
+                                <th>13</th>
+                                <th>14</th>
+                                <th>15</th>
+                                <th>16</th>
+                                <th>17</th>
+                                <th>18</th>
+                                <th>19</th>
+                                <th>20</th>
+                                <th>21</th>
+                                <th>22</th>
+                                <th>23</th>
+                                <th>24</th>
+                                <th>25</th>
+                                <th>26</th>
+                                <th>27</th>
+                                <th>28</th>
+                                <th>29</th>
+                                <th>30</th>
+                                <th>31</th>
+                                <th>32</th>
+                                <th>33</th>
+                                <th>34</th>
+                                <th>35</th>
+                                <th>36</th>
+                                <th>37</th>
+                                <th>38</th>
+                                <th>39</th>
+                            </tr> --}}
+                        </thead>
+                        <tbody id="dashadmin-tematik-tbody"></tbody>
+                    </table>
+                </div>     
+            </div>   
+        </div>
     </div>
 </div>
 

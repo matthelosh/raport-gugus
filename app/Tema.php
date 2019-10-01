@@ -18,6 +18,6 @@ class Tema extends Model
     }
 
     public function rombel() {
-        $this->belongsTo('App\Rombel', 'id_tingkat', 'tingkat');
+        $this->belongsToMany('App\Rombel', 'id_tingkat', 'tingkat');
     }
 }

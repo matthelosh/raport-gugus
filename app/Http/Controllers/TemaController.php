@@ -20,7 +20,7 @@ class TemaController extends Controller
     public function index()
     {
         //
-        return view('dashboard.dashadmin', ['page'=>'tematik']);
+        return view('dashboard.dashadmin', ['page'=>'tema']);
     }
 
     /**

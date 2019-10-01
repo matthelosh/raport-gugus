@@ -28,6 +28,28 @@
     padding: 5px 15px!important;
   }
 
+  /* Table Custom */
+  .table-custom{
+    border: 1px solid #dee2e6!important;
+    
+  }
+  
+  .table-custom thead tr th,
+  .table-custom tbody tr td {
+    text-align: center;
+    padding: 5px!important;
+    font-size: 8pt!important;
+  }
+  .cols-helper{
+    height: 5px!important;
+    background: #fff9f9;
+  }
+  .cols-helper th {
+    font-size: 6px!important;
+    
+    color: red!important;
+  }
+
   @keyframes animatebottom {
     from {
       bottom: -300px;
