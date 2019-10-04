@@ -10,7 +10,7 @@ class Mapel extends Model
     protected $fillable = [
         'kode_mapel', 'nama_mapel'
     ];
-
+    protected $hidden = ['created_at', 'updated_at'];
     public function rombels() {
         return $this->belongsToMany('App\Rombel', 'mapel_rombel', 'mapel_id', 'rombel_id');
     }

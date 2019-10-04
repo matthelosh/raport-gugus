@@ -81,7 +81,7 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::get('/ajax/kds', 'KdController@getByKelas')->name('getkdbykelas');
 
     // Admin Tematik
-    Route::get('/dashboard/settings/tematik', 'TematikController@index')->name('indextematik');
+    Route::get('/dashboard/settings/tematik', 'TematikController@index')->name('indextematik')->middleware('auth');
     Route::get('/ajax/getmapelsby/{tingkat}', 'TematikController@map')->name('maptematik');
 
 

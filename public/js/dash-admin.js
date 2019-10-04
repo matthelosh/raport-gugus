@@ -1086,11 +1086,169 @@ $(document).ready(function(){
         $.ajax({
             type: 'get', 
             url: '/ajax/getmapelsby/'+$(this).val(),
-            dataType: 'json', 
+            // dataType: 'json', 
             success: function(res){
-                var data = res.data;
-                console.log(Object.keys(data).length);
+                var data = res;
+                var no = 1;
 
+                // group By
+                const groupBy = (array, key) => {
+                    // Return the end result
+                    return array.reduce((result, currentValue) => {
+                    // If an array already present for key, push it to the array. Else create an array and push the object
+                    (result[currentValue[key]] = result[currentValue[key]] || []).push(
+                        currentValue
+                    );
+                    // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+                    return result;
+                    }, {}); // empty object is the initial value for result object
+                };
+
+                var byMapel = groupBy(data, 'mapel_id');
+                console.log(byMapel);
+                var rawMapels = [];
+                data.forEach((mapel) => {
+                    rawMapels.push(mapel.mapel_id);
+                });
+                var newMapels = rawMapels.filter(function(el, index, arr){
+                    return index == arr.indexOf(el);
+                });
+                var mapels = Object.keys(byMapel);
+                console.log(newMapels);
+
+                var tbody='';
+                var isi = [];
+                console.log(byMapel);
+                
+                data.forEach(item => {
+                    isi.push([item.nama_mapel, item.kd_id, item.subtema_id]);
+                });
+                console.log(isi);
+                isi.forEach(item => {
+                    tbody += `<tr><td>${item[0]}</td><td>${item[1]}</td><td>${item[2]}</td><td>${item[3]}</td></tr>`;
+                })
+                var kds = [];
+                newMapels.forEach(function(mapel, i) {
+                    kds[mapel] = [];
+                   byMapel[mapel].forEach(item => {
+                       kds[mapel].push({"st":item.subtema_id});
+                   });
+                   var is = '';
+                   kds[mapel].forEach(k => {
+                    // console.log(k);
+                    is += k.st;
+                   });
+
+                //    tbody += `<tr><td>${i+1}</td><td>${mapel}</td><td>${is}</td></tr>`;
+                });
+                // console.log(kds);
+                function getPivotArray(isi, rowIndex, colIndex, dataIndex) {
+                    //Code from https://techbrij.com
+                    var result = {}, ret = [];
+                    var newCols = [];
+                    for (var i = 0; i < isi.length; i++) {
+             
+                        if (!result[isi[i][rowIndex]]) {
+                            result[isi[i][rowIndex]] = {};
+                        }
+                        result[isi[i][rowIndex]][isi[i][colIndex]] = isi[i][dataIndex];
+             
+                        //To get column names
+                        if (newCols.indexOf(isi[i][colIndex]) == -1) {
+                            newCols.push(isi[i][colIndex]);
+                        }
+                    }
+             
+                    newCols.sort();
+                    var item = [];
+             
+                    //Add Header Row
+                    item.push('Mapel');
+                    item.push.apply(item, newCols);
+                    ret.push(item);
+             
+                    //Add content 
+                    for (var key in result) {
+                        item = [];
+                        item.push(key);
+                        for (var i = 0; i < newCols.length; i++) {
+                            item.push(result[key][newCols[i]] || "-");
+                        }
+                        ret.push(item);
+                    }
+                    return ret;
+                }
+
+                var output = getPivotArray(isi, 0, 2, 1);
+
+                function arrayToHTMLTable(myArray) {
+                    var result = "<table border='1' cellpadding='7' cellspacing='0'>";
+                    for (var i = 0; i < myArray.length; i++) {
+                        result += "<tr>";
+                        for (var j = 0; j < myArray[i].length; j++) {
+                            result += "<td>" + myArray[i][j] + "</td>";
+                        }
+                        result += "</tr>";
+                    }
+                    result += "</table>";
+          
+                    return result;
+                }       
+                $('.table-responsive').html(arrayToHTMLTable(output));
+                // $('#dashadmin-tematik-tbody').html(tbody);
+                // // get Columns
+                // function get_prop(obj, prop) {
+                //     return prop.split('.').reduce((o,k) => obj[k], obj);
+                // }
+                
+                // function coll2tbl(coll, row_header, col_header, cell) {
+                //     var table = {};
+                //     var row_headers = [];
+                //     var cols = {};
+                
+                //     coll.forEach(a => {
+                //         var h = get_prop(a, row_header);
+                //         if (h in table === false) {
+                //             table[h] = {};
+                //             row_headers.push(h);
+                //         }
+                //         var c = get_prop(a, col_header);
+                //         cols[c] = null;
+                //         table[h][c] = get_prop(a, cell);
+                //     });
+                
+                //     var cells = [];
+                //     for (var row in table)
+                //         cells.push(Object.values(table[row]));
+                
+                //     return { row_headers, col_headers: Object.keys(cols), cells };
+                // }
+                
+                // var table = coll2tbl(data, 'mapel_id', 'subtema_id', 'kd_id');
+                // var th = '';
+                // table.col_headers.forEach(function(h) {
+                //     th += `<th>${h}</th>`;
+                // });
+
+                // var tb = '';
+                // table.
+
+                // var tbl =`
+                //         <table class="table table-bordered table-sm" with="100%">
+                //             <thead>
+                //                 <tr>
+                //                     <th>No</th><th>Mapel</th>${th}
+                //                 </tr>
+                //             </thead>
+                //             <tbody>
+                                
+                //             </tbody>
+                //         </table>
+                //         `;
+
+                // $('.table-responsive').html(tbl);
+                
+                // console.log(table);
             }
         });
     });

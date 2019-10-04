@@ -15,7 +15,7 @@ class Subtema extends Model
         $this->belongsTo('App\Tema', 'id_tema', 'kode_tema');
     }
 
-    // public function kd() {
-    //     $this->hasMany
-    // }
+    public function kds() {
+        $this->hasManyThrough( 'App\Kd', 'App\Tematik', 'mapel_id', 'kd_id', 'kode_mapel', 'kode_kd' );
+    }
 }

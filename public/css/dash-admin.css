@@ -36,9 +36,12 @@
   
   .table-custom thead tr th,
   .table-custom tbody tr td {
-    text-align: center;
+    line-height: 1em;
     padding: 5px!important;
     font-size: 8pt!important;
+  }
+  .table-custom thead tr th {
+    text-align: center;
   }
   .cols-helper{
     height: 5px!important;
