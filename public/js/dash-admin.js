@@ -1094,99 +1094,97 @@ $(document).ready(function(){
                 // group By
                 const groupBy = (array, key) => {
                     // Return the end result
-                    return array.reduce((result, currentValue) => {
+                    return array.reduce((result, currentValue, i) => {
                     // If an array already present for key, push it to the array. Else create an array and push the object
                     (result[currentValue[key]] = result[currentValue[key]] || []).push(
-                        currentValue
+                        [currentValue.mapel_id, currentValue.nama_mapel, currentValue.subtema_id, currentValue.kd_id]
+                        // currentValue
                     );
                     // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
                     return result;
                     }, {}); // empty object is the initial value for result object
                 };
 
-                var byMapel = groupBy(data, 'mapel_id');
-                console.log(byMapel);
-                var rawMapels = [];
-                data.forEach((mapel) => {
-                    rawMapels.push(mapel.mapel_id);
-                });
-                var newMapels = rawMapels.filter(function(el, index, arr){
-                    return index == arr.indexOf(el);
-                });
-                var mapels = Object.keys(byMapel);
-                console.log(newMapels);
-
-                var tbody='';
-                var isi = [];
-                console.log(byMapel);
                 
-                data.forEach(item => {
-                    isi.push([item.nama_mapel, item.kd_id, item.subtema_id]);
+                // function removeDuplicates( arr, prop ) {
+                //     let obj = {};
+                //     return arr.reduce((prev, next) => {
+                //       if(!obj[next]) obj[next] = {text: next.nama_mapel, val: next.mapel_id}; 
+                //     //   console.log(obj);
+                //       return obj;
+                //     }, obj);
+                //   }
+                
+                var mapelsRaw = [];
+                data.forEach((item, i)=> {
+                    mapelsRaw.push({text: item.nama_mapel, val: item.mapel_id});
                 });
-                console.log(isi);
-                isi.forEach(item => {
-                    tbody += `<tr><td>${item[0]}</td><td>${item[1]}</td><td>${item[2]}</td><td>${item[3]}</td></tr>`;
-                })
-                var kds = [];
-                newMapels.forEach(function(mapel, i) {
-                    kds[mapel] = [];
-                   byMapel[mapel].forEach(item => {
-                       kds[mapel].push({"st":item.subtema_id});
-                   });
-                   var is = '';
-                   kds[mapel].forEach(k => {
-                    // console.log(k);
-                    is += k.st;
-                   });
 
-                //    tbody += `<tr><td>${i+1}</td><td>${mapel}</td><td>${is}</td></tr>`;
+                // console.log(mapelsRaw);
+                var uniq = {}
+                var arr  = [{"id":"1"},{"id":"1"},{"id":"2"}]
+                var mapels = mapelsRaw.filter(obj => !uniq[obj.val] && (uniq[obj.val] = true));
+                var opts = '<option value="0">Pilih Mapel</option>';
+                mapels.forEach(item => {
+                    opts += `<option value="${item.val}">${item.text}</option>`;
                 });
-                // console.log(kds);
-                function getPivotArray(isi, rowIndex, colIndex, dataIndex) {
+
+                $('#mapelTema').html(opts);
+
+                var byMapel = groupBy(data, 'mapel_id');
+                var bySubTema = groupBy(data, 'subtema_id');
+                function getPivotArray(dataArr, rowIndex, colIndex, dataIndex) {
                     //Code from https://techbrij.com
                     var result = {}, ret = [];
                     var newCols = [];
-                    for (var i = 0; i < isi.length; i++) {
-             
-                        if (!result[isi[i][rowIndex]]) {
-                            result[isi[i][rowIndex]] = {};
+                    for (var i = 0; i < dataArr.length; i++) {
+                        // console.log(result[isi[i][rowIndex]]);
+                        if (!result[dataArr[i][rowIndex]]) {
+                            result[dataArr[i][rowIndex]] = {};
                         }
-                        result[isi[i][rowIndex]][isi[i][colIndex]] = isi[i][dataIndex];
-             
+                        result[dataArr[i][rowIndex]][dataArr[i][colIndex]] = dataArr[i][dataIndex];
+                        // result[isi[i][rowIndex]][isi[i][colIndex]] = isi[i][dataIndex];
+                        // console.log(result);
                         //To get column names
-                        if (newCols.indexOf(isi[i][colIndex]) == -1) {
-                            newCols.push(isi[i][colIndex]);
+                        if (newCols.indexOf(dataArr[i][colIndex]) == -1) {
+                            newCols.push(dataArr[i][colIndex]);
                         }
                     }
              
                     newCols.sort();
+                    // console.log(newCols);
                     var item = [];
              
                     //Add Header Row
-                    item.push('Mapel');
+                    item.push( 'KD');
                     item.push.apply(item, newCols);
                     ret.push(item);
-             
+                    // console.log(result);
                     //Add content 
                     for (var key in result) {
                         item = [];
+                        // item.push(mapel);
                         item.push(key);
                         for (var i = 0; i < newCols.length; i++) {
                             item.push(result[key][newCols[i]] || "-");
                         }
                         ret.push(item);
+                    
                     }
+                    // console.log(ret);
                     return ret;
+                    
                 }
-
-                var output = getPivotArray(isi, 0, 2, 1);
-
+                // var pkn3out = getPivotArray(byMapel.pkn, 3,2,3, "PKN");
+                // var bidout = getPivotArray(byMapel.bid, 3,2,3,"BID");
                 function arrayToHTMLTable(myArray) {
-                    var result = "<table border='1' cellpadding='7' cellspacing='0'>";
+                    var result = "<table border='1' cellpadding='7' cellspacing='0' width='100%'>";
+                    // result += '<tr><td>Mapel</td><td colspan="'+myArray.length+'">Sub Tema</td>';
                     for (var i = 0; i < myArray.length; i++) {
+                        
                         result += "<tr>";
                         for (var j = 0; j < myArray[i].length; j++) {
-                            result += "<td>" + myArray[i][j] + "</td>";
+                            result += `<td class=${(myArray[i][j] == '-')? 'bg-danger dark': 'bg-success dark'}>${myArray[i][j]} </td>`;
                         }
                         result += "</tr>";
                     }
@@ -1194,61 +1192,18 @@ $(document).ready(function(){
           
                     return result;
                 }       
-                $('.table-responsive').html(arrayToHTMLTable(output));
-                // $('#dashadmin-tematik-tbody').html(tbody);
-                // // get Columns
-                // function get_prop(obj, prop) {
-                //     return prop.split('.').reduce((o,k) => obj[k], obj);
-                // }
-                
-                // function coll2tbl(coll, row_header, col_header, cell) {
-                //     var table = {};
-                //     var row_headers = [];
-                //     var cols = {};
-                
-                //     coll.forEach(a => {
-                //         var h = get_prop(a, row_header);
-                //         if (h in table === false) {
-                //             table[h] = {};
-                //             row_headers.push(h);
-                //         }
-                //         var c = get_prop(a, col_header);
-                //         cols[c] = null;
-                //         table[h][c] = get_prop(a, cell);
-                //     });
-                
-                //     var cells = [];
-                //     for (var row in table)
-                //         cells.push(Object.values(table[row]));
-                
-                //     return { row_headers, col_headers: Object.keys(cols), cells };
-                // }
-                
-                // var table = coll2tbl(data, 'mapel_id', 'subtema_id', 'kd_id');
-                // var th = '';
-                // table.col_headers.forEach(function(h) {
-                //     th += `<th>${h}</th>`;
-                // });
+                // $('.table-responsive').html(arrayToHTMLTable(pkn3out)+arrayToHTMLTable(bidout));
+                $(document).on('change', '#mapelTema', function(){
+                    var mapel = $(this).val();
+                    if ( mapel == "0" ) {
+                        swal('peringatan', 'Mohon memilih Mapel', 'error');
+                    }
+                    var out = getPivotArray(byMapel[mapel], 3,2,3);
+                    $('.table-responsive').html(arrayToHTMLTable(out));
 
-                // var tb = '';
-                // table.
+                });
 
-                // var tbl =`
-                //         <table class="table table-bordered table-sm" with="100%">
-                //             <thead>
-                //                 <tr>
-                //                     <th>No</th><th>Mapel</th>${th}
-                //                 </tr>
-                //             </thead>
-                //             <tbody>
-                                
-                //             </tbody>
-                //         </table>
-                //         `;
-
-                // $('.table-responsive').html(tbl);
                 
-                // console.log(table);
             }
         });
     });

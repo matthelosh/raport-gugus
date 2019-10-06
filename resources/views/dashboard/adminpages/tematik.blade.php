@@ -45,16 +45,28 @@
         <div class="container-fluid">   
             <div class="row">
                 <h4>Pemataan Tema dan KD
-                    <select name="kelasTema" id="kelasTema" class="form-control">
-                        <option value="0">Pilih Kelas / Tingkat</option>
-                        <option value="1">Kelas 1</option>
-                        <option value="2">Kelas 2</option>
-                        <option value="3">Kelas 3</option>
-                        <option value="4">Kelas 4</option>
-                        <option value="5">Kelas 5</option>
-                        <option value="6">Kelas 6</option>
-                        
-                    </select>
+                    <form action="/dashboard/settings/tematik" method="get" class="form form-inline">
+                        <div class="form-group">
+                            <select name="kelasTema" id="kelasTema" class="form-control">
+                                <option value="0">Pilih Kelas / Tingkat</option>
+                                <option value="1">Kelas 1</option>
+                                <option value="2">Kelas 2</option>
+                                <option value="3">Kelas 3</option>
+                                <option value="4">Kelas 4</option>
+                                <option value="5">Kelas 5</option>
+                                <option value="6">Kelas 6</option>
+                                
+                            </select>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="form-group">    
+                            <select name="mapelTema" id="mapelTema" class="form-control">
+                                <option value="0">Pilih mapel</option>
+                            </select>
+                        </div>
+                    &nbsp;
+                    <button type="submit" class="btn btn-sm btn-danger">Proses</button>
+                    </form>
                     
                 </h4>
             </div>
@@ -163,7 +175,8 @@
                         <tbody id="dashadmin-tematik-tbody"></tbody>
                     </table>
                 </div>     
-            </div>   
+            </div> 
+        
         </div>
     </div>
 </div>
