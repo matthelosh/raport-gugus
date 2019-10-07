@@ -13,6 +13,7 @@
 
 // use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function () {
     return view('umum.beranda');
@@ -24,7 +25,7 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
 
 // Route Dashboard Admin
     // Users Route for Admin
-    Route::get('/dashboard/users', 'UserController@index')->name('indexusers');
+    Route::get('/dashboard/users', 'UserController@index')->name('indexusers')->middleware('forAdmin');
     Route::get('/ajax/allusers', 'UserController@allUsers')->name('getallusers');
     Route::post('/dashboard/import-users', 'UserController@import')->name('importusers');
     Route::get('/dashboard/unduh-users', 'UserController@export')->name('exportusers');
