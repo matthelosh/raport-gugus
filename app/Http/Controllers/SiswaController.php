@@ -16,24 +16,55 @@ use Yajra\DataTables\DataTables;
 
 class SiswaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return view('dashboard.dashadmin', ['page' => 'siswas']);
+        $level = $request->user()->level;
+        switch($level) {
+            case 'admin':
+                return view('dashboard.dashadmin', ['page' => 'siswas']);
+                break;
+            case 'guru':
+                return view('dashboard.dashguru', ['page' => 'siswaku']);
+                break;
+        }
+        
     }
 
-    function allSiswas()
+    function allSiswas(Request $request)
     {
-        return DataTables::of(DB::table('siswas')
-                                        ->leftJoin('ortus', 'siswas.id_ortu', '=', 'ortus.id')
-                                        ->select('siswas.*', 'ortus.id as idOrtu', 'ortus.nama_ayah', 'ortus.nama_ibu', 'ortus.job_ayah', 'ortus.job_ibu', 'ortus.hp_ortu', 'ortus.alamat_jl', 'ortus.alamat_desa', 'ortus.alamat_kec', 'ortus.alamat_kab', 'ortus.alamat_prov', 'ortus.nama_wali', 'ortus.job_wali', 'ortus.alamat_wali', 'ortus.hp_wali')
-                                        ->get()
-                            )->addIndexColumn()->make(true);
+        if ($request->user()->level == 'admin') {
+                return DataTables::of(
+                DB::table('siswas')
+                                            ->leftJoin('ortus', 'siswas.id_ortu', '=', 'ortus.id')
+                                            ->select('siswas.*', 'ortus.id as idOrtu', 'ortus.nama_ayah', 'ortus.nama_ibu', 'ortus.job_ayah', 'ortus.job_ibu', 'ortus.hp_ortu', 'ortus.alamat_jl', 'ortus.alamat_desa', 'ortus.alamat_kec', 'ortus.alamat_kab', 'ortus.alamat_prov', 'ortus.nama_wali', 'ortus.job_wali', 'ortus.alamat_wali', 'ortus.hp_wali')
+                                            ->get()
+            )->addIndexColumn()->make(true);
+        } else if($request->user()->level == 'guru') {
+            try {
+                $rombel = \App\Rombel::where('id_guru', $request->user()->nip)->first();
+                return DataTables::of(
+                    DB::table('siswas')
+                                                ->leftJoin('ortus', 'siswas.id_ortu', '=', 'ortus.id')
+                                                ->select('siswas.*', 'ortus.id as idOrtu', 'ortus.nama_ayah', 'ortus.nama_ibu', 'ortus.job_ayah', 'ortus.job_ibu', 'ortus.hp_ortu', 'ortus.alamat_jl', 'ortus.alamat_desa', 'ortus.alamat_kec', 'ortus.alamat_kab', 'ortus.alamat_prov', 'ortus.nama_wali', 'ortus.job_wali', 'ortus.alamat_wali', 'ortus.hp_wali')
+                                                ->where('id_rombel', $rombel->kode_rombel)
+                                                ->get()
+                    )->addIndexColumn()->make(true);
+
+            }
+            catch(\Exception $e) {
+                return response()->json(['status' => 'gagal', 'msg' => $e->getMessage()]);
+            }
+        }
         // return DataTables::of(Siswa::with(['ortus'])->get())->make(true);
     }
 
@@ -219,6 +250,22 @@ class SiswaController extends Controller
     public function update(Request $request, Siswa $siswa)
     {
         //
+        try {
+            Siswa::where('id', $request->input('id_siswa'))->update([
+                'nis'          => $request->input('nis'),
+                'nisn'         => $request->input('nisn'),
+                'nama_siswa'   => $request->input('nama_siswa'),
+                'jk'           => $request->input('jk'),
+                'agama'        => $request->input('agama'),
+                'alamat'       => $request->input('alamat'),
+                'asal_sekolah' => $request->input('asal_sekolah'),
+                // 'id_ortu'      => $request->input('id_ortu')
+            ]);
+            return response()->json(['status' => 'sukses', 'msg' => 'Data '.$request->input('nama_siswa').' diperbarui']);
+        }
+        catch(\Exception $e) {
+            return response()->json(['status' => 'gagal', 'msg' => $e->getMessage()]);
+        }
     }
 
     /**

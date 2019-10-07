@@ -27,15 +27,15 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     // Users Route for Admin
     Route::get('/dashboard/users', 'UserController@index')->name('indexusers')->middleware('forAdmin');
     Route::get('/ajax/allusers', 'UserController@allUsers')->name('getallusers');
-    Route::post('/dashboard/import-users', 'UserController@import')->name('importusers');
-    Route::get('/dashboard/unduh-users', 'UserController@export')->name('exportusers');
+    Route::post('/dashboard/import-users', 'UserController@import')->name('importusers')->middleware('forAdmin');
+    Route::get('/dashboard/unduh-users', 'UserController@export')->name('exportusers')->middleware('forAdmin');
     // Delete One user
-    Route::delete('/delete/user', 'UserController@deleteOne')->name('deleteoneuser');
+    Route::delete('/delete/user', 'UserController@deleteOne')->name('deleteoneuser')->middleware('forAdmin');
     Route::put('/ajax/updateuser', 'UserController@updateOne')->name('updateoneuser');
 
 
     // Siswa Route for Admin
-    Route::get('/dashboard/siswas', 'SiswaController@index')->name('indexsiswas');
+    Route::get('/dashboard/siswas', 'SiswaController@index')->name('indexsiswas')->middleware('forAdmin');
     Route::get('/ajax/allsiswas', 'SiswaController@allSiswas')->name('getallsiswas');
     Route::post('/dashboard/import-siswas', 'SiswaController@import')->name('importsiswas');
     Route::put('/ajax/updateonesiswa', 'SiswaController@updateOne')->name('updateonesiswa');
@@ -47,7 +47,7 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
 
 
 // Rombel Route for admin
-    Route::get('/dashboard/rombels', 'RombelController@index')->name('indexrombel');
+    Route::get('/dashboard/rombels', 'RombelController@index')->name('indexrombel')->middleware('forAdmin');
     Route::post('/ajax/create-rombel', 'RombelController@create')->name('createrombel');
     Route::get('/ajax/allrombels', 'RombelController@allRombels')->name('getallrombels');
     Route::get('/ajax/allgurus', 'UserController@getgurus')->name('getgurus');
@@ -64,32 +64,34 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::put('/ajax/keluarkansiswa', 'SiswaController@keluarkan')->name('keluarkansiswa');
     Route::put('/ajax/masukkansiswa', 'SiswaController@masukkan')->name('masukkansiswa');
     // Data Sekolah 
-    Route::get('/dashboard/settings/data-sekolah', 'SekolahController@index')->name('indexSekolah');
+    Route::get('/dashboard/settings/data-sekolah', 'SekolahController@index')->name('indexSekolah')->middleware('forAdmin');
     Route::get('/ajax/datasekolah', 'SekolahController@getData')->name('getdatasekolah');
     Route::put('/ajax/updatesekolah', 'SekolahController@update')->name('updatedatasekolah');
     // Data Tematik
-    Route::get('/dashboard/settings/tema', 'TemaController@index')->name('indextematik')->middleware('auth');
+    Route::get('/dashboard/settings/tema', 'TemaController@index')->name('indextematik')->middleware('auth')->middleware('forAdmin');
     Route::post('/import/tema', 'TemaController@import')->name('importtema');
     Route::get('/export/tema', 'TemaController@export')->name('exporttema');
     Route::get('/ajax/alltemas', 'TemaController@allTemas')->name('getalltemas');
     Route::post('/import/subtema', 'SubtemaController@import')->name('importsubtema');
     Route::get('/ajax/subtema', 'SubtemaController@show')->name('getsubtemas');
     // Route Mapel
-    Route::get('/dashboard/settings/mapel', 'MapelController@index')->name('indexmapel');
+    Route::get('/dashboard/settings/mapel', 'MapelController@index')->name('indexmapel')->middleware('forAdmin');
     Route::get('/ajax/mapels', 'MapelController@show')->name('showmapels');
     Route::get('/ajax/mapel/rombel/{rombel}', 'MapelController@showByRombel')->name('showmapelsbyrombel');
     Route::post('/import/mapels', 'MapelController@import')->name('importmapel');
     Route::get('/ajax/kds', 'KdController@getByKelas')->name('getkdbykelas');
 
     // Admin Tematik
-    Route::get('/dashboard/settings/tematik', 'TematikController@index')->name('indextematik')->middleware('auth');
+    Route::get('/dashboard/settings/tematik', 'TematikController@index')->name('indextematik')->middleware('auth')->middleware('forAdmin');
     Route::get('/ajax/getmapelsby/{tingkat}', 'TematikController@map')->name('maptematik');
 
 
 
 // Route Guru
-Route::get('/dashboard/profil/{user}', 'UserController@show')->name('showuser');
+Route::get('/dashboard/profil/{user}', 'UserController@show')->name('showuser')->middleware('forGuru');
+Route::get('/dashboard/siswaku', 'SiswaController@index')->name('showsiswa');
 Route::post('/ajax/edit-foto', 'UserController@updateFoto')->name('updatefoto');
+Route::put('/ajax/update-siswa', 'SiswaController@update')->name('updatesiswa');
 
 
 // Route Umum

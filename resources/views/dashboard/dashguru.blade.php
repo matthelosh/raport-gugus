@@ -6,6 +6,9 @@
             @case('profil')
                 @include('dashboard.gurupages.profil')
                 @break
+            @case('siswaku')
+                @include('dashboard.gurupages.siswaku')
+                @break
             @default
                 @include('dashboard.gurupages.beranda')
                 @break

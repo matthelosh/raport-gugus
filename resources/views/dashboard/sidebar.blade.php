@@ -80,6 +80,32 @@
                         <p>User Profile</p>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/dashboard/penilaian">
+                        <i class="material-icons">ballot</i>
+                        <p>Penilaian</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/dashboard/ledger">
+                        <i class="material-icons">developer_board</i>
+                        <p>Ledger</p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item ">
+                    <a class="nav-link" href="/dashboard/siswaku">
+                        <i class="material-icons">emoji_people</i>
+                        <p>Siswa</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/dashboard/raport">
+                        <i class="material-icons">file_copy</i>
+                        <p>Raport</p>
+                    </a>
+                </li>
             @endif
            
            
