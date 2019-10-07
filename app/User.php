@@ -23,7 +23,7 @@ class User extends Authenticatable
     // $table->string('level');
     // $table->string('isActive');
     protected $fillable = [
-        'nip','username', 'fullname','hp', 'foto', 'level', 'isActive', 'email', 'password'
+        'nip','username', 'fullname','hp', 'foto', 'level', 'isActive', 'email', 'password', 'jk'
     ];
 
     /**

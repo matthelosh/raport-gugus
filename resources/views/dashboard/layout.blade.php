@@ -43,7 +43,12 @@
    <link href="{{ asset('css/material-dashboard.css?v=2.1.1') }}" rel="stylesheet" />
    <!-- CSS Just for demo purpose, don't include it in your project -->
    <link href="{{ asset('demo/demo.css') }}" rel="stylesheet" />
-   <link href="{{ asset('css/dash-admin.css') }}" rel="stylesheet" />
+    @if(Auth::user()->level == 'admin')
+      <link href="{{ asset('css/dash-admin.css') }}" rel="stylesheet" />
+    @endif
+    @if(Auth::user()->level == 'guru')
+      <link href="{{ asset('css/dash-guru.css') }}" rel="stylesheet" />
+    @endif
    <style>
      /* Select2 Material */
      .select2 .selection .select2-selection--single, .select2-container--default .select2-search--dropdown .select2-search__field {
@@ -278,9 +283,15 @@
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
-    })
+    });
    </script>
-   <script src="{{ asset('js/dash-admin.js') }}"></script>
+  <script src="{{ asset('js/umum.js') }}"></script>
+  @if(Auth::user()->level == 'admin')
+    <script src="{{ asset('js/dash-admin.js') }}"></script>
+  @endif
+  @if(Auth::user()->level == 'guru')
+    <script src="{{ asset('js/dash-guru.js') }}"></script>
+  @endif
    <script>
      $(document).ready(function() {
        $().ready(function() {

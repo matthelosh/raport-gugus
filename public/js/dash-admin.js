@@ -8,21 +8,21 @@ $(document).ready(function(){
      * Contoh url http://localhost/example
      * pathname = /example
      */
-    var path = window.location.pathname; 
+    // var path = window.location.pathname; 
 
-    // Menentukan url yang targetnya sama dengan pathname
-    // var hashTarget = $('.sidebar .nav a[href="#"]');
-    var target = $('.sidebar .nav a[href="'+path+'"]');
+    // // Menentukan url yang targetnya sama dengan pathname
+    // // var hashTarget = $('.sidebar .nav a[href="#"]');
+    // var target = $('.sidebar .nav a[href="'+path+'"]');
 
-    var settingsRegX = /^settings$/i;
-    var regx = new RegExp("\/settings\/", "i");
-    console.log(regx.test(path));
-    if (regx.test(path)) {
-        target.closest('.collapse').addClass('show');
-    }
-    // Menambahkan class active pada li parent dari url yang sesuai dengan pathname
-    target.parent('li').addClass('active');
-    // hashTarget.parent('li').addClass('active');
+    // var settingsRegX = /^settings$/i;
+    // var regx = new RegExp("\/settings\/", "i");
+    // console.log(regx.test(path));
+    // if (regx.test(path)) {
+    //     target.closest('.collapse').addClass('show');
+    // }
+    // // Menambahkan class active pada li parent dari url yang sesuai dengan pathname
+    // target.parent('li').addClass('active');
+    // // hashTarget.parent('li').addClass('active');
 
 
      /**
@@ -1178,29 +1178,37 @@ $(document).ready(function(){
                 // var pkn3out = getPivotArray(byMapel.pkn, 3,2,3, "PKN");
                 // var bidout = getPivotArray(byMapel.bid, 3,2,3,"BID");
                 function arrayToHTMLTable(myArray) {
-                    var result = "<table border='1' cellpadding='7' cellspacing='0' width='100%'>";
+                    
+                    var result = `<table border='1' cellpadding='7' cellspacing='0' width='100%'><tbody>
+                    
+                    <tr><th rowspan="2">KD</th><th class="th" align="center">Subtema</th></tr>`;
                     // result += '<tr><td>Mapel</td><td colspan="'+myArray.length+'">Sub Tema</td>';
                     for (var i = 0; i < myArray.length; i++) {
                         
                         result += "<tr>";
                         for (var j = 0; j < myArray[i].length; j++) {
-                            result += `<td class=${(myArray[i][j] == '-')? 'bg-danger dark': 'bg-success dark'}>${myArray[i][j]} </td>`;
+                           
+                            result += `<td class=${(myArray[i][j] == '-')? 'bg-danger dark': ''}>${myArray[i][j]} </td>`;
                         }
                         result += "</tr>";
                     }
-                    result += "</table>";
-          
+                    result += "</tbody></table>";
+                    
                     return result;
                 }       
                 // $('.table-responsive').html(arrayToHTMLTable(pkn3out)+arrayToHTMLTable(bidout));
-                $(document).on('change', '#mapelTema', function(){
-                    var mapel = $(this).val();
+                $(document).on('click', '.btn-petakan', function(e){
+                    e.preventDefault();
+                    var mapel = $('#mapelTema').val();
                     if ( mapel == "0" ) {
                         swal('peringatan', 'Mohon memilih Mapel', 'error');
                     }
                     var out = getPivotArray(byMapel[mapel], 3,2,3);
                     $('.table-responsive').html(arrayToHTMLTable(out));
-
+                    var tds = $('.table-responsive table tr:nth-child(1) td');
+                    $('.table-responsive table tbody tr:nth-child(0)').prop({'style': 'background: #efefef; text-align:center; font-weight: 600; color: #333;'})
+                    $('.th').prop({'colspan':tds.length, style: 'text-align:center; text-transform: uppercase; background: #cecece;'});
+                    
                 });
 
                 
@@ -1209,13 +1217,13 @@ $(document).ready(function(){
     });
 
 
-    $('.modal').on('hide.bs.modal', function(e) {
-        // alert($(this).find('table').prop('id'));
+    // $('.modal').on('hide.bs.modal', function(e) {
+    //     // alert($(this).find('table').prop('id'));
         
-        // $(this).find('select').val('0');
-        $(this).find('form').trigger('reset');
-        // $(this).find('table').DataTable().destroy();
-    });
+    //     // $(this).find('select').val('0');
+    //     $(this).find('form').trigger('reset');
+    //     // $(this).find('table').DataTable().destroy();
+    // });
 
 
 });

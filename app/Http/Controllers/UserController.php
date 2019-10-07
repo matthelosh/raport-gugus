@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -142,15 +143,39 @@ class UserController extends Controller
         //
     }
 
+    public function updateFoto(Request $request)
+    {
+        $file = $request->file('fileFoto');
+        try {
+            $nama = $file->getClientOriginalName();
+            $nip = Auth::user()->nip;
+            $newName = $nip.'.'.$file->getClientOriginalExtension();
+            $size = $file->getClientSize();
+            
+            $file->move(public_path('img/faces/'), $newName);
+            User::find(Auth::user()->id)->update(['foto' => $newName]);
+            return response()->json(['status' => 'sukses', 'msg' => 'File Foto Sampai', 'data' => $newName]);
+        }
+        catch(\Exception $e) {
+            return back()->withError(['status' => 'gagal', 'msg' => 'Gagal mengupload foto', 'data' => $e->getMessage()]);
+        }
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Request $request, $user)
     {
         //
+        try{
+            $user = User::where('username', $user)->first();
+            return view('dashboard.dashguru', ['page' => 'profil', 'user' => $user]);
+        } catch(\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     /**

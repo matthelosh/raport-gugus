@@ -65,7 +65,7 @@
                             </select>
                         </div>
                     &nbsp;
-                    <button type="submit" class="btn btn-sm btn-danger">Proses</button>
+                    <button type="submit" class="btn btn-sm btn-danger btn-petakan">Proses</button>
                     </form>
                     
                 </h4>

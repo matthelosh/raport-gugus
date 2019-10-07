@@ -75,7 +75,7 @@
                 </li>
             @elseif(Auth::user()->level == 'guru')
                 <li class="nav-item ">
-                    <a class="nav-link" href="./user.html">
+                    <a class="nav-link" href="/dashboard/profil/{{Auth::user()->username}}">
                         <i class="material-icons">person</i>
                         <p>User Profile</p>
                     </a>
@@ -84,7 +84,7 @@
            
            
            <li class="nav-item active-pro ">
-             <a class="nav-link" href="/logout">
+             <a class="nav-link btn-logout" href="#" onclick="javascript:logout()">
                <i class="material-icons">power_settings_new</i>
                <p>Keluar</p>
              </a>

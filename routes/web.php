@@ -85,9 +85,16 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::get('/ajax/getmapelsby/{tingkat}', 'TematikController@map')->name('maptematik');
 
 
+
+// Route Guru
+Route::get('/dashboard/profil/{user}', 'UserController@show')->name('showuser');
+Route::post('/ajax/edit-foto', 'UserController@updateFoto')->name('updatefoto');
+
+
+// Route Umum
 Route::get('/login', function(){
-    return redirect('/');
-})->name('login');
+            return redirect('/');
+        })->name('login');
 Route::post('/login', 'LoginController@authenticate')->name('postlogin');
 Route::post('/logout', function(){
     Auth::logout();

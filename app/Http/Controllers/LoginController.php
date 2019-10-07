@@ -20,7 +20,7 @@ class LoginController extends Controller
         $password = $request->input('password');
 
         if (Auth::attempt(['username' => $username, 'password' => $password, 'isActive' => 1])) {
-            return redirect()->intended('dashboard');
+            return redirect('/dashboard'); 
         } else {
             return redirect('/')->with(['status' => 'failed', 'err_msg'=>'Gagal masuk. Cek username / sandi.']);
         }
