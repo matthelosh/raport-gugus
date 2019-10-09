@@ -9,6 +9,9 @@
             @case('siswaku')
                 @include('dashboard.gurupages.siswaku')
                 @break
+            @case('raport')
+                @include('dashboard.gurupages.raport')
+                @break
             @default
                 @include('dashboard.gurupages.beranda')
                 @break

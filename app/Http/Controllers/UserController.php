@@ -151,7 +151,7 @@ class UserController extends Controller
             $nip = Auth::user()->nip;
             $newName = $nip.'.'.$file->getClientOriginalExtension();
             $size = $file->getClientSize();
-            
+             
             $file->move(public_path('img/faces/'), $newName);
             User::find(Auth::user()->id)->update(['foto' => $newName]);
             return response()->json(['status' => 'sukses', 'msg' => 'File Foto Sampai', 'data' => $newName]);

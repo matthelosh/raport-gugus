@@ -77,6 +77,13 @@ class TemaController extends Controller
         //
     }
 
+    public function sel2_tema(Request $request, $kelas)
+    {
+        $temas = Tema::where('id_tingkat', $kelas)
+                        ->where('teks_tema', 'like', '%'.$request->query('q').'%')
+                        ->get();
+        return response()->json($temas);
+    }
     /**
      * Display the specified resource.
      *

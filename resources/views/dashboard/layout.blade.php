@@ -43,6 +43,7 @@
    <link href="{{ asset('css/material-dashboard.css?v=2.1.1') }}" rel="stylesheet" />
    <!-- CSS Just for demo purpose, don't include it in your project -->
    <link href="{{ asset('demo/demo.css') }}" rel="stylesheet" />
+   <link href="{{ asset('css/umum.css') }}" rel="stylesheet" />
     @if(Auth::user()->level == 'admin')
       <link href="{{ asset('css/dash-admin.css') }}" rel="stylesheet" />
     @endif
@@ -273,6 +274,7 @@
    <script src="{{asset('js/select2.min.js') }}"></script>
    {{-- DataTables --}}
    <script src="{{ asset('DataTables/datatables.js') }}"></script>
+   {{-- <script src="{{ asset('DataTables/buttons.colVis.min.js') }}"></script> --}}
    <script>
     $('body').bootstrapMaterialDesign({});
    </script>
@@ -286,6 +288,7 @@
     });
    </script>
   <script src="{{ asset('js/umum.js') }}"></script>
+  <script src="{{ asset('js/printThis/printThis.js') }}"></script>
   @if(Auth::user()->level == 'admin')
     <script src="{{ asset('js/dash-admin.js') }}"></script>
   @endif

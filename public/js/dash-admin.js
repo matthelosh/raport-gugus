@@ -1,3 +1,4 @@
+
 // import Axios from "axios";
 
    
@@ -613,11 +614,13 @@ $(document).ready(function(){
             processing: true,
             serverSide: true,
             select: true,
+            deferRender: true,
             // scrollY: '350px',
             // scrollCollapse: true,
             // paging: false,
             ajax: '/ajax/getmembers?kode='+data.kode_rombel,
             columns: [
+                {data: 'DT_RowIndex', orderable: false},
                 {data: 'nisn', name: 'nisn'},
                 {data: 'nama_siswa', name: 'nama_siswa'}
             ]
@@ -629,11 +632,14 @@ $(document).ready(function(){
             processing: true,
             serverSide: true,
             select: true,
+            // "deferLoading": 50,
             // scrollY: '350px',
             // scrollCollapse: true,
             // paging: false,
+            deferRender: true,
             ajax: '/ajax/getnonmembers',
             columns: [
+                {data: 'DT_RowIndex', orderable: false},
                 {data: 'nisn', 'name': 'nisn'},
                 {data: 'nama_siswa', name: 'nama_siswa'}
             ]
@@ -1081,8 +1087,12 @@ $(document).ready(function(){
         }
 
         var theadr4 = '<tr class="cols-helper">'+colsHelper+'</tr>';
-        
-        $('#dashadmin-tematik thead').html(theadr1+theadr2+theadr3+theadr4);
+        $('.btn-add-mapping').css({
+            display: 'block',
+            opacity: '1'
+        });
+        // sel2Mapel($('.sel2Mapel'), kelas);
+        // $('#dashadmin-tematik thead').html(theadr1+theadr2+theadr3+theadr4);
         $.ajax({
             type: 'get', 
             url: '/ajax/getmapelsby/'+$(this).val(),
@@ -1179,16 +1189,27 @@ $(document).ready(function(){
                 // var bidout = getPivotArray(byMapel.bid, 3,2,3,"BID");
                 function arrayToHTMLTable(myArray) {
                     
-                    var result = `<table border='1' cellpadding='7' cellspacing='0' width='100%'><tbody>
-                    
-                    <tr><th rowspan="2">KD</th><th class="th" align="center">Subtema</th></tr>`;
+                    var result = `<table border='1' cellspacing='0' width='100%'>`;
                     // result += '<tr><td>Mapel</td><td colspan="'+myArray.length+'">Sub Tema</td>';
                     for (var i = 0; i < myArray.length; i++) {
                         
                         result += "<tr>";
                         for (var j = 0; j < myArray[i].length; j++) {
+                           if (i == 0 ) {
+                               if(j == 0) {
+                                result += `<th style="background: #333;color: white; text-align:center;">K.D. / Tema </th>`
+                               } else {
+                                result += `<th style="background: #333;color: white; text-align:center;" data-toggle="tooltip" data-html="true" title="Tema: <b>${myArray[i][j].substr(4,1)}</b>, Sub Tema: <b>${myArray[i][j].substr(6,1)}</b>">${myArray[i][j].substr(4,3)} </th>`
+                               }
+                           } else {
+                               if (j == 0) {
+                                result += `<td style="background:#c14c4b;padding:5px 10px!important;color: #fff;text-align:center;">${myArray[i][j]} </td>`;
+                               } else {
+                                result += `<td class="${(myArray[i][j] != '-')? 'text-light bg-secondary': ''}" style="text-align:center;"}>${myArray[i][j]} </td>`;
+                               }
                            
-                            result += `<td class=${(myArray[i][j] == '-')? 'bg-danger dark': ''}>${myArray[i][j]} </td>`;
+                           }
+                           
                         }
                         result += "</tr>";
                     }
@@ -1205,11 +1226,17 @@ $(document).ready(function(){
                     }
                     var out = getPivotArray(byMapel[mapel], 3,2,3);
                     $('.table-responsive').html(arrayToHTMLTable(out));
-                    var tds = $('.table-responsive table tr:nth-child(1) td');
-                    $('.table-responsive table tbody tr:nth-child(0)').prop({'style': 'background: #efefef; text-align:center; font-weight: 600; color: #333;'})
-                    $('.th').prop({'colspan':tds.length, style: 'text-align:center; text-transform: uppercase; background: #cecece;'});
+                    $('[data-toggle="tooltip"]').tooltip();
+                    
+                    // var tds = $('.table-responsive table tr:nth-child(1) td');
+                    // $('.table-responsive table tbody tr:nth-child(0)').prop({'style': 'background: #efefef; text-align:center; font-weight: 600; color: #333;'})
+                    // $('.th').prop({'colspan':tds.length, style: 'text-align:center; text-transform: uppercase; background: #cecece;'});
                     
                 });
+
+                
+
+                
 
                 
             }
@@ -1224,7 +1251,74 @@ $(document).ready(function(){
     //     $(this).find('form').trigger('reset');
     //     // $(this).find('table').DataTable().destroy();
     // });
+    
+    $(document).on('click', '.btn-add-mapping', function(e) {
+        e.preventDefault();
+        var labelKelas = $('#kelasTema option:selected').text();
+        var labelMapel = $('#mapelTema option:selected').text();
+        var kelas = $('#kelasTema').val();
+        // console.log(labelKelas, labelMapel);
+        $('#namaKelas').text(labelKelas);
+        $('#namaMapel').text(labelMapel);
+        sel2Mapel($('.sel2Mapel'), kelas);
+        $('#modalEntriTematik').modal();
+    });
+    $(document).on('change', '.sel2Mapel', function(){
+        // var mapel_id = $(this).val();
+        var kelas = $('#kelasTema').val();
+        sel2Tema($('.sel2Tema'), kelas);
+    });
+    $(document).on('change', '.sel2Tema', function(){
+        // var mapel_id = $(this).val();
+        var tema = $('#sel2Tema').val();
+        sel2Subtema($('.sel2Subtema'), tema);
+    });
+    $(document).on('change', '.sel2Subtema', function(){
+        // var mapel_id = $(this).val();
+        var kelas = $('#kelasTema').val();
+        var mapel = $('#sel2Mapel').val();
+        sel2Kd($('.sel2Kd'), kelas, mapel);
+    });
 
+    // SUbmit new themes map
+    $(document).on('submit', '#form_add_tematik', function(e){
+        e.preventDefault();
+        var data = {
+            kelas : $('#kelasTema').val(),
+            mapel: $('.sel2Mapel').val(),
+            tema: $('.sel2Tema').val(),
+            subtema: $('.sel2Subtema').val()
+        };
+        console.log(data);
+    });
 
 });
 
+// function sel2Mapel(el, kelas) {
+//     $(el).select2({
+//         ajax: {
+//             url: '/ajax/mapels/'+kelas,
+//             dataType: 'json',
+            
+//             processResults: function(data)  {
+//                 // console.log(data);
+//                 return {
+//                     results: $.map(data, function(item) {
+//                         this.console.log(item);
+//                         return {
+//                             text: item.nama_mapel,
+//                             id: item.kode_mapel
+//                         };
+//                         // console.log(item.fullname + '-' +item.nip);
+//                     })
+//                 };
+                
+//             },
+//             cache: false
+//         },
+//         placeholder: 'Mapel',
+//         minimumInputLength: 1,
+//         width: '100%'
+//         // theme: "material"
+//     });
+// }

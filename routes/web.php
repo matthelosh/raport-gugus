@@ -15,8 +15,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 
-Route::get('/', function () {
-    return view('umum.beranda');
+Route::get('/', function (Request $request) {
+    if(!Auth::guest())
+        return redirect('/dashboard');
+    else
+        return view('umum.beranda');
 });
 Route::get('/dashboard', 'DashController@index')->middleware('auth');
 // Route::get('/home', function(){
@@ -74,12 +77,16 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
     Route::get('/ajax/alltemas', 'TemaController@allTemas')->name('getalltemas');
     Route::post('/import/subtema', 'SubtemaController@import')->name('importsubtema');
     Route::get('/ajax/subtema', 'SubtemaController@show')->name('getsubtemas');
+    Route::get('/ajax/subtema/{tema}', 'SubtemaController@sel2_subtema')->name('getsubtemasbytema');
+    Route::get('/ajax/temas/{kelas}', 'TemaController@sel2_tema')->name('sel2tema');
     // Route Mapel
     Route::get('/dashboard/settings/mapel', 'MapelController@index')->name('indexmapel')->middleware('forAdmin');
     Route::get('/ajax/mapels', 'MapelController@show')->name('showmapels');
+    Route::get('/ajax/mapels/{kelas}', 'MapelController@showByTingkat')->name('getmapelkelas');
     Route::get('/ajax/mapel/rombel/{rombel}', 'MapelController@showByRombel')->name('showmapelsbyrombel');
     Route::post('/import/mapels', 'MapelController@import')->name('importmapel');
     Route::get('/ajax/kds', 'KdController@getByKelas')->name('getkdbykelas');
+    Route::get('/ajax/kds/{kelas}/{mapel}', 'KdController@sel2_kd')->name('sel2kds');
 
     // Admin Tematik
     Route::get('/dashboard/settings/tematik', 'TematikController@index')->name('indextematik')->middleware('auth')->middleware('forAdmin');
@@ -92,6 +99,8 @@ Route::get('/dashboard/profil/{user}', 'UserController@show')->name('showuser')-
 Route::get('/dashboard/siswaku', 'SiswaController@index')->name('showsiswa');
 Route::post('/ajax/edit-foto', 'UserController@updateFoto')->name('updatefoto');
 Route::put('/ajax/update-siswa', 'SiswaController@update')->name('updatesiswa');
+Route::get('/dashboard/raport', 'RaportController@index')->name('indexraport')->middleware('forGuru');
+Route::get('/ajax/getsiswaku', 'RaportController@getSiswaku')->name('getsiswaku')->middleware('forGuru');
 
 
 // Route Umum

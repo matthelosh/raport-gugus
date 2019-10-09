@@ -66,6 +66,14 @@ class SubtemaController extends Controller
         return DataTables::of(Subtema::where('id_tema', $id_tema)->get())->addIndexColumn()->make(true);
     }
 
+    // Sel2Subtema
+    public function sel2_subtema(Request $request, $tema)
+    {
+        $subtemas = Subtema::where('id_tema', $tema)->get();
+
+        return response()->json($subtemas);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -87,100 +87,102 @@
 <div class="modal fade" id="modalSekolah" role="dialog">
     <div class="modal-dialog modal-sm" role="document" style="width: 40%;">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4>Edit Data Sekolah</h4>
-                <button class="close" data-toggle="modal" data-target=".modal">&times;</button>
-            </div>
-            <form action="" class="form form-inline" id="formSekolah">
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="nss" class="bmd-label-floating">NSS</label>
-                                    <input type="text" class="form-control" id="nss" with="250px" autofocus>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group ">
-                                    <label for="npsn" class="bmd-label-floating">NPSN</label>
-                                    <input type="text" class="form-control" id="npsn">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="nama_sekolah" class="bmd-label-floating">Nama Sekolah</label>
-                                    <input type="text" class="form-control" id="nama_sekolah">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="alamat_jl" class="bmd-label-floating">Jalan</label>
-                                    <input type="text" class="form-control" id="alamat_jl">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <button class="close" data-toggle="modal" data-target=".modal">&times;</button>
+                    <h4 class="card-title">Edit Data Sekolah</h4>
+                </div>
+                <form action="" class="form form-inline" id="formSekolah">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="alamat_desa" class="bmd-label-floating">Desa</label>
-                                        <input type="text" class="form-control" id="alamat_desa">
+                                        <label for="nss" class="bmd-label-floating">NSS</label>
+                                        <input type="text" class="form-control" id="nss" with="250px" autofocus>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group ">
+                                        <label for="npsn" class="bmd-label-floating">NPSN</label>
+                                        <input type="text" class="form-control" id="npsn">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="nama_sekolah" class="bmd-label-floating">Nama Sekolah</label>
+                                        <input type="text" class="form-control" id="nama_sekolah">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="alamat_kec" class="bmd-label-floating">Kecamatan</label>
-                                        <input type="text" class="form-control" id="alamat_kec">
+                                        <label for="alamat_jl" class="bmd-label-floating">Jalan</label>
+                                        <input type="text" class="form-control" id="alamat_jl">
                                     </div>
                                 </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="alamat_kab" class="bmd-label-floating">Kabupaten</label>
-                                    <input type="text" class="form-control" id="alamat_kab">
+                            </div>
+                            <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="alamat_desa" class="bmd-label-floating">Desa</label>
+                                            <input type="text" class="form-control" id="alamat_desa">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="alamat_kec" class="bmd-label-floating">Kecamatan</label>
+                                            <input type="text" class="form-control" id="alamat_kec">
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="alamat_kab" class="bmd-label-floating">Kabupaten</label>
+                                        <input type="text" class="form-control" id="alamat_kab">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="alamat_prov" class="bmd-label-floating">Propinsi</label>
+                                        <input type="text" class="form-control" id="alamat_prov">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="alamat_prov" class="bmd-label-floating">Propinsi</label>
-                                    <input type="text" class="form-control" id="alamat_prov">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="telp" class="bmd-label-floating">Telp. /HP</label>
+                                        <input type="text" class="form-control" id="telp">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="email" class="bmd-label-floating">Email</label>
+                                        <input type="text" class="form-control" id="email">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="telp" class="bmd-label-floating">Telp. /HP</label>
-                                    <input type="text" class="form-control" id="telp">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="website" class="bmd-label-floating">Website</label>
+                                        <input type="text" class="form-control" id="website">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="email" class="bmd-label-floating">Email</label>
-                                    <input type="text" class="form-control" id="email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="website" class="bmd-label-floating">Website</label>
-                                    <input type="text" class="form-control" id="website">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <button type="reset" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <button type="reset" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>

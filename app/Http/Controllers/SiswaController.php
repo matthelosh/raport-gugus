@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Yajra\DataTables\DataTables;
+use Illuminate\Http\UploadedFile;
 
 class SiswaController extends Controller
 {
@@ -74,28 +75,39 @@ class SiswaController extends Controller
         // $this->validate($request, [
         //     'file' => 'required|mimes:csv,xls,xlsx'
         // ]);
+        try {
 
         // // // // Ambil file excel
-        $file = $request->file('file');
-        // echo $file->getSize();
+            $file = $request->file('file');
+            // echo $file->getSize();
 
-        // // // // Membuat nama unik
-        // $fileSize = $file->getSize();
-        // $nama_file = $fileSize.rand().$file->getClientOriginalName();
-        // // echo $nama_file;
+            // // // // Membuat nama unik
+            $nama = $file->getClientOriginalName();
+            // $nip = Auth::user()->nip;
+            $newName = $file->getClientOriginalName().'.'.$file->getClientOriginalExtension();
+            $size = $file->getClientSize();
 
-        // // // // Pindah ke folder publik
-        // // $file->move('file_users', $nama_file);
+            // // // // Pindah ke folder publik
+            // $file->move(public_path('files/'), $newName );
         
 
-        // // // // Import data
-        $import = Excel::import(new ImportSiswa, $file);
+            // // // // Import data
+            $import = Excel::import(new ImportSiswa, $file);
 
-        // // // // NOtifikasi flash
-        // // Session::flash('sukses', 'Data Siswa telah tersimpan');
-        // echo $import;
-        // // // // Redirect
-        return redirect('/dashboard/siswas')->with(['file' => $file->getClientOriginalName(), 'sukses'=> 'Data Telah tersimpan.']);
+            // // // // NOtifikasi flash
+            // // Session::flash('sukses', 'Data Siswa telah tersimpan');
+            // echo $import;
+            // // // // Redirect
+            echo $import;
+            // if ($request->user()->level == 'admin') {
+            //     // return redirect('/dashboard/siswas')->with(['file' => $file->getClientOriginalName(), 'sukses'=> 'Data Telah tersimpan.']);
+            // } else {
+            //     return redirect('/dashboard/siswaku')->with(['file' => $file->getClientOriginalName(), 'sukses'=> 'Data Telah tersimpan.']);
+            // }
+        }
+        catch(\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
         // $gurus = Guru::all();
         // return view('home', ['title' => 'Manajemen Guru', 'p' => 'adm-guru', 'datas' => $gurus ,'nama_file' =>$nama_file]);
     }
@@ -163,7 +175,7 @@ class SiswaController extends Controller
     // Get Non Members
     public function getNonMembers(Request $request)
     {
-        return DataTables::of(Siswa::where('id_rombel', '0')->get())->make(true);
+        return DataTables::of(Siswa::where('id_rombel', '0')->get())->addIndexColumn()->make(true);
     }
     // Get Members
     public function getMembers(Request $request)
@@ -172,7 +184,7 @@ class SiswaController extends Controller
 
         // $members = Siswa::where('id_rombel', $kode_rombel)->get();
 
-        return DataTables::of(DB::table('siswas')->where('id_rombel', $kode_rombel)->get())->make(true);
+        return DataTables::of(DB::table('siswas')->where('id_rombel', $kode_rombel)->get())->addIndexColumn()->make(true);
     }
 
     public function deleteOne(Request $request)
