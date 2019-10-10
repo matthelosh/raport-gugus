@@ -16,10 +16,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function (Request $request) {
-    if(!Auth::guest())
+    if (!Auth::guest()) {
         return redirect('/dashboard');
-    else
+    }
+    else {
+        $site_info = \App\Sekolah::first();
+        session(['app_info' => $site_info]);
         return view('umum.beranda');
+    }
 });
 Route::get('/dashboard', 'DashController@index')->middleware('auth');
 // Route::get('/home', function(){
@@ -101,6 +105,7 @@ Route::post('/ajax/edit-foto', 'UserController@updateFoto')->name('updatefoto');
 Route::put('/ajax/update-siswa', 'SiswaController@update')->name('updatesiswa');
 Route::get('/dashboard/raport', 'RaportController@index')->name('indexraport')->middleware('forGuru');
 Route::get('/ajax/getsiswaku', 'RaportController@getSiswaku')->name('getsiswaku')->middleware('forGuru');
+Route::get('/ajax/mapelku/{rombel}', 'RaportController@mapelKu')->name('mapelku');
 
 
 // Route Umum

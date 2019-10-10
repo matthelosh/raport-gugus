@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class SekolahController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function home(\App\Sekolah $sekolah)
+    {
+        $sekolah = $sekolah;
+        return view('umum.beranda');
+    }
     /**
      * Display a listing of the resource.
      *

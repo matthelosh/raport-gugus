@@ -9,7 +9,7 @@
     <div class="card-body">
         <div class="container">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="table-responsive">
                         @if($data)
                             <table class="table-bordered table-sm">
@@ -27,6 +27,16 @@
                                     <td>NAMA SEKOLAH</td>
                                     <td>:</td>
                                     <td>{{ $data->nama_sekolah }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Kepala Sekolah</td>
+                                    <td>:</td>
+                                    <td>{{$data->kepsek}}</td>
+                                </tr>
+                                <tr>
+                                    <td>NIP</td>
+                                    <td>:</td>
+                                    <td>{{$data->nipks}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">Alamat:</td>
@@ -76,8 +86,8 @@
                     
                     </div>
                 </div>
-                <div class="col-sm-8">
-                    <img src="{{ asset('img/bg.jpg') }}" alt="Foto Sekolah" class="image img-responsive img-thumbnail img-circle mx-auto" width="500px">
+                <div class="col-sm-6">
+                    <img src="{{ asset('img/bg.jpg') }}" alt="Foto Sekolah" class="image img-responsive img-thumbnail img-circle mx-auto" width="300px">
                 </div>
             </div>
         </div>
@@ -92,7 +102,7 @@
                     <button class="close" data-toggle="modal" data-target=".modal">&times;</button>
                     <h4 class="card-title">Edit Data Sekolah</h4>
                 </div>
-                <form action="" class="form form-inline" id="formSekolah">
+                <form action="" class="form" id="formSekolah">
                     <div class="card-body">
                         <div class="container">
                             <div class="row">
@@ -110,12 +120,29 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="nama_sekolah" class="bmd-label-floating">Nama Sekolah</label>
                                         <input type="text" class="form-control" id="nama_sekolah">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="kepsek" class="bmd-label-floating">Kepala Sekolah</label>
+                                        <input type="text" class="form-control" id="kepsek">
+                                    </div>
+                                </div>
+                             
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="nipks" class="bmd-label-floating">NIP</label>
+                                        <input type="text" class="form-control" id="nipks">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="alamat_jl" class="bmd-label-floating">Jalan</label>

@@ -43,7 +43,12 @@ class RombelController extends Controller
         if($request->has('q')) {
             $rombels = Rombel::where('nama_rombel', 'LIKE', '%'.$request->query('q').'%')->get();
             return response()->json($rombels);
-        } else {
+        } 
+        else if($request->has('_type')){
+            $rombels = Rombel::all();
+            return response()->json($rombels);
+        }
+        else {
             $rombel = Rombel::where('kode_rombel', $request->query('kode'))->first();
             return response()->json($rombel);
         }

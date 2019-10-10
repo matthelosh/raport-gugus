@@ -433,7 +433,7 @@ $(document).ready(function(){
             cache: false
         },
         placeholder: 'Pilih Rombel',
-        minimumInputLength: 1,
+        // minimumInputLength: 1,
         width: '100%'
         // theme: "material"
     });
@@ -813,6 +813,8 @@ $(document).ready(function(){
                     $('#nss').val(data.nss);
                     $('#npsn').val(data.npsn);
                     $('#nama_sekolah').val(data.nama_sekolah);
+                    $('#kepsek').val(data.kepsek);
+                    $('#nipks').val(data.nipks);
                     $('#alamat_jl').val(data.alamat_jl);
                     $('#alamat_desa').val(data.alamat_desa);
                     $('#alamat_kec').val(data.alamat_kec);

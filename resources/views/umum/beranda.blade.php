@@ -7,9 +7,12 @@
                 <div class="col-sm-8 hidden-xs">
                     <div class="container text-center" style="padding-top: 125px;">
                         <article>
-                            <img src="{{ asset('img/logokab.png') }}" alt="Logo kab. Malang" height="200px">
+                            <div class="d-flex justify-content-center">
+                                <img src="{{ asset('img/logokab.png') }}" alt="Logo kab. Malang" height="200px">
+                                <img src="{{ asset('img/papi-color.png') }}" alt="Logo kab. Malang" height="200px">
+                            </div>
                             <h1>Selamat Datang!</h1>
-                            <p style="font-size: 1.5em;">Anda berada di sistem informasi penilaian siswa pada Gugus 1 Desa Dalisodo Kec. Wagir. Silahkan mengisi nama pengguna dan kata sandi, untuk mengoperasikan sistem ini.</p>
+                            <p style="font-size: 1.5em;">Anda berada di sistem informasi penilaian siswa pada {{Session::get('app_info')->nama_sekolah}} Gugus 1 Desa Dalisodo Kec. Wagir. Silahkan mengisi nama pengguna dan kata sandi, untuk mengoperasikan sistem ini.</p>
                         </article>
                     </div>
                 </div>

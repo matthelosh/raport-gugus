@@ -6,7 +6,8 @@
      -->
        <div class="logo">
          <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-           Creative Tim
+           {{Session::get('app_info')->nama_sekolah}} <br>
+           <small><strong>NPSN: {{Session::get('app_info')->npsn}}</strong></small>
          </a>
        </div>
        <div class="sidebar-wrapper">

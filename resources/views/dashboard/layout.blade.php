@@ -24,7 +24,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
    <title >
     @if(isset($page))
-      {{$page}} | 
+      {{strtoupper($page)}} | 
     @endif 
     PAPI GUSTU
    </title>
