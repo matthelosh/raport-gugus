@@ -18,6 +18,10 @@ class Mapel extends Model
         return $this->belongsToMany('App\Tingkat', 'mapel_tingkat', 'mapel_id', 'tingkat_id');
     }
 
+    public function temas() {
+        return $this->belongsTo('App\Tema', 'tematiks', 'mapel_id', 'tema_id');
+    }
+
     public function kds()
     {
         return $this->hasMany('App\Kd', 'kode_mapel', 'id_mapel');

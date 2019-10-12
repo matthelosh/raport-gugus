@@ -111,6 +111,7 @@ Route::get('/ajax/mapelku/{rombel}', 'RaportController@mapelKu')->name('mapelku'
         // Harian
         Route::get('/dashboard/penilaian/harian', 'NilaiController@indexHarian')->name('indexnilaiharian')->middleware('forGuru');
         Route::get('/ajax/mapelbytema/{tema}', 'MapelController@mapelByTema')->name('mapelbytema');
+        Route::get('/ajax/kdsbytema/{mapel}/{subtema}', 'KdController@selByTema')->name('kdsbytema');
         // Route::get('/ajax/siswaraport', 'RaportController@siswaRaport')->name('getsiswaforraport');
 
 
