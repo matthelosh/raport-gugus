@@ -9,15 +9,15 @@ class Tema extends Model
     //
     protected $fillable = ['id_semester', 'id_tingkat', 'kode_tema', 'teks_tema'];
 
-    public function subtema() {
-        $this->hasMany('App\Subtema', 'id_tema', 'id');
+    public function subtemas() {
+       return $this->hasMany('App\Subtema', 'id_tema', 'id');
     }
 
     public function mapel(){
-        $this->hasMany('App\Mapel', 'id_tema', 'id');
+       return $this->hasMany('App\Mapel', 'id_tema', 'id');
     }
 
     public function rombel() {
-        $this->belongsToMany('App\Rombel', 'id_tingkat', 'tingkat');
+       return $this->belongsToMany('App\Rombel', 'id_tingkat', 'tingkat');
     }
 }

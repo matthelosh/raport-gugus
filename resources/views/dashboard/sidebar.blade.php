@@ -81,11 +81,36 @@
                         <p>User Profile</p>
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="/dashboard/penilaian">
+                <li class="nav-item submenu-toggle">
+                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#settings-nav">
                         <i class="material-icons">ballot</i>
-                        <p>Penilaian</p>
+                        <p>
+                            Penilaian
+                            <b class="caret"></b>
+                          </p>
                     </a>
+                    <div class="collapse" id="settings-nav">
+                      <ul class="nav">
+                          <li class="nav-item">
+                          <a href="/dashboard/penilaian/harian" class="nav-link">
+                              <i class="material-icons">layers</i>  
+                              Penilaian Harian
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a href="/dashboard/penilaian/pts" class="nav-link">
+                              <i class="material-icons">layers</i>  
+                              Penilaian Tengah Semester
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a href="/dashboard/penilaian/pas" class="nav-link">
+                              <i class="material-icons">layers</i>  
+                              Penilaian Akhir Semester
+                            </a>
+                          </li>
+                      </ul>
+                    </div>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="/dashboard/ledger">

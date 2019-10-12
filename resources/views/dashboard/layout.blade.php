@@ -13,6 +13,7 @@
 =========================================================
 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+ 
 
  <!DOCTYPE html>
  <html lang="en">
@@ -117,6 +118,7 @@
         @include('dashboard.navbar')
        <!-- End Navbar -->
        <div class="content">
+         
          <div class="container-fluid">
              @yield('content')
              

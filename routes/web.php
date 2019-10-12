@@ -106,6 +106,12 @@ Route::put('/ajax/update-siswa', 'SiswaController@update')->name('updatesiswa');
 Route::get('/dashboard/raport', 'RaportController@index')->name('indexraport')->middleware('forGuru');
 Route::get('/ajax/getsiswaku', 'RaportController@getSiswaku')->name('getsiswaku')->middleware('forGuru');
 Route::get('/ajax/mapelku/{rombel}', 'RaportController@mapelKu')->name('mapelku');
+    
+    // Route Guru Penilaian
+        // Harian
+        Route::get('/dashboard/penilaian/harian', 'NilaiController@indexHarian')->name('indexnilaiharian')->middleware('forGuru');
+        Route::get('/ajax/mapelbytema/{tema}', 'MapelController@mapelByTema')->name('mapelbytema');
+        // Route::get('/ajax/siswaraport', 'RaportController@siswaRaport')->name('getsiswaforraport');
 
 
 // Route Umum
