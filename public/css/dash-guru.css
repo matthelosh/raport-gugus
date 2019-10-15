@@ -1,0 +1,134 @@
+/* 
+* Style Untuk Content Guru
+* Author: Muhammad Soleh
+*/
+
+.text-underline {
+    text-decoration: underline;
+}
+
+.edit-foto{
+    cursor: pointer;
+    opacity: .3;
+    transition: all .35s;
+}
+
+.edit-foto:hover{
+    opacity: 1;
+    transition: all .35s;
+}
+
+
+/* Tabs Style */
+.nav-tabs .nav-item a.nav-link{
+    border-radius: 0!important;
+    border: 1px solid white!important;
+}
+.nav-tabs .nav-item a.active{
+    background: red!important;
+}
+.page-container {
+    height: 80vh;
+    max-height: 80vh;
+    overflow-y: scroll; 
+    padding: 20px 10px 30px 10px;
+    box-sizing: border-box;
+    position: relative;
+    /* box-shadow: inset 20px -5px 15px -5px rgba(0,0,0,0.5); */
+    border-bottom: 2px solid #999;
+    /* z-index: 9999999; */
+}
+.bottom-line{
+    position: fixed;
+    height: 1px;
+    width: 100%;
+    border-top: 1px solid red;
+    bottom: 0;
+}
+.page{
+    position: relative;
+    width: 100%;
+    background: #efefef;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    padding: 30px;
+    box-shadow: 3px 3px 5px hsla(0, 0%, 15%, 0.5);
+    width: 21.59cm;
+    min-height: 33cm;
+    max-height: auto;
+}
+.cover-page article {
+    border: 5px double #333;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    height: 100%;
+}
+.no-margin {
+    margin: 0!important;
+}
+
+
+.rotate {
+    animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+.coverNamaSiswa,
+.coverNis,
+.coverNisn {
+    font-weight: 900;
+}
+
+.table-info-pd td{
+    line-height: 1.3em;
+    font-weight: 400;
+}
+
+#tbody-rpts td {
+    padding: 0 10px!important;
+}
+
+@media print {
+    .cover-page article {
+        width: 100%!important;
+        height: 100%!important;
+        text-align: center;
+        border: 5px double black;
+    }
+    /* .no-margin {
+        margin:0;
+    } */
+    * {
+        text-align: center;
+        /* border: 4px double black; */
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 1.3rem;
+    }
+    body {
+        background: pink!important;
+        border: 5px double black;
+        padding: 25px;
+        height: 100%;;
+        max-height: 100%;
+        box-sizing: border-box;
+    }
+    .box-nama,
+    .box-nis {
+        margin: 10px auto;
+        box-sizing: border-box;
+        border: 1px solid black;
+        padding: 5px 20px;
+        width: 30%;
+    }
+}
+
