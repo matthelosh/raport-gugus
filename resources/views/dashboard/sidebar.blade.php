@@ -94,19 +94,19 @@
                           <li class="nav-item">
                           <a href="/dashboard/penilaian/harian" class="nav-link">
                               <i class="material-icons">layers</i>  
-                              Penilaian Harian
+                                Harian
                             </a>
                           </li>
                           <li class="nav-item">
                             <a href="/dashboard/penilaian/pts" class="nav-link">
                               <i class="material-icons">layers</i>  
-                              Penilaian Tengah Semester
+                              PTS
                             </a>
                           </li>
                           <li class="nav-item">
                             <a href="/dashboard/penilaian/pas" class="nav-link">
                               <i class="material-icons">layers</i>  
-                              Penilaian Akhir Semester
+                              PAS
                             </a>
                           </li>
                       </ul>
