@@ -95,7 +95,7 @@
 </div>
 
 <div class="modal fade" id="modalSekolah" role="dialog">
-    <div class="modal-dialog modal-sm" role="document" style="width: 40%;">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="card">
                 <div class="card-header card-header-primary">

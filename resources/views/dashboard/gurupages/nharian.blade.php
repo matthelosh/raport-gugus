@@ -35,12 +35,12 @@
                         <div class="col-sm-4">
                             <div class="card bg-dark">
                                 <div class="card-header card-header-primary">
-                                    <h4 class="card-header-text">{{$loop->index+1}}. {{$tema->teks_tema}} - {{$tema->kode_tema}}</h4>
+                                    <h4 class="card-header-text">{{$loop->index+1}}. {{$tema->teks_tema}}</h4>
                                 </div>
                                 <div class="card-body  text-white">
                                     @php ($colors = ['danger', 'info', 'primary', 'success'])
                                     @foreach ($tema->subtemas as $subtema)
-                                        <button class="btn btn-sm btn-{{$colors[$loop->index]}} btn-modal-mapel" data-tema="{{$tema->kode_tema}}" data-tekstema="{{$tema->teks_tema}}" data-subtema="{{$subtema->kode_subtema}}">{{$loop->index+1}}. {{$subtema->teks_subtema}} - {{$subtema->kode_subtema}}</button>
+                                        <button class="btn btn-sm btn-{{$colors[$loop->index]}} btn-modal-mapel" data-tema="{{$tema->kode_tema}}" data-tekstema="{{$tema->teks_tema}}" data-subtema="{{$subtema->kode_subtema}}" style="white-space: normal;">{{$loop->index+1}}. {{$subtema->teks_subtema}}</button>
                                     
                                     @endforeach
                                     {{-- {{$tema}} --}}
@@ -57,8 +57,8 @@
 </div>
 
 <div class="modal fade" id="modal-mapel" tabindex="-1" role="dialog">
-    <div class="modal-dialog animate-bottom" style="width:40%;">
-        <div class="modal-content" style="background:rgba(10,10,10,0); border:none!important;box-shadow:none!important;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
             <div class="card">
                 <div class="card-header card-header-danger">
                     <h3 class="card-title">Tema <span id="tema" style="text-transform: capitalize!important;"></span> <button class="close" data-dismiss="modal">&times;</button></h3>
@@ -73,9 +73,9 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalEntriNharian" tabindex="-1" role="dialog" style="overflow;scroll;">
-    <div class="modal-dialog animate-bottom">
-        <div class="modal-content" style="background:rgba(10,10,10,0); border:none!important;box-shadow:none!important;">
+<div class="modal fade" id="modalEntriNharian" tabindex="-1" role="dialog" style="overflow:scroll;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
             <div class="container">
                 <div class="modal-body">
                     <div class="card">

@@ -39,44 +39,84 @@ $(document).ready(function(){
         }
     });
 
-    var tsiswas = $('#dashadmin-siswa-table').DataTable({
-        dom: 'Blftip',
-        processing: true,
-        serverSide: true,
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        ajax: {
-            url: 'http://localhost:8000/ajax/allsiswas',
-            type: 'get'
-        },
-        "columnDefs": [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        } ],
-        'order': [[1, 'asc']],
-        columns: [
-            { data: 'DT_RowIndex', 'orderable': false},
-            { data: 'nis', 'name': 'nis'},
-            { data: 'nisn', 'name': 'nisn'},
-            { data: 'nama_siswa', name: 'nama_siswa'},
-            { data: 'jk', name: 'jk'},
-            { data: 'tempat_lahir', name: 'tempat_lahir'},
-            { data: 'tanggal_lahir', name: 'tanggal_lahir'},
-            { data: 'agama', name: 'agama'},
-            { data: 'alamat', name: 'alamat'},
-            { data: 'asal_sekolah', name: 'asal_sekolah'},
-            { data: 'nama_ayah', name: 'nama_ayah',  'defaultContent': '<small style="color: red;">KOSONG</small>'},
-            { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-primary btn-ortu d-print-none"><i class="material-icons">face</i></button> <button class="btn btn-sm btn-outline-warning btn-edit-siswa"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-siswa"><i class="material-icons">delete</i></button> ', 'targets': -1, 'orderable': false},
-        ],
-        buttons: [
-            {
-                extend: 'print',
-                title: 'Data Siswa'
-            },
-            // 'colvis'
-        ]
-    });
 
+    var os = navigator.userAgent;
+
+    var tsiswas = $('#dashadmin-siswa-table');
+    function datatablesiswaku(){
+        // alert(os);
+        if (/windows phone/i.test(os) || /Android/i.test(os) || /iPad|iPhone|iPod/.test(os)) {
+            $.ajax({
+                url: '/ajax/allsiswas?ua=mobile',
+                type: 'get',
+                success: function(res){
+                    var tr = '';
+                    res.forEach((item, index) => {
+                        tr += `<tr>
+                        <td>${index+1}</td>
+                        <td>${item.nis}</td>
+                        <td>${item.nisn}</td>
+                        <td>${item.nama_siswa}</td>
+                        <td>${item.jk}</td>
+                        <td>${item.tempat_lahir}</td>
+                        <td>${item.tanggal_lahir}</td>
+                        <td>${item.agama}</td>
+                        <td>${item.alamat}</td>
+                        <td>${item.asal_sekolah}</td>
+                        <td>${item.nama_ayah}</td>
+                        <td>'<button class="btn btn-sm btn-outline-primary btn-ortu d-print-none"><i class="material-icons">face</i></button> <button class="btn btn-sm btn-outline-warning btn-edit-siswa"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-siswa"><i class="material-icons">delete</i></button> '</td>
+                        </tr>`;
+                    });
+                    var tbody = '<tbody>'+tr+'</tbody>';
+                    tsiswas.append(tbody).DataTable({
+                        dom: 'ftip'
+                    });
+                }
+            });
+        }
+        else if (/Windows/i.test(os) && window.screen.width >= 1024) {
+            // alert(window.screen.width);
+
+            tsiswas.DataTable({
+                dom: 'ftp',
+                processing: true,
+                serverSide: true,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                ajax: {
+                    url: '/ajax/allsiswas',
+                    type: 'get'
+                },
+                "columnDefs": [ {
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                } ],
+                'order': [[1, 'asc']],
+                columns: [
+                    { data: 'DT_RowIndex', 'orderable': false},
+                    { data: 'nis', 'name': 'nis'},
+                    { data: 'nisn', 'name': 'nisn'},
+                    { data: 'nama_siswa', name: 'nama_siswa'},
+                    { data: 'jk', name: 'jk'},
+                    { data: 'tempat_lahir', name: 'tempat_lahir'},
+                    { data: 'tanggal_lahir', name: 'tanggal_lahir'},
+                    { data: 'agama', name: 'agama'},
+                    { data: 'alamat', name: 'alamat'},
+                    { data: 'asal_sekolah', name: 'asal_sekolah'},
+                    { data: 'nama_ayah', name: 'nama_ayah',  'defaultContent': '<small style="color: red;">KOSONG</small>'},
+                    { data: null, name: 'opsi', 'defaultContent': '<button class="btn btn-sm btn-outline-primary btn-ortu d-print-none"><i class="material-icons">face</i></button> <button class="btn btn-sm btn-outline-warning btn-edit-siswa"><i class="material-icons">edit</i></button> <button class="btn btn-sm btn-outline-danger btn-delete-siswa"><i class="material-icons">delete</i></button> ', 'targets': -1, 'orderable': false},
+                ],
+                buttons: [
+                    {
+                        extend: 'print',
+                        title: 'Data Siswa'
+                    },
+                    // 'colvis'
+                ]
+            });
+        }
+    }
+    datatablesiswaku();
     $(document).on('click', '.btn-delete-siswa', function() {
         var data = tsiswas.row($(this).parents('tr')).data();
         swal({

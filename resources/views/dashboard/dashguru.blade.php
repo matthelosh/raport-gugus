@@ -15,9 +15,10 @@
             @case('raport')
                 @include('dashboard.gurupages.raport')
                 @break
-            @default
-                @include('dashboard.gurupages.beranda')
-                @break
+            
         @endswitch
+    @else
+        @include('dashboard.gurupages.beranda')
     @endif
+    {{-- @include('dashboard.gurupages.beranda') --}}
 @endsection

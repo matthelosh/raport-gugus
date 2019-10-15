@@ -33,9 +33,13 @@ $(document).ready(function(){
         dom: 'Bftip',
         processing: true,
         serverSide: true,
+		responsive: true,
         ajax: {
             url: 'http://localhost:8000/ajax/allusers',
-            type: 'get'
+            //type: 'get',
+			//headers: {
+				//'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			  //}
         },
         "columnDefs": [ {
             "searchable": false,
@@ -58,10 +62,6 @@ $(document).ready(function(){
             {
                 extend: 'print',
                 title: 'Data Pengguna'
-            },
-            {
-                extend: 'excel',
-                title: 'Data pengguna'
             }
         ]
     });

@@ -23,51 +23,56 @@
         </h2>
     </div>
     <div class="card-body">
-        @if( null !== Session::get('sukses'))
-            <div class="alert alert-success">
-                <button class="close" type="button" data-dismiss="alert">&times;</button>
-                <span>{{ Session::get('sukses') }}</span>
+        <div class="container-fluid">
+            <div class="row">
+                
+                @if( null !== Session::get('sukses'))
+                    <div class="alert alert-success">
+                        <button class="close" type="button" data-dismiss="alert">&times;</button>
+                        <span>{{ Session::get('sukses') }}</span>
+                    </div>
+                @elseif(Session::get('error'))
+                    <div class="alert alert-danger">
+                        <button class="close" type="button" data-dismiss="alert">&times;</button>
+                        <span>{{ Session::get('error') }}</span>
+                    </div>
+                @endif
+                <div class="table-responsive">
+                    <table class="table" id="dashadmin-siswa-table" width="100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIS</th>
+                                <th>NISN</th>
+                                <th>Nama Siswa</th>
+                                <th>JK</th>
+                                <th>Tempat Lahir</th>
+                                <th>Tanggal Lahir</th>
+                                <th>Agama</th>
+                                <th>Alamat</th>
+                                <th>Asal Sekolah</th>
+                                {{-- <th>Rombel</th> --}}
+                                <th>Ortu / Wali</th>
+                                <th>Opsi</th>
+                            </tr>
+                        </thead>
+                        {{-- <tbody>
+                            @foreach ($data as $user)
+                                <tr>
+                                    <td>{{ $loop->index +1}}</td>
+                                    <td>{{ $user->username }}</td>
+                                    <td>{{ $user->fullname }}</td>
+                                    <td>{{ $user->hp }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->level }}</td>
+                                    <td>{{ $user->isActive }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody> --}}
+                    </table>
+                </div>   
             </div>
-        @elseif(Session::get('error'))
-            <div class="alert alert-danger">
-                <button class="close" type="button" data-dismiss="alert">&times;</button>
-                <span>{{ Session::get('error') }}</span>
-            </div>
-        @endif
-        <div class="table-responsive">
-            <table class="table" id="dashadmin-siswa-table" width="100%">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>NIS</th>
-                        <th>NISN</th>
-                        <th>Nama Siswa</th>
-                        <th>JK</th>
-                        <th>Tempat Lahir</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Agama</th>
-                        <th>Alamat</th>
-                        <th>Asal Sekolah</th>
-                        {{-- <th>Rombel</th> --}}
-                        <th>Ortu / Wali</th>
-                        <th>Opsi</th>
-                    </tr>
-                </thead>
-                {{-- <tbody>
-                    @foreach ($data as $user)
-                        <tr>
-                            <td>{{ $loop->index +1}}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->fullname }}</td>
-                            <td>{{ $user->hp }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->level }}</td>
-                            <td>{{ $user->isActive }}</td>
-                        </tr>
-                    @endforeach
-                </tbody> --}}
-            </table>
-        </div>        
+        </div>     
     </div>
 </div>
 

@@ -1,6 +1,12 @@
 
 $(document).ready(function(){
 
+
+    var os = navigator.platform;
+    console.log(os);
+    
+    $('#table-tes').DataTable();
+
     var path = window.location.pathname; 
 
     // Menentukan url yang targetnya sama dengan pathname

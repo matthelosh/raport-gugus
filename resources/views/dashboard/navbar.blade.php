@@ -21,7 +21,7 @@
                         </button>
 
                     </form> --}}
-                {{Auth::user()->fullname}}
+                <p class="text-center" style="text-transform: uppercase; font-weight: 600;"><img id="avatar" src="{{(Auth::user()->foto != '0')? '/img/faces/'.Auth::user()->foto: ((Auth::user()->jk == 'l') ? '/img/faces/default-l.jpg' : '/img/faces/default-p.jpg')}}" alt="Avatar" class="img img-circle" style="width: 50px;border-radius:50%;margin: auto;left: 30%;border:2px solid white;box-shadow:0 0 15px rgba(255,255,255,0.6);"> {{Auth::user()->fullname}}</p>
               </li>
             </ul>
           </div>

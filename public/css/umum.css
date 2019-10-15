@@ -2,7 +2,10 @@
     position: relative;
     animation: animatebottom 0.4s;
   }
-
+.perfect-scrollbar-on .main-panel{
+  height: auto!important;
+  /* max-height: auto!important; */
+}
   .tobottom {
     position: relative;
     animation: tobottom 0.4s;

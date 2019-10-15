@@ -51,20 +51,35 @@ class SiswaController extends Controller
                                             ->get()
             )->addIndexColumn()->make(true);
         } else if($request->user()->level == 'guru') {
-            try {
-                $rombel = \App\Rombel::where('id_guru', $request->user()->nip)->first();
-                return DataTables::of(
-                    DB::table('siswas')
-                                                ->leftJoin('ortus', 'siswas.id_ortu', '=', 'ortus.id')
-                                                ->select('siswas.*', 'ortus.id as idOrtu', 'ortus.nama_ayah', 'ortus.nama_ibu', 'ortus.job_ayah', 'ortus.job_ibu', 'ortus.hp_ortu', 'ortus.alamat_jl', 'ortus.alamat_desa', 'ortus.alamat_kec', 'ortus.alamat_kab', 'ortus.alamat_prov', 'ortus.nama_wali', 'ortus.job_wali', 'ortus.alamat_wali', 'ortus.hp_wali')
-                                                ->where('id_rombel', $rombel->kode_rombel)
-                                                ->get()
-                    )->addIndexColumn()->make(true);
+            $rombel = \App\Rombel::where('id_guru', $request->user()->nip)->first();
+            if ($request->query('ua') == 'mobile')
+            {
+                $siswas = DB::table('siswas')
+                ->leftJoin('ortus', 'siswas.id_ortu', '=', 'ortus.id')
+                ->select('siswas.*', 'ortus.id as idOrtu', 'ortus.nama_ayah', 'ortus.nama_ibu', 'ortus.job_ayah', 'ortus.job_ibu', 'ortus.hp_ortu', 'ortus.alamat_jl', 'ortus.alamat_desa', 'ortus.alamat_kec', 'ortus.alamat_kab', 'ortus.alamat_prov', 'ortus.nama_wali', 'ortus.job_wali', 'ortus.alamat_wali', 'ortus.hp_wali')
+                ->where('id_rombel', $rombel->kode_rombel)
+                ->get();
 
+                return response()->json($siswas);
+            } 
+            else 
+            {
+                try {
+                    
+                    return DataTables::of(
+                        DB::table('siswas')
+                                                    ->leftJoin('ortus', 'siswas.id_ortu', '=', 'ortus.id')
+                                                    ->select('siswas.*', 'ortus.id as idOrtu', 'ortus.nama_ayah', 'ortus.nama_ibu', 'ortus.job_ayah', 'ortus.job_ibu', 'ortus.hp_ortu', 'ortus.alamat_jl', 'ortus.alamat_desa', 'ortus.alamat_kec', 'ortus.alamat_kab', 'ortus.alamat_prov', 'ortus.nama_wali', 'ortus.job_wali', 'ortus.alamat_wali', 'ortus.hp_wali')
+                                                    ->where('id_rombel', $rombel->kode_rombel)
+                                                    ->get()
+                        )->addIndexColumn()->make(true);
+    
+                }
+                catch(\Exception $e) {
+                    return response()->json(['status' => 'gagal', 'msg' => $e->getMessage()]);
+                }
             }
-            catch(\Exception $e) {
-                return response()->json(['status' => 'gagal', 'msg' => $e->getMessage()]);
-            }
+            
         }
         // return DataTables::of(Siswa::with(['ortus'])->get())->make(true);
     }

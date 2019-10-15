@@ -25,7 +25,7 @@
                 <span>{{ Session::get('sukses') }}</span>
             </div>
         @endif
-        <div class="table-responsive">
+        <div class="table-responsive" style="height: 500px!important;">
             <table class="table" id="dashadmin-user-table" width="100%">
                 <thead>
                     <tr>
