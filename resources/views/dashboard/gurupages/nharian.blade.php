@@ -11,7 +11,7 @@
                     @php ($colors = ['danger', 'info', 'primary', 'success'])
                     @foreach($nontemas as $nontema)
                         
-                        <button class="btn btn-sm btn-success btn-modal-nontema" >{{$loop->index+1}}. {{$nontema}}</button>
+                        <button class="btn btn-sm btn-success btn-modal-nontema" data-namamapel="{{$nontema}}">{{$loop->index+1}}. {{$nontema}}</button>
                         {{-- {{$nontema->kode_mapel}}     --}}
                             
                     @endforeach 
@@ -20,7 +20,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <div class="row">
     <div class="card">
@@ -90,22 +89,22 @@
                                     <h3>Pilih Aspek, Teknik dan Kpompetensi Dasar Terkait!</h3>
                                 </div> --}}
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <select name="selAspek" id="selAspek">
+                                    <div class="col-sm-2">
+                                        <select name="selAspek" id="selAspek" class="form-control">
                                             <option value="0">Pilih Aspek Penilaian</option>
                                             <option value="12">Sikap</option>
                                             <option value="3">Pengetahuan</option>
                                             <option value="4">Keterampilan</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <select name="selTeknikPenilaian" id="selTeknikPenilaian" style="display:none;">
+                                    <div class="col-sm-2">
+                                        <select name="selTeknikPenilaian" id="selTeknikPenilaian" style="display:none;" class="form-control">
                                             <option value="0">Pilih Teknik Penilaian</option>
                                             
                                         </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <select name="selKd" id="selKd" class="selKd" style="display:none;"></select>
+                                    <div class="col-sm-8">
+                                        <select name="selKd" id="selKd" class="selKd form-control" style="display:none;"></select>
                                     </div>
                                     
                                 </div>
@@ -125,6 +124,10 @@
                                                 <button class="btn btn-info btn-simpan-nilai" type="submit">
                                                     <i class="material-icons">save</i>
                                                     Simpan
+                                                </button>
+                                                <button class="btn btn-success btn-simpan-nilai" type="submit">
+                                                    <i class="material-icons">attachment</i>
+                                                    Import
                                                 </button>
                                             </div>
                                         

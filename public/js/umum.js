@@ -130,58 +130,65 @@ $(document).ready(function(){
             minimumResultsForSearch: -1
         });
     }
-    function sel2KdByTema(el,mapel, subtema, aspek){
+    function sel2KdByTema(el,mapel, subtema, aspek, nama_mapel=null){
         var opt = [];
+
         $.ajax({
-            url: '/ajax/kdsbytema/'+mapel+'/'+subtema,
+            url: '/ajax/kdsbytema/'+mapel+'/'+subtema+'?mapel='+nama_mapel,
             type: 'get',
             dataType: 'json',
             success: function(res) {
                 console.log(res);
                 var data = res.filter(item => {
                     if (aspek == '12'){
-                        return item.ki_id == '1' || item.ki_id == '2';
+                        return /^[1]|^[2]/g.test(item.kode_kd);
+                        // return item.ki_id == '1' || item.ki_id == '2';
                     } else {
-                        return item.ki_id == aspek;
+                        // return item.ki_id == aspek;
+                        return item.kode_kd.match(`\\b^${aspek}\\b`, 'gi');
                     }
                     // return item;
                 });
                 console.log(data);
                 // return data;data
-                opt.push({text: 'Pilih Kompetensi Dasar', id: '0'});
+                // opt.push({text: 'Pilih Kompetensi Dasar', id: '0'});
+                opt += '<option value="0">Pilih Kompetensi Dasar</option>';
                 data.forEach(d => {
-                    opt.push({text: d.teks, id: d.kode_kd});
+                    // opt.push({text: d.teks, id: d.kode_kd});
+                    opt += `<option value="${d.kode_kd}">${d.teks}</option>`;
+                    
                 });
+                $(el).html(opt).show();
 
-                console.log(opt);
-                $(el).html('');
-                $(el).select2({
-                    // ajax: {
-                    //     url: '/ajax/kdsbytema/'+mapel+'/'+subtema,
-                    //     dataType: 'json',
+                // console.log(opt);
+                // // $(el).html('');
+                // $(el).select2({
+                //     // ajax: {
+                //     //     url: '/ajax/kdsbytema/'+mapel+'/'+subtema,
+                //     //     dataType: 'json',
                         
-                    //     processResults: function(data)  {
-                    //         // console.log(data);
-                    //         return {
-                    //             results: $.map(data, function(item) {
-                    //                 return {
-                    //                     text: item.teks,
-                    //                     id: item.kode_kd
-                    //                 };
-                    //                 // console.log(item.fullname + '-' +item.nip);
-                    //             })
-                    //         };
+                //     //     processResults: function(data)  {
+                //     //         // console.log(data);
+                //     //         return {
+                //     //             results: $.map(data, function(item) {
+                //     //                 return {
+                //     //                     text: item.teks,
+                //     //                     id: item.kode_kd
+                //     //                 };
+                //     //                 // console.log(item.fullname + '-' +item.nip);
+                //     //             })
+                //     //         };
                             
-                    //     },
-                    //     cache: false
-                    // },
-                    data: opt,
-                    placeholder: 'Pilih Kompetensi Dasar!',
-                    // minimumInputLength: 1,
-                    minimumResultsForSearch: -1,
-                    width: '100%'
-                    // theme: "material"
-                }).trigger('change');
+                //     //     },
+                //     //     cache: false
+                //     // },
+                //     data: opt,
+                //     placeholder: 'Pilih Kompetensi Dasar!',
+                //     // minimumInputLength: 1,
+                //     minimumResultsForSearch: -1,
+                //     width: '100%'
+                //     // theme: "material"
+                // }).trigger('change');
             }
         })
         
@@ -281,7 +288,7 @@ $(document).ready(function(){
     
     // $('#selAspek').select2({
     //     width: '100%'
-    // });
+    // }).trigger('change');
 
     var tekniks = [
         {id: 'obs', text: 'Observasi', tipe: '12'},
@@ -296,26 +303,35 @@ $(document).ready(function(){
     ];
     function selTeknikP(data){
         
-        $('#selTeknikPenilaian').show().select2({
-            data: data,
-            width: '100%',
-            placeholder: 'Pilih Teknik Penilaian',
-            minimumResultsForSearch: -1
-        }).trigger('change');
+        // $('#selTeknikPenilaian').select2({
+        //     data: data,
+        //     width: '100%',
+        //     placeholder: 'Pilih Teknik Penilaian',
+        //     minimumResultsForSearch: -1
+        // }).trigger('change');
+        var opts = ''
+        data.forEach(opt => {
+            opts += `<option val="${opt.id}"> ${opt.text} </option>`;
+        })
+        $('#selTeknikPenilaian').show().html(opts);
     }
+    // $(document).on('change', '#selAspek', function(){
+    //     selTipeNilai();
+    //     sel2KdByTema('#selKd', null, )
+    // });
     function selTipeNilai(){
-        $(document).on('change', '#selAspek', function(){
-            $('#selTeknikPenilaian').html(`<option val="0">Pilih Teknik Penilaian</option>`);
-            var data = tekniks.filter(item => {
-                if ( item.tipe == $(this).val()) {
-                    return item;
-                }
-            })
-            selTeknikP(data);
-
+       
+        $('#selTeknikPenilaian').html(`<option val="0">Pilih Teknik Penilaian</option>`);
+        var data = tekniks.filter(item => {
+            if ( item.tipe == $('#selAspek').val()) {
+                return item;
+            }
         });
+        selTeknikP(data);
+
+       
     }
 
-    selTipeNilai();
+    
 
     

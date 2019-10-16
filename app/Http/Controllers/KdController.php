@@ -30,13 +30,22 @@ class KdController extends Controller
     public function selByTema(Request $request, $mapel, $subtema)
     {
        $rombel = \App\Rombel::where('id_guru', $request->user()->nip)->first();
-
-        $cek = \App\Tematik::where([['mapel_id','=',$mapel], ['subtema_id', '=', $subtema]])
-                            ->leftJoin('kds', 'tematiks.kd_id','=', 'kds.kode_kd')
-                            ->where([['kds.tingkat','=',$rombel->tingkat],['kds.id_mapel', '=', $mapel]])
+        if (!$request->query('mapel') || $request->query('mapel') === 'null') {
+            $cek = \App\Tematik::where([['mapel_id','=',$mapel], ['subtema_id', '=', $subtema]])
+                                ->leftJoin('kds', 'tematiks.kd_id', '=', 'kds.kode_kd')
+                                ->where([['kds.tingkat','=',$rombel->tingkat],['kds.id_mapel', '=', $mapel]])
+                                ->select("kds.*", DB::raw("CONCAT(kds.kode_kd, ' ', kds.teks_kd) AS teks"))
+                                ->get();
+            return response()->json($cek);
+        } else {
+            $mapels = \App\Mapel::where('nama_mapel', $request->query('mapel'))->first();
+            // print_r(json_encode($mapels));
+            $kds = \App\Kd::where('id_mapel', $mapels->kode_mapel)
+                            ->where('tingkat', $rombel->tingkat)
                             ->select("kds.*", DB::raw("CONCAT(kds.kode_kd, ' ', kds.teks_kd) AS teks"))
                             ->get();
-        return response()->json($cek);
+            return response()->json($kds);
+        }
     }
     /**
      * Display a listing of the resource.

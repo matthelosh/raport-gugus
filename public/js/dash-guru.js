@@ -531,10 +531,11 @@ $(document).ready(function(){
         // console.log(kds);
         $(document).on('change','#selAspek', function(){
             var tipe = $('#selAspek').val();
-            $('#selKd').show();
-            $('#selKd').html("").trigger('change');
+        //     // $('#selKd').show();
+        //     // $('#selKd').html("").trigger('change');
 
-            sel2KdByTema('#selKd', kode_mapel, subtema, tipe);
+            sel2KdByTema('#selKd', kode_mapel, subtema, tipe, null);
+            selTipeNilai();
         });
         
         var kds_tema = [];
@@ -548,41 +549,8 @@ $(document).ready(function(){
                 });
             }
         });
-        $.ajax({
-            type: 'get',
-            url: '/ajax/getsiswaku?tipe="nonDt',
-            dataType: 'json',
-            success: function(res) {
-                // console.log(res);
-                // var th_kd = '';
-                // var inputs = '';
-                // kds_tema.forEach(kd => {
-                //     th_kd += `<th>${kd}</th>`;
-                //     inputs += `<td><input type="text" class="kd" name="${kd}[]" maxlength="2" style="width:50px;text-align:center"></td>`;
-                // });
-                var thead = `<thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>NIS/NISN</th>
-                                    <th>Nama</th>
-                                    <th>Nilai</th>
-                                </tr>
-                            </thead>`;
-                
-                var rows = [];
-                // var inputs = '';
-                
-
-                res.forEach((item, index) => {
-                    rows += `<tr><td style="padding: 0 8px!important">${index+1}</td><td style="padding: 0 8px!important">${item.nisn}</td><td style="padding: 0 8px!important">${item.nama_siswa}</td><td  style="padding: 0 8px!important"><input type="text" name="${item.nisn}" style="width:50px;text-align:center;" maxlength="2"></td></tr>`;
-                });
-
-                var tbody = '<tbody>'+rows+'</tbody>';
-                $('#tbl-entri-nh').html(thead+tbody);
-
-            }
-        });
-
+        
+        getSiswaku();
         $('#modalEntriNharian').modal();
     });
 
@@ -600,13 +568,28 @@ $(document).ready(function(){
         $(this).find('.card-body .table').html("");
     });
 
+    // NHarian mapel
+    $(document).on('click', '.btn-modal-nontema', function() {
+        var mapel = $(this).data('namamapel');
+        $(document).on('change', '#selAspek', function() {
+            // alert($(this).val());
+            var tipe = $('#selAspek').val();
 
+            sel2KdByTema('#selKd', null, null, tipe, mapel);
+            selTipeNilai();
+        });
+
+        getSiswaku();
+        $('#modalEntriNharian').modal();
+    });
     // Post New NHarian
     $(document).on('submit', '#form-nharian', function(e) {
         e.preventDefault();
         var data = $(this).serialize();
         console.log(data);
     });
+
+
 
 
 
@@ -635,3 +618,40 @@ $(document).ready(function(){
     });
 
 });
+
+function getSiswaku(){
+    $.ajax({
+        type: 'get',
+        url: '/ajax/getsiswaku?tipe="nonDt',
+        dataType: 'json',
+        success: function(res) {
+            // console.log(res);
+            // var th_kd = '';
+            // var inputs = '';
+            // kds_tema.forEach(kd => {
+            //     th_kd += `<th>${kd}</th>`;
+            //     inputs += `<td><input type="text" class="kd" name="${kd}[]" maxlength="2" style="width:50px;text-align:center"></td>`;
+            // });
+            var thead = `<thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIS/NISN</th>
+                                <th>Nama</th>
+                                <th>Nilai</th>
+                            </tr>
+                        </thead>`;
+            
+            var rows = [];
+            // var inputs = '';
+            
+
+            res.forEach((item, index) => {
+                rows += `<tr><td style="padding: 0 8px!important">${index+1}</td><td style="padding: 0 8px!important">${item.nisn}</td><td style="padding: 0 8px!important">${item.nama_siswa}</td><td  style="padding: 0 8px!important"><input type="text" name="${item.nisn}" style="width:50px;text-align:center;" maxlength="2"></td></tr>`;
+            });
+
+            var tbody = '<tbody>'+rows+'</tbody>';
+            $('#tbl-entri-nh').html(thead+tbody);
+
+        }
+    });
+}
