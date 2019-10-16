@@ -1,6 +1,15 @@
 
 $(document).ready(function(){
-
+    // Disable autofocus select2
+    $('select').on('select2:open', function(e) {
+        $('.select2-search input').prop('focus',false);
+    });
+    // will remove the searchbox and focus initially
+// $(".select2-search, .select2-focusser").remove();
+// // will remove the searchbox and focus on selection/close
+// $('select').on('select2:closing', function (e) {
+//   $(".select2-search, .select2-focusser").remove();
+// });
 
     var os = navigator.platform;
     console.log(os);
@@ -88,6 +97,7 @@ $(document).ready(function(){
             },
             placeholder: 'Pilih Mapel',
             // minimumInputLength: 1,
+            minimumResultsForSearch: -1,
             width: '100%'
             // theme: "material"
         });
@@ -115,8 +125,9 @@ $(document).ready(function(){
             },
             placeholder: 'Pilih Kompetensi Dasar!',
             // minimumInputLength: 1,
-            width: '100%'
+            width: '100%',
             // theme: "material"
+            minimumResultsForSearch: -1
         });
     }
     function sel2KdByTema(el,mapel, subtema, aspek){
@@ -167,6 +178,7 @@ $(document).ready(function(){
                     data: opt,
                     placeholder: 'Pilih Kompetensi Dasar!',
                     // minimumInputLength: 1,
+                    minimumResultsForSearch: -1,
                     width: '100%'
                     // theme: "material"
                 }).trigger('change');
@@ -198,6 +210,7 @@ $(document).ready(function(){
             },
             placeholder: 'Cari Tema',
             // minimumInputLength: 1,
+            minimumResultsForSearch: -1,
             width: '100%'
             // theme: "material"
         });
@@ -227,7 +240,8 @@ $(document).ready(function(){
             data: data,
             placeholder: 'Pilih Sub Tema',
             // minimumInputLength: 1,
-            width: '100%'
+            width: '100%',
+            minimumResultsForSearch: -1
             // theme: "material"
         });
     }
@@ -265,9 +279,9 @@ $(document).ready(function(){
 
     }
     
-    $('#selAspek').select2({
-        width: '100%'
-    });
+    // $('#selAspek').select2({
+    //     width: '100%'
+    // });
 
     var tekniks = [
         {id: 'obs', text: 'Observasi', tipe: '12'},
@@ -285,7 +299,8 @@ $(document).ready(function(){
         $('#selTeknikPenilaian').show().select2({
             data: data,
             width: '100%',
-            placeholder: 'Pilih Teknik Penilaian'
+            placeholder: 'Pilih Teknik Penilaian',
+            minimumResultsForSearch: -1
         }).trigger('change');
     }
     function selTipeNilai(){

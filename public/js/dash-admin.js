@@ -406,7 +406,7 @@ $(document).ready(function(){
             cache: false
         },
         placeholder: 'Wali Kelas',
-        minimumInputLength: 1,
+        minimumResultsForSearch: Infinity,
         width: '100%'
         // theme: "material"
     });
@@ -434,6 +434,7 @@ $(document).ready(function(){
         },
         placeholder: 'Pilih Rombel',
         // minimumInputLength: 1,
+        minimumResultsForSearch: Infinity,
         width: '100%'
         // theme: "material"
     });
@@ -539,7 +540,8 @@ $(document).ready(function(){
                 type: 'select2:select',
                 params: {
                     data: data
-                }
+                },
+                minimumResultsForSearch: Infinity
             });
         });
         $('#form_rombel button[type="submit"]').html('<i class="material-icons">update</i>Perbarui');

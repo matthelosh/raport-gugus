@@ -125,7 +125,7 @@
          </div>
        </div>
        <div style="clear:both;"></div>
-       <footer class="footer">
+       <footer class="footer" style="position: relative;">
          <div class="container-fluid">
            <nav class="float-left">
              <ul>

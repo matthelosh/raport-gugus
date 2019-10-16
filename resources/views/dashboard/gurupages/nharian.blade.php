@@ -57,7 +57,7 @@
 </div>
 
 <div class="modal fade" id="modal-mapel" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="card">
                 <div class="card-header card-header-danger">
@@ -74,7 +74,7 @@
 </div>
 
 <div class="modal fade" id="modalEntriNharian" tabindex="-1" role="dialog" style="overflow:scroll;">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="container">
                 <div class="modal-body">

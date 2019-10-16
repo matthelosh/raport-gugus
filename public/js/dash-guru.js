@@ -496,7 +496,7 @@ $(document).ready(function(){
                 
                 var warna = ['danger', 'primary', 'warning', 'success', 'info'];
                 mapels.forEach((mapel, i) => {
-                    $('#list-mapel').append('<a href="#" class="btn btn-'+warna[i]+' btn-modal-nharian" data-kodemapel="'+mapel.kode_mapel+'" data-subtema="'+subtema+'" data-kelas="">'+mapel.nama_mapel+'-'+mapel.kode_mapel+'</a>');
+                    $('#list-mapel').append('<a href="#" class="btn btn-'+warna[i]+' btn-modal-nharian" data-kodemapel="'+mapel.kode_mapel+'" data-subtema="'+subtema+'" data-kelas="">'+mapel.nama_mapel+'</a>');
                 });
                 $('#modal-mapel').modal(); 
                 
