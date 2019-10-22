@@ -36,10 +36,10 @@ $(document).ready(function(){
 		responsive: true,
         ajax: {
             url: 'http://localhost:8000/ajax/allusers',
-            //type: 'get',
-			//headers: {
-				//'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			  //}
+            type: 'get',
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			  }
         },
         "columnDefs": [ {
             "searchable": false,

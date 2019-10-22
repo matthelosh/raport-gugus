@@ -12,12 +12,13 @@ $(document).ready(function(){
             fd.append('fileFoto', foto);
             $.ajax({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Access-Control-Allow-Headers': $('meta[name="csrf-token"]').attr('content')
                   },
                 url: '/ajax/edit-foto',
                 type: 'post',
                 data: fd,
-                contentType: false,
+                contentType: false, 
                 processData: false,
                 success: function(res) {
                     if(res.status == 'sukses') {
@@ -47,6 +48,10 @@ $(document).ready(function(){
         // alert(os);
         if (/windows phone/i.test(os) || /Android/i.test(os) || /iPad|iPhone|iPod/.test(os)) {
             $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Access-Control-Allow-Headers': $('meta[name="csrf-token"]').attr('content')
+                },
                 url: '/ajax/allsiswas?ua=mobile',
                 type: 'get',
                 success: function(res){
@@ -74,7 +79,7 @@ $(document).ready(function(){
                 }
             });
         }
-        else if (/Windows/i.test(os) && window.screen.width >= 1024) {
+        else if (/Windows/i.test(os) || /Linux/i.test(os) && window.screen.width >= 1024) {
             // alert(window.screen.width);
 
             tsiswas.DataTable({
@@ -83,6 +88,10 @@ $(document).ready(function(){
                 serverSide: true,
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 ajax: {
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Access-Control-Allow-Headers': $('meta[name="csrf-token"]').attr('content')
+                    },
                     url: '/ajax/allsiswas',
                     type: 'get'
                 },
@@ -185,6 +194,9 @@ $(document).ready(function(){
         };
         // console.log(data);
         $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             type: 'put',
             url: '/ajax/update-siswa',
             data: data,
@@ -280,6 +292,9 @@ $(document).ready(function(){
         serverSide: true,
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
         ajax: {
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             url: 'http://localhost:8000/ajax/getsiswaku',
             type: 'get'
         },
@@ -410,6 +425,9 @@ $(document).ready(function(){
         $('.nisn').text(data.nisn);
         var kode_rombel = $('#kodeRombel').text();
         $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             type:'get',
             url: '/ajax/mapelku/'+kode_rombel,
             dataType: 'json',
@@ -473,6 +491,9 @@ $(document).ready(function(){
         $('#tema').text(teks_tema).css('text-transform', 'capitalize');
 
         $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             type: 'get',
             url: '/ajax/mapelbytema/'+tema,
             dataType: 'json',
@@ -513,26 +534,11 @@ $(document).ready(function(){
 
     $(document).on('click', '.btn-modal-nharian', function(e) {
         e.preventDefault();
-        // alert('hi');
-        console.log(nharians);
         $('.nama-mapel').text($(this).text()+ ' Tema: '+$('#tema').text());
         var kode_mapel = $(this).data('kodemapel');
         var subtema = $(this).data('subtema');
-        // Make json ready for sel2 kd
-        // var kds = [{id: '0', text: 'Pilih KD Yang tersedia untuk subtema ini'}];
-        // Object.entries(nharians).forEach(([key, val]) => {
-        //     if (key == kode_mapel){
-        //         val.forEach(kd => {
-        //             if (kd.subtema_id == subtema && kd.mapel_id == kode_mapel) kds.push({id:kd.kd_id, text: kd.kd_id+'. '+kd.kds.teks_kd});
-        //         });
-        //     }
-                
-        // });
-        // console.log(kds);
         $(document).on('change','#selAspek', function(){
             var tipe = $('#selAspek').val();
-        //     // $('#selKd').show();
-        //     // $('#selKd').html("").trigger('change');
 
             sel2KdByTema('#selKd', kode_mapel, subtema, tipe, null);
             selTipeNilai();
@@ -540,6 +546,9 @@ $(document).ready(function(){
         
         var kds_tema = [];
         $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             url: '/ajax/kdsbytema/'+kode_mapel+'/'+subtema,
             dataType: 'json',
             success: function(res) {
@@ -549,8 +558,11 @@ $(document).ready(function(){
                 });
             }
         });
-        
+        $('#mapel_id').text(kode_mapel);
+        $('#subtema_id').text(subtema);
+        // alert(kode_mapel);
         getSiswaku();
+        
         $('#modalEntriNharian').modal();
     });
 
@@ -578,15 +590,45 @@ $(document).ready(function(){
             sel2KdByTema('#selKd', null, null, tipe, mapel);
             selTipeNilai();
         });
-
+        $('#nama_mapel').text(mapel);
         getSiswaku();
         $('#modalEntriNharian').modal();
     });
     // Post New NHarian
     $(document).on('submit', '#form-nharian', function(e) {
         e.preventDefault();
-        var data = $(this).serialize();
+        // var nisns = $('.nisn').val();
+
+        var data = {
+            nilai: $(this).serialize(),
+            tapel : $('#tapel').val(),
+            semester : $('#semester').val(),
+            aspek : $('#selAspek').val(),
+            tipe :  $('#selTeknikPenilaian').val(),
+            kd : $('#selKd').val(),
+            mapel : ($('#mapel_id').text() != '') ? $('#mapel_id').text() : 'null',
+            subtema: ($('#subtema_id').text() != '') ? $('#subtema_id').text() : 'null',
+            nama_mapel: ($('#nama_mapel').text() != '') ? $('#nama_mapel').text() : 'null'
+        }
         console.log(data);
+        $.ajax({
+            type: 'post',
+            url: `/ajax/nilai?tapel=${data.tapel}&semester=${data.semester}&periode=harian&aspek=${data.aspek}&tipe=${data.tipe}&kd=${data.kd}&mapel=${data.mapel}&subtema=${data.subtema}&nama_mapel=${data.nama_mapel}`,
+            data: data.nilai,
+            dataType: 'json',
+            success: function(res) {
+                if (res.status == 'sukses') {
+                    swal('info', res.msg, 'info');
+                } else {
+                    var msg = (/Duplicate/ig.test(res.msg) == true) ? 'Data Penilaian untuk periode ini KD: '+data.kd+'sudah pernah dilakukan. Mohon Cek Ulang.': res.msg;
+
+                    swal('Gagal', msg, 'error');
+                }
+            }
+        });
+        // $.each(nisns, (item) => {
+        //     console.log(item);
+        // });
     });
 
 
@@ -621,6 +663,9 @@ $(document).ready(function(){
 
 function getSiswaku(){
     $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         type: 'get',
         url: '/ajax/getsiswaku?tipe="nonDt',
         dataType: 'json',
@@ -634,7 +679,7 @@ function getSiswaku(){
             // });
             var thead = `<thead>
                             <tr>
-                                <th>No</th>
+                                <th style="width:50px;text-align:center;">No</th>
                                 <th>NIS/NISN</th>
                                 <th>Nama</th>
                                 <th>Nilai</th>
@@ -646,11 +691,11 @@ function getSiswaku(){
             
 
             res.forEach((item, index) => {
-                rows += `<tr><td style="padding: 0 8px!important">${index+1}</td><td style="padding: 0 8px!important">${item.nisn}</td><td style="padding: 0 8px!important">${item.nama_siswa}</td><td  style="padding: 0 8px!important"><input type="text" name="${item.nisn}" style="width:50px;text-align:center;" maxlength="2"></td></tr>`;
+                rows += `<tr><td style="padding: 0 8px!important;width:50px;text-align:center;">${index+1}</td><td style="padding: 0 8px!important">${item.nisn}</td><td style="padding: 0 8px!important">${item.nama_siswa}</td><td  style="padding: 0 8px!important;width:60px;"><input type="hidden" name="nisn[]" class="nisn" value="${item.nisn}" ><input type="text" class="nilai" name="n-${item.nisn}" style="width:50px;text-align:center;padding: 5px; border-radius: 5px; box-shadow: 0 0 3px rgba(0,0,0,0.3);" maxlength="2" value="${index}"></td></tr>`;
             });
 
             var tbody = '<tbody>'+rows+'</tbody>';
-            $('#tbl-entri-nh').html(thead+tbody);
+            $('#tbl-entri-nh').html(thead+tbody).addClass('table-bordered');
 
         }
     });

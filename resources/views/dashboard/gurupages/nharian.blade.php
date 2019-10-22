@@ -88,6 +88,9 @@
                                 {{-- <div class="row">   
                                     <h3>Pilih Aspek, Teknik dan Kpompetensi Dasar Terkait!</h3>
                                 </div> --}}
+                                <span id="mapel_id"></span>
+                                <span id="subtema_id"></span>
+                                <span id="nama_mapel"></span>
                                 <div class="row">
                                     <div class="col-sm-2">
                                         <select name="selAspek" id="selAspek" class="form-control">

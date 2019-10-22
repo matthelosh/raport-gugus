@@ -229,9 +229,28 @@ class SiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function createOne(Request $request)
     {
-        //
+        try {
+            Siswa::create([
+                'nis'   => $request->input('nis'),
+                'nisn'  => $request->input('nisn'),
+                'nama_siswa'    => $request->input('nama_siswa'),
+                'jk'    => $request->input('jk'),
+                'tempat_lahir'  => $request->input('tempat_lahir'),
+                'tanggal_lahir' => $request->input('tanggal_lahir'),
+                'agama' => $request->input('agama'),
+                'alamat' => $request->input('alamat'),
+                'asal_sekolah' => $request->input('asal_sekolah'),
+                // 'id_rombel'     => $request->input('rombel'),
+                // 'id_ortu'   => '0'
+            ]);
+            return back()->with(['status' => 'sukses']);
+        }
+        catch(\Exception $e)
+        {
+            return back()->withError($e->getMessage());
+        }
     }
 
     /**

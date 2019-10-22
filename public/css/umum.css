@@ -130,12 +130,17 @@
     background: #e2c3e730;
     /* border-top: 1px solid #9c27b0; */
     /* border-bottom: 1px solid #9c27b0; */
-    padding-top: 15px;
+    padding: 10px 0;
     box-shadow: inset 0 0 10px -5px rgba(0,0,0,1);
   }
 
   select {
     white-space: normal;
+  }
+
+  .active-pro{
+    position: relative!important;
+    margin-top: 20px;
   }
   @media (min-width: 768px) {
     /* .footer{

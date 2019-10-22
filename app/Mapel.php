@@ -26,5 +26,10 @@ class Mapel extends Model
     {
         return $this->hasMany('App\Kd', 'kode_mapel', 'id_mapel');
     }
+
+    public function nilais()
+    {
+        return $this->hasMany(\App\Nilai, 'mapel_id', 'kode_mapel');
+    }
     
 }

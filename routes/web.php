@@ -43,9 +43,10 @@ Route::get('/dashboard', 'DashController@index')->middleware('auth');
 
     // Siswa Route for Admin
     Route::get('/dashboard/siswas', 'SiswaController@index')->name('indexsiswas')->middleware('forAdmin');
-    Route::get('/ajax/allsiswas', 'SiswaController@allSiswas')->name('getallsiswas');
+    Route::get('/ajax/allsiswas', 'SiswaController@allSiswas')->name('getallsiswas')->middleware(['auth', 'cors']);
     Route::post('/dashboard/import-siswas', 'SiswaController@import')->name('importsiswas');
     Route::put('/ajax/updateonesiswa', 'SiswaController@updateOne')->name('updateonesiswa');
+    Route::post('/ajax/addonesiswa', 'SiswaController@createOne')->name('addonesiswa');
     Route::post('/dashboard/import-ortu', 'OrtuController@import')->name('importortu');
     Route::post('/ajax/create-ortu', 'OrtuController@create')->name('createortu');
     Route::put('/ajax/update-ortu', 'OrtuController@updateOne')->name('updateoneortu');
@@ -109,10 +110,15 @@ Route::get('/ajax/mapelku/{rombel}', 'RaportController@mapelKu')->name('mapelku'
     
     // Route Guru Penilaian
         // Harian
-        Route::get('/dashboard/penilaian/harian', 'NilaiController@indexHarian')->name('indexnilaiharian')->middleware('forGuru');
-        Route::get('/ajax/mapelbytema/{tema}', 'MapelController@mapelByTema')->name('mapelbytema');
-        Route::get('/ajax/kdsbytema/{mapel}/{subtema}', 'KdController@selByTema')->name('kdsbytema');
-        // Route::get('/ajax/siswaraport', 'RaportController@siswaRaport')->name('getsiswaforraport');
+    Route::get('/dashboard/penilaian/harian', 'NilaiController@indexHarian')->name('indexnilaiharian')->middleware('forGuru');
+    Route::get('/ajax/mapelbytema/{tema}', 'MapelController@mapelByTema')->name('mapelbytema');
+    Route::get('/ajax/kdsbytema/{mapel}/{subtema}', 'KdController@selByTema')->name('kdsbytema');
+    Route::post('/ajax/nilai
+    ', 'NilaiController@entriNilai')->name('entrinilai');
+    // ajax/nilai/tapel/2019_2020/semester/ganjil/aspek/0/tipe/0/kd/null/mapel/null/subtema/null/nama_mapel/null
+
+    // Route Ledger
+    Route::get('/dashboard/ledger', 'LedgerController@index')->name('indexledger');
 
 
 // Route Umum

@@ -25,7 +25,7 @@
                                 @csrf
                                 <div class="form-group">
                                     {{-- <label for="username">Pengguna:</label> --}}
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" autofocus>
                                 </div>
                                 <div class="form-group">
                                     {{-- <label for="password">Sandi:</label> --}}

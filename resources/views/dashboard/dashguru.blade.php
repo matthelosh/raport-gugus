@@ -15,6 +15,9 @@
             @case('raport')
                 @include('dashboard.gurupages.raport')
                 @break
+            @case('ledger')
+                @include('dashboard.gurupages.ledger')
+                @break
             
         @endswitch
     @else

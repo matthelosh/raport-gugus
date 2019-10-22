@@ -14,4 +14,9 @@ class Siswa extends Model
     public function ortus(){
     	$this->belongsTo('App\Ortu', 'id_ortu', 'id');
     }
+
+    public function nilais()
+    {
+        return $this->hasMany(\App\Nilai, 'siswa_id', 'nisn');
+    }
 }
