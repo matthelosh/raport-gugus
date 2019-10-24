@@ -259,11 +259,13 @@ $(document).ready(function(){
         var win = window.open('', 'Cetak', 'height=600, width=800');
 
         win.document.write('<html><head><title>Cetak</title>');
+        win.document.write('<link href="css/app.css" rel="stylesheet" type="text.css">');
         win.document.write(`<style>
                         @media print and (width: 8.5in) and (height: 13in) {
                             .page-border {page-break-after:always; page-break-inside:avoid}
-                            table thead tr {
-                                background: maroon!important;
+                            table thead tr,
+                            th {
+                                background: black!important;
                                 color: #efefef!important;
                             }
                         }

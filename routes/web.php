@@ -107,14 +107,13 @@ Route::put('/ajax/update-siswa', 'SiswaController@update')->name('updatesiswa');
 Route::get('/dashboard/raport', 'RaportController@index')->name('indexraport')->middleware('forGuru');
 Route::get('/ajax/getsiswaku', 'RaportController@getSiswaku')->name('getsiswaku')->middleware('forGuru');
 Route::get('/ajax/mapelku/{rombel}', 'RaportController@mapelKu')->name('mapelku');
-    
+Route::get('/ajax/rpts/nisn/{nisn}/tapel/{tapel}/semester/{semester}/rombel/{rombel}', 'RaportController@rpts')->name('raportpts');
     // Route Guru Penilaian
         // Harian
     Route::get('/dashboard/penilaian/harian', 'NilaiController@indexHarian')->name('indexnilaiharian')->middleware('forGuru');
     Route::get('/ajax/mapelbytema/{tema}', 'MapelController@mapelByTema')->name('mapelbytema');
     Route::get('/ajax/kdsbytema/{mapel}/{subtema}', 'KdController@selByTema')->name('kdsbytema');
-    Route::post('/ajax/nilai
-    ', 'NilaiController@entriNilai')->name('entrinilai');
+    Route::post('/ajax/nilai', 'NilaiController@entriNilai')->name('entrinilai');
     // ajax/nilai/tapel/2019_2020/semester/ganjil/aspek/0/tipe/0/kd/null/mapel/null/subtema/null/nama_mapel/null
 
     // Route Ledger

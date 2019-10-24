@@ -203,7 +203,7 @@
                                                             </tr>
                                                         </table>
                                                     </div>
-                                                    <div class="row sikap">
+                                                    {{-- <div class="row sikap">
                                                         <h4 style="margin-bottom:0!important; text-align:left">A. SIKAP</h4>
                                                         <table width="100%" class="table table-bordered table-sm" border="1" style="border-collapse:collapse;">
                                                             <thead>
@@ -226,19 +226,21 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="row k3">
-                                                        <h4 style="margin-bottom:0!important; text-align:left">B. PENGETAHUAN <br />KKM Satuan Pendidikan: 70</h4>
+                                                        {{-- <h4 style="margin-bottom:0!important; text-align:left">B. PENGETAHUAN <br />KKM Satuan Pendidikan: 70</h4> --}}
                                                         <table width="100%" class="table table-bordered table-sm" border="1" style="border-collapse:collapse;">
                                                             <thead>
                                                                 <tr style="background:maroon;color:white;">
-                                                                    <th style="width:5%; text-align: center;font-weight:600;padding:5px!important;background:maroon;color:white;">No.</th>
-                                                                    <th style="text-align: center;font-weight:600;padding:5px!important;background:maroon;color:white;">Muatan Pembelajaran</th>
-                                                                    <th style="text-align: center;font-weight:600;padding:5px!important;background:maroon;color:white;">KKM</th>
-                                                                    <th style="text-align: center;font-weight:600;padding:5px!important;background:maroon;color:white;">Nilai</th>
-                                                                    <th style="text-align: center;font-weight:600;padding:5px!important;background:maroon;color:white;">PRD</th>
-                                                                    <th style="text-align: center;font-weight:600;padding:5px!important;background:maroon;color:white;">Keterangan</th>
+                                                                    <th style="width:5%; text-align: center;font-weight:600;padding:1px 5px!important;background:maroon;color:white;font-size:8pt" >No.</th>
+                                                                    <th style="text-align: center;font-weight:600;padding:1px  5px!important;background:maroon;color:white;font-size:8pt" >Komponen</th>
+                                                                    <th style="text-align: center;font-weight:600;padding:1px  5px!important;background:maroon;color:white;font-size:8pt" >N.P.H.</th>
+                                                                    <th style="text-align: center;font-weight:600;padding:1px  5px!important;background:maroon;color:white;font-size:8pt" >PTS</th>
+                                                                    <th style="text-align: center;font-weight:600;padding:1px  5px!important;background:maroon;color:white;font-size:8pt" >Rata-rata</th>
+                                                                    <th style="text-align: center;font-weight:600;padding:1px  5px!important;background:maroon;color:white;font-size:8pt" >Predikat</th>
+                                                                    <th style="text-align: center;font-weight:600;padding:1px  5px!important;background:maroon;color:white;font-size:8pt" >Klasifikasi</th>
                                                                 </tr>
+                                                                
                                                             </thead>
                                                             <tbody id="tbody-rpts">
                                                                 
@@ -246,10 +248,29 @@
                                                         </table>
                                                     </div>
                                                     <div class="row saran">
-                                                        <h4 style="margin-bottom:0!important; text-align:left">C. SARAN-SARAN</h4>
-                                                        <div class="box-saran" style="width: 100%;min-height:50px;max-height:100px;border:2px solid #000;"></div>
+                                                        {{-- <h4 style="margin-bottom:0!important; text-align:left">C. SARAN-SARAN</h4> --}}
+                                                        <div class="box-saran" style="width: 100%;min-height:50px;max-height:100px;border:2px solid #000;">
+                                                        
+                                                        </div>
                                                     </div>
                                                     <br>
+                                                    <div class="row-ekskul">
+                                                        <h5>EKSTRAKURIKULER</h5>
+                                                        <table class="table table-bordered" width="80%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>NO</th>
+                                                                    <th>KEGIATAN</th>
+                                                                    <th>NILAI</th>
+                                                                    <th>PREDIKAT</th>
+                                                                    <th>KETERANGAN</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbody-ekskul">
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                     <div class="row absensi">
                                                         <table class="table-absensi table-sm table-bordered" border="1" style="border-collapse:collapse;">
                                                             <thead>

@@ -423,30 +423,58 @@ $(document).ready(function(){
         $('.nama-siswa').text(data.nama_siswa);
         $('.nis').text(data.nis);
         $('.nisn').text(data.nisn);
+        var tapel = $('#tapel').val();
+        var semester = $('#semester').val();
         var kode_rombel = $('#kodeRombel').text();
+       
+        getNilaiPts(data.nisn, tapel, semester, kode_rombel);
+        $('#modalRaportPts').modal();
+    });
+
+    function getNilaiPts(nisn, tapel, semester, rombel){
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type:'get',
-            url: '/ajax/mapelku/'+kode_rombel,
+            url: '/ajax/rpts/nisn/'+nisn+'/tapel/'+tapel+'/semester/'+semester+'/rombel/'+rombel,
             dataType: 'json',
             success: function(res){
                 var tbody = '';
                 var no =0;
-                res.forEach(item => {
+                var nilais = res.nrpts;
+                
+                var count = 0;
+                var jmlNh = 0;
+                var jmlPts = 0;
+                var jmlRt = 0;
+                
+                Object.entries(nilais).forEach(item => {
+                    console.log(item);
+                    count++;
+                    var rata2 = (item[1].nh+item[1].pts)/2;
+                    var pred = (rata2 <= 55)? 'D': (rata2 <= 75) ? 'C': (rata2 <=89)? 'B' : 'A';
+                    var desc = (rata2 <= 55)? 'Kurang': (rata2 <= 75) ? 'Cukup': (rata2 <=89)? 'Baik' : 'Sangat Baik';
+                     jmlNh += item[1].nh; 
+                     jmlPts += item[1].pts;
+                     jmlRt += rata2;
+                // nilais.forEach(item => {
                     no++;
-                    tbody += `<tr><td>${no}</td><td>${item.nama_mapel}</td><td></td><td></td><td></td><td></td></tr>`;
+                    tbody += `<tr><td>${no}</td><td>${item[1].nama_mapel}</td><td>${Math.ceil((item[1].nh))}</td><td>${item[1].pts}</td><td>${rata2.toFixed(2)}</td><td>${pred}</td><td>${desc}</td></tr>`;
                 });
-                tbody += `<tr><td colspan="3">Jumlah Nilai</td><td></td><td></td><td></td></tr>
-                         <tr><td colspan="3">rata-rata</td><td></td><td></td><td></td></tr>
-                         <tr><td colspan="3">Ranking</td><td colspan="4">Dari ... siswa</td></tr>`;
+                var rtNh = jmlNh/count;
+                var rtPts = jmlPts/count;
+                var rtRt = jmlRt/count;
+                tbody += `<tr><td colspan="2">Jumlah Nilai</td><td>${jmlNh.toFixed(2)}</td><td>${jmlPts.toFixed(2)}</td><td>${jmlRt.toFixed(2)}</td><td></td><td></td></tr>
+                         <tr><td colspan="2">rata-rata</td><td>${rtNh.toFixed(2)}</td><td>${rtPts.toFixed(2)}</td><td>${rtRt.toFixed(2)}</td><td></td><td></td></tr>
+                         <tr><td colspan="2">Ranking</td><td></td><td colspan="5">Dari ... siswa</td></tr>`;
                 $('#tbody-rpts').html(tbody);
+                $(document).on('change', '#saran', function(){
+                    $('#box-saran').text($(this).val());
+                })
             }
         });
-
-        $('#modalRaportPts').modal();
-    });
+    }
 
     var currentState = 1;
     $(document).on('click', '.btnZoomOut', function(){
