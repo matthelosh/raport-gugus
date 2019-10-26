@@ -144,4 +144,16 @@ class NilaiController extends Controller
 
         return $res;
     }
+
+    public function indexPts(Request $request)
+    {
+        $rombel = \App\Rombel::where('id_guru', $request->user()->nip)->first();
+        $mapels = DB::table('mapel_rombel')
+                    ->leftJoin('rombels', 'mapel_rombel.rombel_id', '=', 'rombels.id')
+                    ->leftJoin('mapels', 'mapel_rombel.mapel_id', '=', 'mapels.id')
+                    ->where('rombels.tingkat', $rombel->tingkat)
+                    ->get();
+
+        return view('dashboard.dashguru', ['page'=>'npts', 'mapels' => $mapels, 'rombel'=>$rombel]);
+    }
 }

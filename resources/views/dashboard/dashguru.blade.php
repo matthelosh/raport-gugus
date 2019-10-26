@@ -12,6 +12,12 @@
             @case('nharian')
                 @include('dashboard.gurupages.nharian')
                 @break
+            @case('npts')
+                @include('dashboard.gurupages.npts')
+                @break
+            @case('nekskul')
+                @include('dashboard.gurupages.ekskul')
+                @break
             @case('raport')
                 @include('dashboard.gurupages.raport')
                 @break

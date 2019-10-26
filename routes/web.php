@@ -115,6 +115,12 @@ Route::get('/ajax/rpts/nisn/{nisn}/tapel/{tapel}/semester/{semester}/rombel/{rom
     Route::get('/ajax/kdsbytema/{mapel}/{subtema}', 'KdController@selByTema')->name('kdsbytema');
     Route::post('/ajax/nilai', 'NilaiController@entriNilai')->name('entrinilai');
     // ajax/nilai/tapel/2019_2020/semester/ganjil/aspek/0/tipe/0/kd/null/mapel/null/subtema/null/nama_mapel/null
+    
+        // PTS
+    Route::get('/dashboard/penilaian/pts', 'NilaiController@indexPts')->name('indexPts')->middleware('auth', 'forGuru');
+
+        // Ekstrakurikuler
+    Route::get('/dashboard/penilaian/ekskul', 'EkskulController@indexEkskul')->name('indexekskul')->middleware('auth', 'forGuru');
 
     // Route Ledger
     Route::get('/dashboard/ledger', 'LedgerController@index')->name('indexledger');

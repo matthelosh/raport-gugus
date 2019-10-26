@@ -19,4 +19,9 @@ class Siswa extends Model
     {
         return $this->hasMany(\App\Nilai, 'siswa_id', 'nisn');
     }
+
+    public function ekskuls()
+    {
+        return $this->hasOne(\App\Ekskul, 'siswa_id', 'nisn');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 class RaportController extends Controller
 {
     //
@@ -38,6 +39,54 @@ class RaportController extends Controller
     //     return response()->json($siswaku);
     // }
 
+    public function rankpts($nisn, $tapel, $semester, $rombel){
+        $rombel = \App\Rombel::where('id_guru', Auth::user()->nip)->first();
+        $nilais = DB::table('nilais')
+                    ->where([
+                        ['rombel_id', '=', $rombel->kode_rombel],
+                        ['tapel', '=', $tapel],
+                        ['semester', '=', $semester],
+                        ['periode', '=','harian'],
+                        ['kd_id', 'like', '3.%']
+
+                    ])
+                    // ->selectRaw('sum(nilai) as sum, *' )
+                    // ->groupBy('siswa_id')
+                    ->get();
+
+        // return $nilais;
+        $byNisn = [];
+        foreach($nilais as $nilai)
+        {
+            $byNisn[$nilai->siswa_id][$nilai->mapel_id][$nilai->kd_id] = $nilai->nilai;
+        }
+        $nTemp =[];
+        foreach($byNisn as $key=>$val)
+        {
+            // dd($item);
+            foreach($val as $mapel=>$nilai)
+            {
+                $nTemp[$key][$mapel] = array_sum($nilai)/count($nilai);
+            }
+            // $nTemp[$key] = array_sum($val)/count($val);
+        }
+        // return $byNisn;
+        $nf=[];
+        foreach($nTemp as $k=>$v)
+        {
+            $nf[$k] = array_sum($v)/count($v);
+        }
+        arsort($nf);
+        $rank = 0;
+        // foreach($nf as $f=>$t)
+        // {
+            $rank = array_search($nisn, array_keys($nf));
+        // }
+
+        return [$rank, count($nf)];
+
+    }
+
     public function rpts(Request $request, $nisn, $tapel, $semester, $rombel)
     {
         // $rombel = \App\Rombel::where('id_guru', $request->user()->nip)->first();
@@ -62,7 +111,7 @@ class RaportController extends Controller
                         ['tapel', '=', $tapel],
                         ['semester', '=', $semester],
                         ['periode', 'pts'],
-                        ['kd_id', 'like', '3.%']
+                        // ['kd_id', 'like', '3.%']
                   ])
                   ->get();
         
@@ -126,9 +175,10 @@ class RaportController extends Controller
 
         
         // $nhsMapel = array_unique($nhsMapel, SORT_REGULAR);
+        $rank = $this->rankpts($nisn, $tapel, $semester, $rombel);
 
-        return response()->json(['mapels' => $mapels, 'nrpts' => $nhms]);
-        // dd($mapelsTmp);
+        return response()->json(['mapels' => $mapels, 'nrpts' => $nhms, 'rank' => $rank]);
+        // dd($nhms);
     }
 
 }
