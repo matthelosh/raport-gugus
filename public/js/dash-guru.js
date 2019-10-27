@@ -1,4 +1,27 @@
 $(document).ready(function () {
+
+    var path = window.location.pathname;
+
+    // Menentukan url yang targetnya sama dengan pathname
+    // var hashTarget = $('.sidebar .nav a[href="#"]');
+    var target = $('.sidebar .nav a[href="' + path + '"]');
+    // console.log(path);
+
+    var regx = new RegExp("\/penilaian\/", "i");
+    // console.log(regx.test(path));
+    if (regx.test(path)) {
+        target.closest('.collapse').addClass('show');
+    }
+    // Menambahkan class active pada li parent dari url yang sesuai dengan pathname
+    target.parent('li').addClass('active');
+    // hashTarget.parent('li').addClass('active');
+    $('.modal').on('hide.bs.modal', function (e) {
+        // alert($(this).find('table').prop('id'));
+
+        // $(this).find('select').val('0');
+        $(this).find('form').trigger('reset');
+        // $(this).find('table').DataTable().destroy();
+    });
     // Ambil File Foto
     $(document).on('click', '.edit-foto', function () {
         $('#fileFoto').trigger('click');
@@ -539,6 +562,10 @@ $(document).ready(function () {
                          <tr><td colspan="2">rata-rata</td><td>${rtNh.toFixed(2)}</td><td>${rtPts.toFixed(2)}</td><td>${rtRt.toFixed(2)}</td><td></td><td></td></tr>
                          <tr><td colspan="2">Ranking</td><td>${res.rank[0]+1}</td><td colspan="5">Dari ${res.rank[1]} siswa</td></tr>`;
                 $('#tbody-rpts').html(tbody);
+                var tbodyEkskul = '';
+                res.ekskuls.forEach(item => {
+                    tbodyEkskul += `<tr><td>Pramuka</td>${item.nx_prm}</td><td>${(item.nx_prm <= 60) ? 'D': (item.nx_prm <= 60) ? 'C': (item.nx_prm <= 60) ? 'B': 'A'}</td><td>${(item.nx_prm <= 60) ? 'Kurang': (item.nx_prm <= 60) ? 'Cukup': (item.nx_prm <= 60) ? 'Baik': 'Sangat Baik'}</td></tr>`;
+                })
                 $(document).on('change', '#saran', function () {
                     $('#box-saran').text($(this).val());
                 })
@@ -768,7 +795,7 @@ $(document).ready(function () {
             subtema: 'null',
             nama_mapel: ($('.nama-mapel').text() != '') ? $('.nama-mapel').text() : 'null'
         }
-        console.log(data);
+        // console.log(data);
         $.ajax({
             type: 'post',
             url: `/ajax/nilai?tapel=${data.tapel}&semester=${data.semester}&periode=pts&aspek=${data.aspek}&tipe=${data.tipe}&kd=${data.kd}&mapel=${data.mapel}&subtema=${data.subtema}&nama_mapel=${data.nama_mapel}`,
@@ -786,30 +813,153 @@ $(document).ready(function () {
         });
 
     });
-
-
-    var path = window.location.pathname;
-
-    // Menentukan url yang targetnya sama dengan pathname
-    // var hashTarget = $('.sidebar .nav a[href="#"]');
-    var target = $('.sidebar .nav a[href="' + path + '"]');
-    // console.log(path);
-
-    var regx = new RegExp("\/penilaian\/", "i");
+    // alert('hi');
+    var eks = new RegExp("\/ekskul\/", "gi");
     // console.log(regx.test(path));
-    if (regx.test(path)) {
-        target.closest('.collapse').addClass('show');
+    if (path == '/dashboard/penilaian/ekskul') {
+        // alert('halo');
+        var tekskul = $('#table-ekskul').DataTable({
+            dom: 'Bftip',
+            processing: true,
+            serverSide: true,
+            lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            ajax: {
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: 'http://localhost:8000/ajax/getnekskul/tapel/'+$('#tapel').val()+'/semester/'+$('#semester').val(),
+                type: 'get'
+            },
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }],
+            'order': [
+                [1, 'asc']
+            ],
+            columns: [{
+                    data: 'DT_RowIndex',
+                    'orderable': false
+                },
+                {
+                    data: 'kode_nekskul',
+                    'name': 'kode_nekskul'
+                },
+                {
+                    data: 'nisn',
+                    'name': 'nisn'
+                },
+                {
+                    data: 'nama_siswa',
+                    name: 'nama_siswa'
+                },
+                {
+                    data: 'nx_prm',
+                    name: 'nx_prm'
+                },
+                {
+                    data: 'nx_drm',
+                    name: 'nx_drm'
+                },
+                {
+                    data: 'nx_kom',
+                    name: 'nx_kom'
+                },
+                {
+                    data: 'nx_pai',
+                    name: 'nx_pai'
+                },
+                {
+                    data: 'nx_uks',
+                    name: 'nx_uks'
+                },
+                {
+                    data: 'predikat',
+                    name: 'predikat'
+                },
+                {
+                    data: 'ket',
+                    name: 'ket'
+                },
+                {
+                    data: null,
+                    name: 'opsi',
+                    'defaultContent': '<button class="btn btn-sm btn-outline-danger btn-hapus"><i class="material-icons">delete</i></button> ',
+                    'targets': -1,
+                    'orderable': false
+                },
+            ],
+            buttons: [{
+                    extend: 'print',
+                    title: 'Data Siswa'
+                },
+                // 'colvis'
+            ]
+        });
     }
-    // Menambahkan class active pada li parent dari url yang sesuai dengan pathname
-    target.parent('li').addClass('active');
-    // hashTarget.parent('li').addClass('active');
-    $('.modal').on('hide.bs.modal', function (e) {
-        // alert($(this).find('table').prop('id'));
 
-        // $(this).find('select').val('0');
-        $(this).find('form').trigger('reset');
-        // $(this).find('table').DataTable().destroy();
+    $(document).on('click', '.btn-modal-entry-nekskul', function(){
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'get',
+            url: '/ajax/getsiswaku?tipe="nonDt',
+            dataType: 'json',
+            success: function (res) {
+                var rows = [];
+                res.forEach((item, index) => {
+                    rows += `<tr>
+                            <td style="padding: 0 8px!important;width:50px;text-align:center;">${index+1}</td>
+                            <td style="padding: 0 8px!important">${item.nisn}</td><td style="padding: 0 8px!important">${item.nama_siswa}</td>
+                            <td  style="padding: 0 8px!important;width:60px;"><input type="hidden" name="nisn[]" class="nisn" value="${item.nisn}" ><input type="text" class="nx-prm" name="nxprm-${item.nisn}" style="width:40px;text-align:center;padding: 1px; border-radius: 2px; outline: 1px;" maxlength="2" value="${index}"></td>
+                            <td><input type="text" class="nx-prm" name="nxdrm-${item.nisn}" style="width:40px;text-align:center;padding: 1px; border-radius: 2px; outline: 1px;" maxlength="2" value="${index}"></td>
+                            <td><input type="text" class="nx-drm" name="nxkom-${item.nisn}" style="width:40px;text-align:center;padding: 1px; border-radius: 2px; outline: 1px;" maxlength="2" value="${index}"></td>
+                            <td><input type="text" class="nx-pai" name="nxpai-${item.nisn}" style="width:40px;text-align:center;padding: 1px; border-radius: 2px; outline: 1px;" maxlength="2" value="${index}"></td>
+                            <td><input type="text" class="nx-uks" name="nxuks-${item.nisn}" style="width:40px;text-align:center;padding: 1px; border-radius: 2px; outline: 1px;" maxlength="2" value="${index}"></td>
+                            </tr>`;
+                });
+
+                // var tbody = '<tbody>' + rows + '</tbody>';
+                $('.tbl-entri-nekskul tbody').html(rows);
+
+            }
+        });
+        $('#modalEntriEkskul').modal();
     });
+
+    // Post nilai ekskul
+    $(document).on('submit', '#frm-entri-nekskul', function(e){
+        e.preventDefault();
+        
+        var nilai = $(this).serialize();
+        // console.log(nilai);
+
+        $.ajax({
+            type: 'post',
+            url: '/ajax/neksul/tapel/'+$('#tapel').val()+'/semester/'+$('#semester').val(),
+            data: nilai,
+            success: function(res) {
+                // console.log(res);
+                if(res.status == 'sukses')
+                {
+                    swal('info', res.msg, 'info')
+                }
+                else
+                {
+                    var msg = (/Duplicate/ig.test(res.msg) == true) ? 'Data Penilaian Ekskul kelas ini sudah pernah dilakukan. Mohon Cek Ulang.' : res.msg;
+
+                    swal('Gagal', msg, 'error');
+                }
+            }
+        });
+    });
+
+    
 
 });
 
@@ -822,13 +972,6 @@ function getSiswaku() {
         url: '/ajax/getsiswaku?tipe="nonDt',
         dataType: 'json',
         success: function (res) {
-            // console.log(res);
-            // var th_kd = '';
-            // var inputs = '';
-            // kds_tema.forEach(kd => {
-            //     th_kd += `<th>${kd}</th>`;
-            //     inputs += `<td><input type="text" class="kd" name="${kd}[]" maxlength="2" style="width:50px;text-align:center"></td>`;
-            // });
             var thead = `<thead>
                             <tr>
                                 <th style="width:50px;text-align:center;">No</th>

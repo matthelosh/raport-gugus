@@ -121,6 +121,8 @@ Route::get('/ajax/rpts/nisn/{nisn}/tapel/{tapel}/semester/{semester}/rombel/{rom
 
         // Ekstrakurikuler
     Route::get('/dashboard/penilaian/ekskul', 'EkskulController@indexEkskul')->name('indexekskul')->middleware('auth', 'forGuru');
+    Route::get('/ajax/getnekskul/tapel/{tapel}/semester/{semester}','EkskulController@showEkskul')->name('ekskuldata');
+    Route::post('/ajax/neksul/tapel/{tapel}/semester/{semester}', 'EkskulController@create')->name('postnilaiekskul');
 
     // Route Ledger
     Route::get('/dashboard/ledger', 'LedgerController@index')->name('indexledger');

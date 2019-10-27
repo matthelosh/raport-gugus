@@ -114,6 +114,14 @@ class RaportController extends Controller
                         // ['kd_id', 'like', '3.%']
                   ])
                   ->get();
+        $nekskuls = DB::table('ekskuls')
+                    ->where([
+                            ['rombel_id', '=', $rombel],
+                            ['siswa_id', '=', $nisn],
+                            ['tapel', '=', $tapel],
+                            ['semester', '=', $semester]
+                        ])
+                    ->first();
         
         $mapelsTmp = [];
         $nhs = [];
@@ -156,28 +164,9 @@ class RaportController extends Controller
             $nhms[$key]['pts'] = array_sum($val)/count($val);
         }
 
-        // echo '<table>
-        //         <thead>
-        //             <tr><th>No</th><th>Mapel</th><th>NH</th><th>PTS</th></tr>
-        //         </thead>
-        //         <tbody>';
-        //         $n=0;
-        //     foreach($nhms as $key=>$val){
-        //         $n++;
-        //         echo '<tr><td>'.$n.'</td><td>';print_r($val['nama_mapel']); echo '</td><td>'; print_r($val['nh']); echo'</td><td>'.$val['pts'].'</td></tr>';
-        //     }
-        
-        // echo '</tbody>
-        // </table>';
-
-        
-        // print_r(json_encode($nhms));
-
-        
-        // $nhsMapel = array_unique($nhsMapel, SORT_REGULAR);
         $rank = $this->rankpts($nisn, $tapel, $semester, $rombel);
 
-        return response()->json(['mapels' => $mapels, 'nrpts' => $nhms, 'rank' => $rank]);
+        return response()->json(['mapels' => $mapels, 'nrpts' => $nhms, 'rank' => $rank, 'ekskuls' => $nekskuls]);
         // dd($nhms);
     }
 
